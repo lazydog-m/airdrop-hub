@@ -1,0 +1,163 @@
+.ant-layout-header {
+  /* box-shadow: 0px 2px 0px rgba(90, 89, 89, 0.255) !important; */
+  border-bottom: 1px solid #27272A !important;
+  /* background-color: #27272A; */
+}
+
+/*collapse*/
+.sidebar-toggle {
+  width: 30px;
+  height: 29px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-radius: 20%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.sidebar-toggle:hover {
+  background-color: #27272A !important;
+}
+
+.sidebar-toggle .collapse-icon {
+  margin-bottom: 0.25px;
+}
+
+.logout,
+.my-account {
+  background-color: #f8f8f8;
+  cursor: pointer;
+  text-align: center;
+  transition: linear 0.2s;
+  padding: 5px 0px 5px 0px;
+  border-radius: 5px;
+}
+
+/*account*/
+.account-info {
+  line-height: 1.35;
+}
+
+.ant-popover-inner {
+  padding: 0 !important;
+  border: 1px solid #27272A;
+  /* margin-bottom: 20px; */
+}
+
+.account-popover {
+  min-height: 100px;
+  width: 200px;
+}
+
+.account-header {
+  padding: 10px 8px 10px 8px;
+}
+
+.account-menu-item {
+  padding: 4px;
+  border-top: 1px solid #27272A;
+  height: 38px;
+}
+
+.account-group-menu-item {
+  padding: 4px;
+  border-top: 1px solid #27272A;
+  height: 67px;
+}
+
+.menu-item {
+  padding-inline: 5px;
+  border-radius: 5px;
+  height: 29px;
+}
+
+.menu-item:hover {
+  background-color: #27272A;
+}
+
+/*noti*/
+.noti-popover {
+  width: 300px;
+}
+
+.noti-menu {
+  max-height: 355px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.noti-menu::-webkit-scrollbar-track {
+  border-radius: 10px;
+  margin-top: 6px;
+  background-color: transparent;
+}
+
+.noti-menu::-webkit-scrollbar-thumb {
+  background: #27272A;
+  border-radius: 10px;
+}
+
+.noti-menu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.noti-header {
+  padding: 15px 20px 15px 20px;
+  border-bottom: 1px solid #27272A;
+}
+
+.noti-group-menu-item {
+  padding-block: 6px 0px;
+}
+
+.noti-info {
+  line-height: 1.4;
+}
+
+.noti-item {
+  padding: 5px 20px;
+  border-radius: 5px;
+  height: 65px;
+}
+
+.noti-item:hover {
+  background-color: #27272A;
+}
+
+.noti-button {
+  width: 30px;
+  height: 29px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-radius: 25%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.noti-button:hover {
+  background-color: #27272A !important;
+}
+
+.noti-button .noti-icon {
+  margin-bottom: 0.25px;
+}
+
+.noti-badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  /* font-family: 'Inter', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"; */
+  background-color: #585858;
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 7px;
+  min-width: 14px;
+  height: 14px;
+  text-align: center;
+  line-height: 13px;
+}
