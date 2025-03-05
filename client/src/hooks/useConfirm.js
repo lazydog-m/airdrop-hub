@@ -1,75 +1,63 @@
-import React, { useState } from 'react';
-import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Modal, Space } from 'antd';
-const { confirm } = Modal;
+import Swal from 'sweetalert2'
 
 const useConfirm = () => {
-  const [loading, setLoading] = useState(false);
 
-  const showConfirm = (title, content, onOk, onCancel) => {
-    confirm({
-      title: title || "?",
-      icon: <ExclamationCircleFilled />,
-      content: content || "?",
-      okText: "Đồng ý",
-      cancelText: "Hủy bỏ",
-      onOk() {
-        return onOk?.()
+  document.addEventListener('keydown', (event) => {
+    if (Swal.isVisible && event.key === 'Enter') {
+      event.preventDefault();
+    }
+  });
+
+  const showConfirm = (title, api, onCancel) => {
+    Swal.fire({
+      title: title || "Confirm?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      focusCancel: false,
+      focusConfirm: false,
+      cancelButtonColor: "#d33",
+      confirmButtonText: "OK",
+      cancelButtonText: "Cancel",
+      customClass: {
+        container: 'my-swal'
       },
-      onCancel() {
+
+    }).then((result) => {
+      document.body.style.overflowY = 'hidden';
+      if (result.isConfirmed) {
+        api();
+      } else {
         onCancel?.();
-      },
+      }
+      // document.body.style.overflowY = '';
     });
   };
-  // const showPromiseConfirm = () => {
-  //   confirm({
-  //     title: 'Do you want to delete these items?',
-  //     icon: <ExclamationCircleFilled />,
-  //     content: 'When clicked the OK button, this dialog will be closed after 1 second',
-  //     onOk() {
-  //       return new Promise((resolve, reject) => {
-  //         setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-  //       }).catch(() => console.log('Oops errors!'));
-  //     },
-  //     onCancel() { },
-  //   });
-  // };
-  // const showDeleteConfirm = () => {
-  //   confirm({
-  //     title: 'Are you sure delete this task?',
-  //     icon: <ExclamationCircleFilled />,
-  //     content: 'Some descriptions',
-  //     okText: 'Yes',
-  //     okType: 'danger',
-  //     cancelText: 'No',
-  //     onOk() {
-  //       console.log('OK');
-  //     },
-  //     onCancel() {
-  //       console.log('Cancel');
-  //     },
-  //   });
-  // };
-  // const showPropsConfirm = () => {
-  //   confirm({
-  //     title: 'Are you sure delete this task?',
-  //     icon: <ExclamationCircleFilled />,
-  //     content: 'Some descriptions',
-  //     okText: 'Yes',
-  //     okType: 'danger',
-  //     okButtonProps: {
-  //       disabled: true,
-  //     },
-  //     cancelText: 'No',
-  //     onOk() {
-  //       console.log('OK');
-  //     },
-  //     onCancel() {
-  //       console.log('Cancel');
-  //     },
-  //   });
-  // };
-  return { showConfirm/* , showPropsConfirm, showDeleteConfirm, showPromiseConfirm */ };
-}
 
+  const showConfirmCancel = (title, text, onConfirm) => {
+
+    Swal.fire({
+      title: title || "Xác nhận?",
+      text: text || "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      focusCancel: false,
+      focusConfirm: false,
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Đồng ý!",
+      cancelButtonText: "Hủy bỏ",
+      customClass: {
+        container: 'my-swal'
+      },
+
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onConfirm();
+      }
+    });
+  };
+
+  return { showConfirm, showConfirmCancel };
+}
 export default useConfirm;

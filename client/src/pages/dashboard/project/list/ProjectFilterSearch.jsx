@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import Popover from "@/components/Popover";
 import { ButtonGhost, ButtonOutline, ButtonOutlineTags } from '@/components/Button';
 import { SelectItems } from '@/components/SelectItems';
+import { Color, ProjectRating, ProjectStatus, ProjectType } from '@/enums/enum';
+import { Badge } from '@/components/ui/badge';
 
 export default function ProjectFilterSearch({
   selectedStatusItems,
@@ -15,10 +17,6 @@ export default function ProjectFilterSearch({
   selectedTypeItems,
   onChangeSelectedTypeItems,
   onClearSelectedTypeItems,
-
-  selectedRatingItems,
-  onChangeSelectedRatingItems,
-  onClearSelectedRatingItems,
 
   onClearAllSelectedItems,
   search,
@@ -56,7 +54,10 @@ export default function ProjectFilterSearch({
                 title={typeFilters.name}
                 icon={<CirclePlus />}
                 className='button-outlined font-inter pointer color-white h-40 fs-13 d-flex'
-                tags={selectedTypeItems}
+                selected={selectedTypeItems}
+                tags={
+                  <Tags selectedItems={selectedTypeItems} style={typeStyle} />
+                }
               />
             }
             content={
@@ -73,30 +74,13 @@ export default function ProjectFilterSearch({
           <Popover className='button-dropdown-filter-checkbox'
             trigger={
               <ButtonOutlineTags
-                title={ratingFilters.name}
-                icon={<CirclePlus />}
-                className='button-outlined font-inter pointer color-white h-40 fs-13 d-flex'
-                tags={selectedRatingItems}
-              />
-            }
-            content={
-              <CheckboxItems
-                items={ratingFilters.items}
-                selectedItems={selectedRatingItems}
-                onChangeSelectedItems={onChangeSelectedRatingItems}
-                onClearSelectedItems={onClearSelectedRatingItems}
-                count
-              />
-            }
-          />
-
-          <Popover className='button-dropdown-filter-checkbox'
-            trigger={
-              <ButtonOutlineTags
                 title={statusFilters.name}
                 icon={<CirclePlus />}
                 className='button-outlined font-inter pointer color-white h-40 fs-13 d-flex'
-                tags={selectedStatusItems}
+                selected={selectedStatusItems}
+                tags={
+                  <Tags selectedItems={selectedStatusItems} style={statusStyle} />
+                }
               />
             }
             content={
@@ -119,6 +103,7 @@ export default function ProjectFilterSearch({
         </div>
       </div>
 
+      {/*
       <div className="filter-sort">
         <div className="sort-button d-flex gap-10">
           <Popover className='button-dropdown-filter-select'
@@ -142,6 +127,7 @@ export default function ProjectFilterSearch({
           />
         </div>
       </div>
+*/}
     </div>
   )
 }
@@ -166,15 +152,55 @@ const sortItems = [
 
 const statusFilters = {
   name: 'Status',
-  items: ['Active', 'Inactive'],
+  items: [ProjectStatus.DOING, ProjectStatus.ENDED],
 };
 
 const typeFilters = {
   name: 'Type',
-  items: ['Testnet', 'Web', 'Depin'],
+  items: [ProjectType.TESTNET, ProjectType.DEPIN],
 };
 
-const ratingFilters = {
-  name: 'Rating',
-  items: ['High', 'Medium', 'Low'],
+const typeStyle = (item) => {
+  switch (item) {
+    case ProjectType.DEPIN:
+      return {
+        backgroundColor: 'white',
+        color: 'black'
+      };
+    case ProjectType.TESTNET:
+      return {
+        backgroundColor: Color.SECONDARY,
+        color: 'black'
+      };
+  }
 };
+
+const statusStyle = (item) => {
+  switch (item) {
+    case ProjectStatus.DOING:
+      return {
+        backgroundColor: Color.SUCCESS,
+        color: 'black'
+      };
+    case ProjectStatus.ENDED:
+      return {
+        backgroundColor: Color.DANGER,
+        color: 'white'
+      };
+  }
+};
+
+const Tags = ({ selectedItems, style = () => { } }) => {
+  return (
+    selectedItems.map((item) => {
+      return (
+        <Badge
+          style={style(item)}
+          className='text-capitalize font-inter fw-400 fs-12'
+        >
+          {item}
+        </Badge>
+      )
+    })
+  )
+}

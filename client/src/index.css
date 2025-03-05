@@ -94,7 +94,7 @@ body {
 }
 
 .color-red {
-  color: red;
+  color: #ef4444;
 }
 
 .color-white {
@@ -1120,4 +1120,61 @@ body {
 
 ::-webkit-scrollbar {
   width: 8px;
+}
+
+.custom-input::placeholder {
+  font-family: var(--ff) !important;
+}
+
+.custom-input:focus {
+  /* border-color: white; */
+  /* border-width: 0.5px !important; */
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.pdb-5 {
+  padding-block: 5px;
+}
+
+.pdb-10 {
+  padding-block: 10px;
+}
+
+.custom-badge {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.my-swal {
+  z-index: 9999;
+}
+
+.Toastify__toast-body {
+  font-family: var(--ff) !important;
+  font-size: 15px;
+}
+
+.bcl-hover {
+  color: var(--hover);
+}
+
+.bcl-white {
+  color: white;
+}
+
+.input-adm {
+  border: 1px solid var(--hover);
+}
+
+.input-adm:focus-within {
+  border-color: #D4D4D4;
+}
+
+.txt-underline:hover {
+  color: #00BAFE;
+  text-decoration: underline;
+  text-decoration-color: #00BAFE;
 }

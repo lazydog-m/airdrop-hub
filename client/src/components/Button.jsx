@@ -18,6 +18,19 @@ export const ButtonOutline = ({ icon, title, ...other }) => {
   )
 }
 
+export const ButtonIcon = ({ icon, variant = 'outline', ...other }) => {
+  return (
+    <Button
+      className="pointer"
+      variant={variant}
+      size='icon'
+      {...other}
+    >
+      {icon}
+    </Button>
+  )
+}
+
 export const ButtonGhost = ({ icon, title, ...other }) => {
   return (
     <Button
@@ -30,29 +43,25 @@ export const ButtonGhost = ({ icon, title, ...other }) => {
   )
 }
 
-export const ButtonOutlineTags = ({ icon, title, tags = [], ...other }) => {
+export const ButtonOutlineTags = ({ icon, title, selected = [], tags, ...other }) => {
   return (
     <Button {...other}>
 
-      <div className={`d-flex align-items-center gap-8 ${tags.length > 0 && 'pe-8'}`}>
+      <div className={`d-flex align-items-center gap-8 ${selected.length > 0 && 'pe-8'}`}>
         {icon} {title}
       </div>
 
-      {tags.length > 0 &&
+      {selected.length > 0 &&
         <Separator orientation="vertical" className='h-4 color-white' />
       }
 
-      {(tags.length > 0 && tags.length < 3) ?
+      {(selected.length > 0 && selected.length < 3) ?
         <div className="d-flex align-items-center gap-1 ps-8">
-          {tags.map((title) => {
-            return (
-              <Badge className='color-primary color-white font-inter fw-400 fs-12'>{title}</Badge>
-            )
-          })}
+          {tags}
         </div>
-        : tags.length > 2 ?
+        : selected.length > 2 ?
           <div className="d-flex align-items-center gap-1 ps-8">
-            <Badge className='color-primary color-white font-inter fw-400 fs-12'>{`${tags.length} selected`}</Badge>
+            <Badge className='font-inter fw-400 fs-12'>{`${selected.length} selected`}</Badge>
           </div>
           : null
       }

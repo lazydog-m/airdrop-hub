@@ -2,18 +2,8 @@ const express = require('express');
 const { HttpStatus } = require('../enums');
 const RestApiException = require('../exceptions/RestApiException');
 const api = express.Router();
-const { getAllProjects, getProjectById } = require('../services/projectService');
+const { getAllProjects, getProjectById, createProject } = require('../services/projectService');
 const apiRes = require('../utils/apiResponse');
-
-// Create a new user
-// router.post('/', async (req, res) => {
-//   try {
-//     const user = await User.create(req.body);
-//     res.json(user);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Failed to create user.' });
-//   }
-// });
 
 // Get all projects
 api.get('/', async (req, res, next) => {
@@ -34,6 +24,18 @@ api.get('/:id', async (req, res, next) => {
     next(error);
   }
 });
+
+// Create a new project
+api.post('/', async (req, res, next) => {
+  const { body } = req;
+  try {
+    const createdProject = await createProject(body);
+    return apiRes.toJson(res, createdProject);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //
 // // Update user by ID
 // router.put('/:id', async (req, res) => {

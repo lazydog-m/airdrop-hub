@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Checkbox as CheckboxAntd } from 'antd';
 import { ButtonOutline } from './Button';
+import { toString } from 'lodash';
 
 export const Checkbox = ({ label, checked, onChange = () => { }, ...other }) => {
   return (
@@ -36,7 +37,11 @@ export const CheckboxItems = ({
           >
             <Checkbox
               {...other}
-              label={item}
+              label={
+                <span className='text-capitalize'>
+                  {item}
+                </span>
+              }
               checked={selectedItems.includes(item)}
             />
             {count &&

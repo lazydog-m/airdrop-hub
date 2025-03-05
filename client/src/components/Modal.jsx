@@ -1,12 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grow from '@mui/material/Grow';
-import { Fade } from '@mui/material';
+import { X } from 'lucide-react';
+import { ButtonIcon } from './Button';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Grow timeout={5000} ref={ref} {...props} />;
@@ -28,7 +27,7 @@ export default function Modal({
     <Dialog
       open={isOpen}
       onClose={onClose}
-      TransitionComponent={Fade}
+      TransitionComponent={Transition}
       maxWidth={size}
       BackdropProps={{
         style: {
@@ -40,12 +39,7 @@ export default function Modal({
           borderRadius: 8,
           border: '2px solid #1A1A1C',
           backgroundColor: '#09090B',
-          // height: '500px'
-          // position: 'absolute',
-          // top: 0, // Đặt ở trên cùng
-          // left: '50%', // Đặt ở giữa theo chiều ngang
-          // transform: 'translateX(-50%)', // Căn giữa theo chiều ngang
-          // margin: 0, // Loại bỏ margin
+          bottom: 190,
         }
       }}
     >
@@ -59,16 +53,15 @@ export default function Modal({
         <span>
           {title}
         </span>
-        <span>
-          {"exit?"}
-        </span>
+        <ButtonIcon
+          onClick={onClose}
+          variant='ghost'
+          icon={<X />}
+        />
       </DialogTitle>
       <DialogContent className='color-white'>
         {content}
       </DialogContent>
-      <DialogActions className=''>
-        {footer}
-      </DialogActions>
     </Dialog>
   )
 

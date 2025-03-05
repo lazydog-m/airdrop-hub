@@ -21,39 +21,22 @@ export default function RHFInput({ name, label, required, ...other }) {
       render={({ field, fieldState: { error } }) => (
         <>
           {label &&
-            <label className='mt-15 d-block' style={{ fontWeight: '500' }}>
+            <label className='d-block font-inter fw-500 fs-14'>
               {label}
               <span className={required && 'required'}></span>
             </label>
           }
-          <Input className='mt13' status={error && 'error'} {...field} {...other} />
-          {error && <span className='color-red mt-3 d-block'>{error?.message}</span>}
+          <Input
+            className='mt-10 font-inter custom-input'
+            autoComplete='off'
+            {...field}
+            {...other}
+          />
+          {error && <span className='font-inter color-red mt-3 d-block'>{error?.message}</span>}
         </>
       )}
 
     />
   )
-
-  // if (textarea) {
-  //   return (
-  //     <Controller
-  //       name={name}
-  //       control={control}
-  //       render={({ field, fieldState: { error } }) => (
-  //         <>
-  //           {label &&
-  //             <label className='mt-15 d-block' style={{ fontWeight: '500' }}>
-  //               {label}
-  //               <span className={required && 'required'}></span>
-  //             </label>
-  //           }
-  //           <TextArea className='mt-13' status={error && 'error'} {...field} {...other} />
-  //           {error && <span className='color-red mt-3 d-block'>{error?.message}</span>}
-  //         </>
-  //       )}
-  //
-  //     />
-  //   )
-  // }
 
 }

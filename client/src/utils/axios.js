@@ -1,31 +1,37 @@
+import { base } from '@/confg';
 import axios from 'axios';
 
-export const goiApi = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+export const instance = axios.create({
+  baseURL: base.HOST,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   },
 })
 
-export const goiApiGet = (url, params) => {
-  return goiApi.get(url, { params })
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
+);
+
+export const apiGet = (url, params) => {
+  return instance.get(url, { params })
 }
 
-export const goiApiPost = (url, data) => {
-  return goiApi.post(url, data);
+export const apiPost = (url, data) => {
+  return instance.post(url, data);
 };
 
-export const goiApiPut = (url, data) => {
-  return goiApi.put(url, data);
+export const apiPut = (url, data) => {
+  return instance.put(url, data);
 };
 
-export const goiApiDelete = (url, params) => {
-  return goiApi.delete(url, { params });
+export const apiDelete = (url, params) => {
+  return instance.delete(url, { params });
 };
 
-export const goiApiPostFormData = (url, data) => {
-  return goiApi.post(url, data, {
+export const apiPostFormData = (url, data) => {
+  return instance.post(url, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
       'Access-Control-Allow-Origin': "*",
@@ -35,8 +41,8 @@ export const goiApiPostFormData = (url, data) => {
   });
 };
 
-export const goiApiPutFormData = (url, data) => {
-  return goiApi.put(url, data, {
+export const apiPutFormData = (url, data) => {
+  return instance.put(url, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
       'Access-Control-Allow-Origin': "*",

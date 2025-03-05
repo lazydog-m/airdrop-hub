@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import { LoadingProvider } from './contexts/LoadingContext'
 import { NofiticationProvider } from './contexts/NotificationContext'
 import { CollapseProvider } from './contexts/CollapseContext'
+import { Toaster } from "@/components/ui/sonner"
 
 createRoot(document.getElementById('root')).render(
   <HelmetProvider>
@@ -12,6 +13,7 @@ createRoot(document.getElementById('root')).render(
       <NofiticationProvider>
         <CollapseProvider>
           <BrowserRouter>
+            <Toaster />
             <App />
           </BrowserRouter>
         </CollapseProvider>

@@ -8,9 +8,11 @@ import ProjectFilterSearch from "./ProjectFilterSearch";
 import ProjectDataTable from './ProjectDataTable';
 import Modal from '@/components/Modal';
 import ProjectNewEditForm from '../create/ProjectNewEditForm';
+import { apiGet } from '@/utils/axios';
 
 export default function ProjectList() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,17 +27,6 @@ export default function ProjectList() {
   const [selectedRatingItems, setSelectedRatingItems] = useState([]);
   const [search, setSearch] = useState('');
   const [selectedSort, setSelectedSort] = useState('raisedDesc');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
 
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -74,7 +65,28 @@ export default function ProjectList() {
   const handleClearAllSelectedItems = () => {
     setSelectedTypeItems([]);
     setSelectedStatusItems([]);
+    setSelectedRatingItems([]);
   }
+
+  useEffect(() => {
+    const fetch = async () => {
+      const params = {
+        page: 1,
+        size: 10,
+      }
+
+      try {
+        const response = await apiGet("/projects", params);
+        setData(response.data.data.rows);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        // onCloseLoading();
+      }
+    }
+
+    fetch();
+  }, [])
 
   return (
     <Page title='Projects - AirdropHub'>
@@ -113,16 +125,17 @@ export default function ProjectList() {
         />
 
         <ProjectDataTable
-          data={[]}
+          data={data}
         />
 
         <Modal
           isOpen={open}
-          size='md'
           onClose={handleClose}
           title={"Create new project"}
           content={
-            <ProjectNewEditForm />
+            <ProjectNewEditForm
+              onCloseModal={handleClose}
+            />
           }
         />
 

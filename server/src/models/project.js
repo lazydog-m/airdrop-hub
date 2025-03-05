@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../configs/dbConnection');
-const { ProjectStatus } = require('../enums');
+const { ProjectStatus, ProjectType, ProjectRating } = require('../enums');
 
 const Project = db.define('projects', {
   id: {
@@ -14,13 +14,30 @@ const Project = db.define('projects', {
     unique: true,
   },
   url: {
-    type: DataTypes.STRING(10000),
-    allowNull: false,
+    type: DataTypes.STRING(1000),
+  },
+  url_ref: {
+    type: DataTypes.STRING(1000),
+  },
+  has_daily_tasks: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  funding_rounds: {
+    type: DataTypes.STRING(1000),
+  },
+  end_date: {
+    type: DataTypes.DATE,
   },
   status: {
     type: DataTypes.ENUM,
-    values: [ProjectStatus.IN_PROGRESS],
-    defaultValue: ProjectStatus.IN_PROGRESS,
+    values: [ProjectStatus.DOING, ProjectStatus.ENDED],
+    defaultValue: ProjectStatus.DOING,
+  },
+  type: {
+    type: DataTypes.ENUM,
+    values: [ProjectType.TESTNET, ProjectType.DEPIN],
+    defaultValue: ProjectType.TESTNET,
   },
 },
   {

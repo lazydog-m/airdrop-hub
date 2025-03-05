@@ -1,4 +1,3 @@
-const { Message, HttpStatusCode } = require('../enums');
 const apiRes = require('../utils/apiResponse');
 
 const errorHandler = (err, req, res, next) => {

@@ -28,7 +28,7 @@ const emitterToast = {
   // pauseOnHover: false,
   // draggable: true,
   progress: undefined,
-  theme: "light",
+  theme: "dark",
   transition: Bounce,
 }
 
@@ -50,10 +50,12 @@ function NofiticationProvider({ children }) {
       <ToastContainer
         draggable
         autoClose={5000}
+        pauseOnHover={false}
         closeOnClick
         limit={3}
         pauseOnFocusLoss={false}
         transition={Bounce}
+        theme='dark'
       />
       {children}
     </NotificationContext.Provider>

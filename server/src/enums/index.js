@@ -32,7 +32,20 @@ const Metadata = {
 }
 
 const ProjectStatus = {
-  IN_PROGRESS: 'in_progress',
+  PENDING: 'pending',
+  DOING: 'doing',
+  ENDED: 'ended',
+}
+
+const ProjectType = {
+  DEPIN: 'depin',
+  TESTNET: 'testnet',
+}
+
+const ProjectRating = {
+  HIGH: 'high',
+  MEDIUM: 'medium',
+  LOW: 'low',
 }
 
 module.exports = {
@@ -40,5 +53,7 @@ module.exports = {
   Message,
   Metadata,
   ProjectStatus,
+  ProjectType,
+  ProjectRating,
   HttpStatusCode,
 };

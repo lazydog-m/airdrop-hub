@@ -2,48 +2,87 @@ import * as React from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import DataTable from '@/components/DataTable';
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+import { ButtonIcon } from '@/components/Button';
+import { Check, Ellipsis, EllipsisVertical, SquareArrowOutUpRight, SquarePen, X } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Color, ProjectRating, ProjectStatus, ProjectType } from '@/enums/enum';
+import { Link } from 'react-router-dom';
+import { formatDateVN } from '@/utils/formatDate';
 
 const colunms = [
-  { header: 'Project name', align: 'left' },
+  { header: 'Project Name', align: 'left' },
   { header: 'Type', align: 'left' },
-  { header: 'Total Raised', align: 'left' },
   { header: 'Status', align: 'left' },
+  { header: 'Start Date - End Date', align: 'left' },
+  { header: 'Daily Tasks', align: 'left' },
   { header: '', align: 'left' },
 ]
 
-export default function ProjectDataTable() {
+export default function ProjectDataTable({ data }) {
   return (
     <DataTable
       className='mt-15'
       colunms={colunms}
       data={
-        rows.map((row) => (
-          <TableRow style={{ backgroundColor: row.name === 'Cupcake' ? 'blueviolet' : '' }}
-            key={row.name}
+        data.map((row) => (
+          <TableRow style={{ /* backgroundColor: row.name === 'Cupcake' ? 'blueviolet' : '' */ }}
+            key={row.id}
           >
-            <TableCell align="left">{row.name}</TableCell>
-            <TableCell align="left">{row.carbs}</TableCell>
-            <TableCell align="left">{row.protein}</TableCell>
-            <TableCell align="left">{row.protein}</TableCell>
-            <TableCell align="left">icon</TableCell>
-          </TableRow>
+            <TableCell align="left">
+              <span className='font-inter fs-14 d-flex color-white fw-bold'>
+                {row.name}
+              </span>
+            </TableCell>
+            <TableCell align="left">
+              <Badge
+                // variant='outline'
+                className='text-capitalize custom-badge'
+                style={{
+                  backgroundColor: row.type === ProjectType.TESTNET && Color.SECONDARY,
+                  // color: row.type === ProjectType.TESTNET && 'white'
+                }}
+              >
+                {row.type}
+              </Badge>
+            </TableCell>
+            <TableCell align="left">
+              <Badge
+                className='text-capitalize custom-badge'
+                style={{
+                  backgroundColor: row.status === ProjectStatus.DOING ? Color.SUCCESS : ProjectStatus.ENDED ? Color.DANGER : Color.WARNING,
+                  color: row.status === ProjectStatus.ENDED ? 'white' : 'black',
+                }}
+              >
+                {row.status}
+              </Badge>
+            </TableCell>
+            <TableCell align="left">
+              <Badge variant={'outline'} className='custom-badge'>
+                {`${formatDateVN(row.createdAt)} - ${!row.end_date ? 'N/A' : formatDateVN(row.end_date)}`}
+              </Badge>
+            </TableCell>
+            <TableCell align="left">
+              <Check color={Color.SUCCESS} />
+              <X color={Color.DANGER} />
+            </TableCell>
+            <TableCell align="left">
+              <ButtonIcon
+                // onClick={onClose}
+                variant='ghost'
+                icon={<SquareArrowOutUpRight />}
+              />
+              <ButtonIcon
+                // onClick={onClose}
+                variant='ghost'
+                icon={<SquarePen />}
+              />
+              <ButtonIcon
+                // onClick={onClose}
+                variant='ghost'
+                icon={<Ellipsis />}
+              />
+            </TableCell>
+          </TableRow >
         ))}
     />
   );

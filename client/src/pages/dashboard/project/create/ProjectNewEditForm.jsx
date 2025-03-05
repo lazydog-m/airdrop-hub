@@ -7,19 +7,35 @@ import { useNavigate } from "react-router-dom"
 // form
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
+import Select from "@/components/Select";
+import { ProjectRating, ProjectStatus, ProjectType } from "@/enums/enum";
+import { ButtonPrimary } from "@/components/Button";
+import { apiPost } from "@/utils/axios";
+import useConfirm from "@/hooks/useConfirm";
+import useNotification from "@/hooks/useNotification";
+import useLoading from "@/hooks/useLoading";
+import { formatNumber } from "@/utils/formatCurrency";
+import { Input } from "@/components/ui/input";
 
-export default function ProjectNewEditForm({ }) {
+export default function ProjectNewEditForm({ onCloseModal }) {
 
   const ProjectSchema = Yup.object().shape({
-    name: Yup.string().trim().required('Project name is required!'),
-    // maSanPham: Yup.string().trim().required('Mã không được bỏ trống'),
-    // donGia: Yup.string().required('Đơn giá không được bỏ trống'),
-    // idMauSac: Yup.string().required('Màu không được bỏ trống'),
-    // idThuongHieu: Yup.string().required('Thương hiệu không được bỏ trống'),
+    name: Yup.string().trim().required('Project name is required'),
+    status: Yup.string().required('Status is required'),
+    type: Yup.string().required('Type is required'),
+    rating: Yup.string().required('Rating is required'),
+    url_ref: Yup.string().trim().url('Link ref invalid'),
+    url: Yup.string().trim().url('Link invalid'),
   });
 
   const defaultValues = {
     name: '',
+    type: '',
+    url: '',
+    url_ref: '',
+    status: '',
+    rating: '',
+    total_raised: '',
     // tenSanPham: sanPhamHienTai?.tenSanPham || '',
     // maSanPham: sanPhamHienTai?.maSanPham || '',
     // moTa: sanPhamHienTai?.moTa || '',
@@ -39,50 +55,175 @@ export default function ProjectNewEditForm({ }) {
     control,
     setValue,
     handleSubmit,
+    watch, getValues,
   } = methods;
 
+  useEffect(() => {
+    console.log(watch('type'))
+  }, [watch('type')]);
+
+  const { showConfirm } = useConfirm();
+  const { onOpenSuccessNotify, onOpenErrorNotify } = useNotification();
+  const { onOpenLoading, onCloseLoading } = useLoading();
+
   const onSubmit = async (data) => {
-    // const body = {
-    //   ...data, // giữ các biến cũ trong form data 
-    //   donGia: parseInt(formatNumber(data.donGia)), // ghi đè thuộc tính đơn giá trong data, convert thành số
-    //   trangThai: chuyenDoiThanhEnum(data.trangThai), // ghi đè thuộc tính trạng thái trong data, convert thành enum
-    //   id: sanPhamHienTai?.id,
-    // }
-    // console.log(body);
-    // // hiển thị confirm
-    //
-    // if (laCapNhat) {
-    //   showConfirm("Xác nhận cập nhật sản phẩm?", "Bạn có chắc chắn muốn cập nhật sản phẩm?", () => put(body));
-    // }
-    // else {
-    //   showConfirm("Xác nhận thêm mới sản phẩm?", "Bạn có chắc chắn muốn thêm sản phẩm?", () => post(body));
-    // }
+    const body = {
+      ...data,
+      url: data.url || null,
+      url_ref: data.url_ref || null,
+      total_raised: data.total_raised || null,
+    }
+    showConfirm("Confirm creating new project?", () => post(body));
+  }
+
+  const post = async (body) => {
+    onOpenLoading();
+    try {
+      const response = await apiPost("/projects", body);
+      onOpenSuccessNotify("Create new project successfully!");
+      onCloseModal();
+    } catch (error) {
+      console.error(error);
+      onOpenErrorNotify(error.message);
+    } finally {
+      onCloseLoading();
+    }
   }
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Row className='mt-10' gutter={25} style={{ display: "flex", justifyContent: "center" }}>
+      <Row className='mt-5' gutter={[25, 20]} >
 
-        <Col span={9}>
+        <Col span={12}>
           <RHFInput
-            label='Tên'
-            name='tenSanPham'
-            placeholder='Nhập tên sản phẩm'
+            label='Name'
+            name='name'
+            placeholder='Project name'
             required
           />
         </Col>
 
-        <Col span={9}>
-          <RHFInput
-            label='Mã'
-            name='maSanPham'
-            placeholder='Nhập mã sản phẩm'
-            required
+        <Col span={12}>
+          <Controller
+            name='type'
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <label className='d-block font-inter fw-500 fs-14'>
+                  Type
+                  <span className={'required'}></span>
+                </label>
+
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  value={field.value}
+                  placeholder='Select type'
+                  className='mt-10'
+                  items={[ProjectType.TESTNET, ProjectType.DEPIN]}
+                />
+                {error && <span className='font-inter color-red mt-3 d-block'>{error?.message}</span>}
+              </>
+            )}
           />
         </Col>
 
+        <Col span={12}>
+          <RHFInput
+            label='Link'
+            name='url'
+            placeholder='https://www.airdrophub.dev/example'
+          />
+        </Col>
+
+        <Col span={12}>
+          <RHFInput
+            label='Link Ref'
+            name='url_ref'
+            placeholder='https://www.airdrophub.dev/example/ref'
+          />
+        </Col>
+
+        <Col span={8}>
+          <Controller
+            name='total_raised'
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <label className='d-block font-inter fw-500 fs-14'>
+                  Total raised
+                </label>
+                <div className="relative input-adm flex items-center rounded-md mt-10 h-36">
+                  <Input
+                    {...field}
+                    autoComplete='off'
+                    placeholder='TBA'
+                    className='font-inter custom-input border-0 focus-visible:ring-0 shadow-none'
+                    onChange={(e) => {
+                      setValue('total_raised', formatNumber(e.target.value));
+                    }}
+                    value={formatNumber(getValues('total_raised'))}
+                  />
+                  {error && <span className='font-inter color-red mt-3 d-block'>{error?.message}</span>}
+                  <span className="font-inter fs-15 mt-2 pr-2">M$</span>
+                </div>
+              </>
+            )}
+          />
+        </Col>
+
+        <Col span={8}>
+          <Controller
+            name='rating'
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <label className='d-block font-inter fw-500 fs-14'>
+                  Rating
+                  <span className={'required'}></span>
+                </label>
+
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  value={field.value}
+                  placeholder='Select rating'
+                  className='mt-10'
+                  items={[ProjectRating.HIGH, ProjectRating.MEDIUM, ProjectRating.LOW]}
+                />
+                {error && <span className='font-inter color-red mt-3 d-block'>{error?.message}</span>}
+              </>
+            )}
+          />
+        </Col>
+        <Col span={8}>
+          <Controller
+            name='status'
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <label className='d-block font-inter fw-500 fs-14'>
+                  Status
+                  <span className={'required'}></span>
+                </label>
+
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  value={field.value}
+                  placeholder='Select status'
+                  className='mt-10'
+                  items={[ProjectStatus.DOING, ProjectStatus.PENDING, ProjectStatus.ENDED]}
+                />
+                {error && <span className='font-inter color-red mt-3 d-block'>{error?.message}</span>}
+              </>
+            )}
+          />
+        </Col>
+
+        <Col span={24} className='d-flex justify-content-end pdb-5'>
+          <ButtonPrimary type='submit' title={'Save changed'} />
+        </Col>
       </Row>
     </FormProvider>
 
   )
 }
+
