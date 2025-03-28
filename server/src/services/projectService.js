@@ -1,54 +1,114 @@
 const Project = require('../models/project');
 const NotFoundException = require('../exceptions/NotFoundException');
 const ValidationException = require('../exceptions/ValidationException');
-const { getPagination, getPageItems } = require('../utils/page');
 const Joi = require('joi');
 const RestApiException = require('../exceptions/RestApiException');
+const { ProjectType, ProjectStatus, ProjectCost } = require('../enums');
+const { Op } = require('sequelize');
 
 const projectSchema = Joi.object({
-  name: Joi.string().required().messages({
-    'string.base': 'Project name must be a string!',
-    'string.empty': 'Project name is required!',
-    'any.required': 'Project name is required!',
+  name: Joi.string().required().max(255).messages({
+    'string.empty': 'Tên dự án không được bỏ trống!',
+    'any.required': 'Tên dự án không được bỏ trống!',
+    'string.max': 'Tên dự án chỉ đươc phép dài tối đa 255 ký tự!',
   }),
-  type: Joi.string().required().messages({
-    'string.base': 'Project type must be a string!',
-    'string.empty': 'Project type is required!',
-    'any.required': 'Project type is required!',
-  }),
-  total_raised: Joi.number().allow(null).messages({
-    'number.base': 'Total raised must be a number.',
-  }),
-  status: Joi.string().required().messages({
-    'string.base': 'Project status must be a string!',
-    'string.empty': 'Project status is required!',
-    'any.required': 'Project status is required!',
-  }),
-  url: Joi.string().uri().allow(null, '').messages({
-    'string.base': 'URL must be a string!',
-    'string.uri': 'URL must be a valid URI.',
-  }),
-  url_ref: Joi.string().uri().allow(null, '').messages({
-    'string.base': 'URL reference must be a string!',
-    'string.uri': 'URL reference must be a valid URI.',
-  }),
-  rating: Joi.string().required().messages({
-    'string.base': 'Project rating must be a string!',
-    'string.empty': 'Project rating is required!',
-    'any.required': 'Project rating is required!',
-  }),
+  expected_airdrop_time: Joi.string()
+    .max(10)
+    .allow('')
+    .messages({
+      'string.max': 'Thời gian dự kiến trả Airdrop chỉ đươc phép dài tối đa 10 ký tự!',
+    }),
+  url: Joi.string()
+    .max(1000)
+    .allow('')
+    .messages({
+      'string.max': 'Url chỉ đươc phép dài tối đa 1000 ký tự!',
+    }),
+  tutorial_url: Joi.string()
+    .max(1000)
+    .allow('')
+    .messages({
+      'string.max': 'Tutorial url chỉ đươc phép dài tối đa 1000 ký tự!',
+    }),
+  discord_url: Joi.string()
+    .max(1000)
+    .allow('')
+    .messages({
+      'string.max': 'Discord url chỉ đươc phép dài tối đa 1000 ký tự!',
+    }),
+  funding_rounds_url: Joi.string()
+    .max(1000)
+    .allow('')
+    .messages({
+      'string.max': 'Funding rounds url chỉ đươc phép dài tối đa 1000 ký tự!',
+    }),
+  note: Joi.string()
+    .max(65535)
+    .allow('')
+    .messages({
+      'string.max': 'Ghi chú chỉ đươc phép dài tối đa 65,535 ký tự!',
+    }),
+  has_daily_tasks: Joi.boolean()
+    .valid(true, false)
+    .messages({
+      'any.only': 'Task hàng ngày phải là true hoặc false!',
+    }),
+  is_cheating: Joi.boolean()
+    .valid(true, false)
+    .messages({
+      'any.only': 'Cheating phải là true hoặc false!',
+    }),
+  cost_type: Joi.string()
+    .valid(ProjectCost.FEE, ProjectCost.FREE, ProjectCost.HOLD)
+    .messages({
+      'any.only': 'Loại chi phí không hợp lệ!'
+    }),
+  type: Joi.string()
+    .valid(ProjectType.GAME, ProjectType.DEPIN, ProjectType.TESTNET, ProjectType.WEB, ProjectType.GALXE, ProjectType.RETROACTIVE)
+    .messages({
+      'any.only': 'Loại dự án không hợp lệ!'
+    }),
+  status: Joi
+    .valid(ProjectStatus.DOING, ProjectStatus.END_PENDING_UPDATE, ProjectStatus.TGE, ProjectStatus.SNAPSHOT, ProjectStatus.END_AIRDROP)
+    .messages({
+      'any.only': 'Trạng thái dự án không hợp lệ!'
+    }),
 });
 
 const getAllProjects = async (req) => {
-  const { page, size } = req.query;
-  const { limit, offset } = getPagination(page, size);
+  const { selectedCostItems, selectedTypeItems, selectedStatusItems, selectedOtherItems } = req.query;
 
-  const pageData = await Project.findAndCountAll({
-    limit,
-    offset,
+  const whereConditions = {};
+
+  if (selectedStatusItems?.length > 0) {
+    whereConditions.status = { [Op.in]: selectedStatusItems };
+  }
+
+  if (selectedTypeItems?.length > 0) {
+    whereConditions.type = { [Op.in]: selectedTypeItems };
+  }
+
+  if (selectedCostItems?.length > 0) {
+    whereConditions.cost_type = { [Op.in]: selectedCostItems };
+  }
+
+  if (selectedOtherItems?.length > 0) {
+
+    if (selectedOtherItems?.includes('Cheating')) {
+      whereConditions.is_cheating = true;
+    }
+
+    if (selectedOtherItems?.includes('Tasks Hàng Ngày')) {
+      whereConditions.has_daily_tasks = true;
+    }
+  }
+
+  const data = await Project.findAll({
+    where: whereConditions,
+    order: [['createdAt', 'DESC']],
   });
 
-  return pageData;
+  return data;
 }
 
 const getProjectById = async (id) => {
@@ -64,19 +124,34 @@ const getProjectById = async (id) => {
 const createProject = async (body) => {
   const data = validateProject(body);
 
-  const existingProject = await Project.findOne({ name: data.name });
-  if (existingProject) {
-    throw new RestApiException(`Project name "${data.name}" already exists.`);
-  }
-
   const createdProject = await Project.create({
     ...data,
-    url: data.url || null,
-    url_ref: data.url_ref || null,
-    total_raised: data.total_raised || null,
+    end_date: null,
   });
 
   return createdProject;
+}
+
+const updateProject = async (body) => {
+  const { id } = body;
+  const data = validateProject(body);
+
+  const [updatedCount] = await Project.update({
+    ...data,
+    end_date: null,
+  }, {
+    where: {
+      id: id,
+    }
+  });
+
+  if (!updatedCount) {
+    throw new NotFoundException('Không tìm thấy dự án này!');
+  }
+
+  const updatedProject = await Project.findByPk(id);
+
+  return updatedProject;
 }
 
 const validateProject = (data) => {
@@ -89,7 +164,7 @@ const validateProject = (data) => {
   return value;
 };
 
-module.exports = { getAllProjects, getProjectById, createProject };
+module.exports = { getAllProjects, getProjectById, createProject, updateProject };
 
 
 

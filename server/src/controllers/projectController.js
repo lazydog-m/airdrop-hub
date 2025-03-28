@@ -2,7 +2,7 @@ const express = require('express');
 const { HttpStatus } = require('../enums');
 const RestApiException = require('../exceptions/RestApiException');
 const api = express.Router();
-const { getAllProjects, getProjectById, createProject } = require('../services/projectService');
+const { getAllProjects, getProjectById, createProject, updateProject } = require('../services/projectService');
 const apiRes = require('../utils/apiResponse');
 
 // Get all projects
@@ -31,6 +31,17 @@ api.post('/', async (req, res, next) => {
   try {
     const createdProject = await createProject(body);
     return apiRes.toJson(res, createdProject);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Update a new project
+api.put('/', async (req, res, next) => {
+  const { body } = req;
+  try {
+    const updatedProject = await updateProject(body);
+    return apiRes.toJson(res, updatedProject);
   } catch (error) {
     next(error);
   }

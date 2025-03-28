@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../configs/dbConnection');
-const { ProjectStatus, ProjectType, ProjectRating } = require('../enums');
+const { ProjectStatus, ProjectType, ProjectCost } = require('../enums');
 
 const Project = db.define('projects', {
   id: {
@@ -11,33 +11,50 @@ const Project = db.define('projects', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   url: {
     type: DataTypes.STRING(1000),
   },
-  url_ref: {
+  tutorial_url: {
+    type: DataTypes.STRING(1000),
+  },
+  discord_url: {
+    type: DataTypes.STRING(1000),
+  },
+  funding_rounds_url: {
     type: DataTypes.STRING(1000),
   },
   has_daily_tasks: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false,
+    defaultValue: true,
   },
-  funding_rounds: {
-    type: DataTypes.STRING(1000),
+  is_cheating: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
   },
   end_date: {
     type: DataTypes.DATE,
   },
+  note: {
+    type: DataTypes.TEXT,
+  },
+  expected_airdrop_time: {
+    type: DataTypes.STRING(10),
+  },
   status: {
     type: DataTypes.ENUM,
-    values: [ProjectStatus.DOING, ProjectStatus.ENDED],
+    values: [ProjectStatus.DOING, ProjectStatus.TGE, ProjectStatus.SNAPSHOT, ProjectStatus.END_AIRDROP, ProjectStatus.END_PENDING_UPDATE],
     defaultValue: ProjectStatus.DOING,
   },
   type: {
     type: DataTypes.ENUM,
-    values: [ProjectType.TESTNET, ProjectType.DEPIN],
+    values: [ProjectType.TESTNET, ProjectType.DEPIN, ProjectType.GAME, ProjectType.WEB, ProjectType.GALXE, ProjectType.RETROACTIVE],
     defaultValue: ProjectType.TESTNET,
+  },
+  cost_type: {
+    type: DataTypes.ENUM,
+    values: [ProjectCost.FREE, ProjectCost.FEE, ProjectCost.HOLD],
+    defaultValue: ProjectCost.FREE,
   },
 },
   {

@@ -1,3 +1,4 @@
+
 const HttpStatus = {
   OK: 200,
   CREATED: 201,
@@ -32,20 +33,26 @@ const Metadata = {
 }
 
 const ProjectStatus = {
-  PENDING: 'pending',
   DOING: 'doing',
-  ENDED: 'ended',
+  END_PENDING_UPDATE: 'end_pending_update',
+  SNAPSHOT: 'snapshot',
+  TGE: 'TGE',
+  END_AIRDROP: 'end_airdrop',
+}
+
+const ProjectCost = {
+  FREE: 'free',
+  FEE: 'fee',
+  HOLD: 'hold',
 }
 
 const ProjectType = {
   DEPIN: 'depin',
   TESTNET: 'testnet',
-}
-
-const ProjectRating = {
-  HIGH: 'high',
-  MEDIUM: 'medium',
-  LOW: 'low',
+  RETROACTIVE: 'retroactive',
+  WEB: 'web',
+  GALXE: 'galxe',
+  GAME: 'game',
 }
 
 module.exports = {
@@ -54,6 +61,6 @@ module.exports = {
   Metadata,
   ProjectStatus,
   ProjectType,
-  ProjectRating,
+  ProjectCost,
   HttpStatusCode,
 };
