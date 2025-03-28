@@ -8,7 +8,7 @@ import { Color, ProjectCost, ProjectStatus, ProjectType } from '@/enums/enum';
 import { Badge } from '@/components/ui/badge';
 import { convertProjectCostTypeEnumToColorHex, convertProjectFilterOtherToColorHex, convertProjectStatusEnumToColorHex, convertProjectStatusEnumToText, convertProjectTypeEnumToColorHex } from '@/utils/convertUtil';
 
-export default function ProjectFilterSearch({
+export default function ProfileFilterSearch({
   selectedStatusItems,
   onChangeSelectedStatusItems,
   onClearSelectedStatusItems,

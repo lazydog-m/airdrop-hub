@@ -31,7 +31,15 @@ export default function Router() {
             { path: ':id/edit', element: <ProjectList /> },
           ],
         },
-        // { path: 'thong-ke', element: <ThongKe /> },
+        {
+          path: 'profile',
+          children: [
+            { path: 'list', element: <ProfileList /> },
+            { path: 'create', element: <ProfileList /> },
+            { path: ':id/edit', element: <ProfileList /> },
+          ],
+        },
+        // { path: 'statistics', element: <ThongKe /> },
         // {
         //   path: 'san-pham',
         //   children: [
@@ -108,3 +116,4 @@ export default function Router() {
 
 
 const ProjectList = Loadable(lazy(() => import('../pages/dashboard/project/list/ProjectList')));
+const ProfileList = Loadable(lazy(() => import('../pages/dashboard/profile/list/ProfileList')));

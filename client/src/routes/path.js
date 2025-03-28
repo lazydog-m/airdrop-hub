@@ -4,6 +4,12 @@ export const PATH_PAGE = {
     create: '/project/create',
     edit: (id) => `/project/${id}/edit`,
   },
+  profile: {
+    list: '/profile/list',
+    create: '/profile/create',
+    edit: (id) => `/profile/${id}/edit`,
+  },
+  statistics: '/statistics',
   thong_ke: '/thong-ke',
   voucher: {
     tao_moi: '/voucher/tao-moi',

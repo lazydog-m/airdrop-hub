@@ -7,7 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export default function Select({ placeholder, onValueChange, value, items = [], ...other }) {
+export default function Select({ placeholder, onValueChange, value, items = [], convertItem, ...other }) {
   return (
 
     <SelectMain
@@ -24,7 +24,7 @@ export default function Select({ placeholder, onValueChange, value, items = [], 
             return (
               <SelectItem value={item} className='pointer text-capitalize'>
                 <span className="text-capitalize">
-                  {item}
+                  {convertItem ? convertItem(item) : item}
                 </span>
               </SelectItem>
             )

@@ -17,8 +17,8 @@ const useConfirm = () => {
       focusCancel: false,
       focusConfirm: false,
       cancelButtonColor: "#d33",
-      confirmButtonText: "OK",
-      cancelButtonText: "Cancel",
+      confirmButtonText: "Đồng ý",
+      cancelButtonText: "Hủy bỏ",
       customClass: {
         container: 'my-swal'
       },

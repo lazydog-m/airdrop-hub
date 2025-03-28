@@ -1,8 +1,7 @@
-import { base } from '@/confg';
 import axios from 'axios';
 
 export const instance = axios.create({
-  baseURL: base.HOST,
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',

@@ -7,7 +7,7 @@ import { Layout, Menu, Drawer } from 'antd';
 import './navbar-vertical-style.css'
 import { Logo, LogoMobile } from '../../components/Logo';
 import { PATH_PAGE } from '../../routes/path';
-import { ChartPie, FolderDot } from 'lucide-react';
+import { ChartPie, CircleUserRound, FolderDot } from 'lucide-react';
 
 NavbarVertical.propTypes = {
   isCollapse: PropTypes.bool,
@@ -68,7 +68,7 @@ export default function NavbarVertical({ isCollapse, isOpenSidebar, onCloseSideb
       setSelectedKey(['project']);
       setOpenKeys([]);
     }
-    else if (pathname.includes('/thong-ke')) {
+    else if (pathname.includes('/statistics')) {
       setSelectedKey(['statistics']);
       setOpenKeys([]);
     }
@@ -120,6 +120,7 @@ export default function NavbarVertical({ isCollapse, isOpenSidebar, onCloseSideb
         </Sider>
         :
         <Drawer
+          className='draw-nav-mobile'
           width={DRAWER_WIDTH}
           placement={'left'}
           closable={false}
@@ -158,6 +159,7 @@ export default function NavbarVertical({ isCollapse, isOpenSidebar, onCloseSideb
 const ICONS = {
   statistics: <ChartPie size={17} />,
   project: <FolderDot size={17} />,
+  profile: <CircleUserRound size={17} />,
 }
 
 const labelStyle = {
@@ -200,21 +202,28 @@ const ListMenuItem = ({ item, index, selectedKey, openKeys, onOpenChange, isColl
 
 const group = [
   {
-    name: 'Dashboards',
+    name: 'Quản lý',
     items: [
       {
         key: 'statistics',
-        label: <Link to={PATH_PAGE.thong_ke}>
-          <SpanStyle label="Dashboard" />
+        label: <Link to={PATH_PAGE.statistics}>
+          <SpanStyle label="Thống Kê" />
         </Link>,
         icon: ICONS.statistics,
       },
       {
         key: 'project',
         label: <Link to={PATH_PAGE.project.list}>
-          <SpanStyle label="Project Management" />
+          <SpanStyle label="Quản Lý Dự Án" />
         </Link>,
         icon: ICONS.project,
+      },
+      {
+        key: 'profile',
+        label: <Link to={PATH_PAGE.profile.list}>
+          <SpanStyle label="Quản Lý Hồ Sơ" />
+        </Link>,
+        icon: ICONS.profile,
       },
       // {
       //   key: 'account',

@@ -61,7 +61,7 @@ export const ButtonOutlineTags = ({ icon, title, selected = [], tags, ...other }
         </div>
         : selected.length > 2 ?
           <div className="d-flex align-items-center gap-1 ps-8">
-            <Badge className='font-inter fw-400 fs-12'>{`${selected.length} selected`}</Badge>
+            <Badge className='font-inter fw-400 fs-12'>{`${selected.length} lựa chọn`}</Badge>
           </div>
           : null
       }

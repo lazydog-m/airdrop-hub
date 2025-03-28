@@ -18,7 +18,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { convertProjectStatusEnumToText } from "@/utils/convertUtil";
 
-export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProject, onUpdateData }) {
+export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProject, onUpdateData }) {
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()

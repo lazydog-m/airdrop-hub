@@ -10,7 +10,7 @@ import { Color } from '@/enums/enum';
 import { Link } from 'react-router-dom';
 import { formatDateVN } from '@/utils/formatDate';
 import Modal from '@/components/Modal';
-import ProjectNewEditForm from '../create/ProjectNewEditForm';
+import ProfileNewEditForm from '../create/ProfileNewEditForm';
 import Popover from '@/components/Popover';
 import { SelectItems } from '@/components/SelectItems';
 import { FaDiscord } from 'react-icons/fa6';
@@ -27,7 +27,7 @@ const colunms = [
   { header: '', align: 'left' },
 ]
 
-export default function ProjectDataTable({ data, onUpdateData }) {
+export default function ProfileDataTable({ data, onUpdateData }) {
   const [open, setOpen] = React.useState(false);
   const [project, setProject] = React.useState({});
 
@@ -174,7 +174,7 @@ export default function ProjectDataTable({ data, onUpdateData }) {
         onClose={handleClose}
         title={"Cập nhật dự án"}
         content={
-          <ProjectNewEditForm
+          <ProfileNewEditForm
             onCloseModal={handleClose}
             currentProject={project}
             isEdit={true}

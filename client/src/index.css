@@ -1036,6 +1036,17 @@ body {
   border-color: black !important;
 }
 
+.checkbox-default {
+  user-select: none;
+  /* CSS cho các trình duyệt hiện đại */
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+}
+
 .pdi-10 {
   padding-inline: 10px;
 }
@@ -1079,7 +1090,7 @@ body {
   letter-spacing: normal !important;
   font-family: var(--ff);
   border-bottom: 1px solid var(--hover);
-  padding-block: 14px !important;
+  padding-block: 12px !important;
 }
 
 /*table body*/
@@ -1088,7 +1099,7 @@ body {
   color: white !important;
   font-family: var(--ff) !important;
   font-size: 13.5px !important;
-  padding-block: 14px !important;
+  padding-block: 7px !important;
   letter-spacing: normal !important;
   /* font-weight: 500 !important; */
 }

@@ -4,14 +4,14 @@ import Container from "@/components/Container";
 import { HeaderAction } from "@/components/HeaderSection";
 import Page from "@/components/Page";
 import { CirclePlus } from 'lucide-react';
-import ProjectFilterSearch from "./ProjectFilterSearch";
-import ProjectDataTable from './ProjectDataTable';
 import Modal from '@/components/Modal';
-import ProjectNewEditForm from '../create/ProjectNewEditForm';
 import { apiGet } from '@/utils/axios';
 import { ProjectStatus } from '@/enums/enum';
+import ProfileFilterSearch from './ProfileFilterSearch';
+import ProfileDataTable from './ProfileDataTable';
+import ProfileNewEditForm from '../create/ProfileNewEditForm';
 
-export default function ProjectList() {
+export default function ProfileList() {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -132,21 +132,21 @@ export default function ProjectList() {
   }, [search, data])
 
   return (
-    <Page title='Quản lý dự án - AirdropHub'>
+    <Page title='Quản lý hồ sơ - AirdropHub'>
       <Container>
 
         <HeaderAction
-          heading='Danh sách dự án'
+          heading='Danh sách hồ sơ'
           action={
             <ButtonPrimary
               icon={<CirclePlus />}
-              title='Tạo dự án'
+              title='Tạo hồ sơ'
               onClick={handleClickOpen}
             />
           }
         />
 
-        <ProjectFilterSearch
+        <ProfileFilterSearch
           selectedStatusItems={selectedStatusItems}
           onChangeSelectedStatusItems={handleChangeSelectedStatusItems}
           onClearSelectedStatusItems={() => setSelectedStatusItems([])}
@@ -168,7 +168,7 @@ export default function ProjectList() {
           onChangeSearch={handleChangeSearch}
         />
 
-        <ProjectDataTable
+        <ProfileDataTable
           data={filteredData}
           onUpdateData={handleUpdateData}
         />
@@ -177,9 +177,9 @@ export default function ProjectList() {
           bottom={60}
           isOpen={open}
           onClose={handleClose}
-          title={"Tạo mới dự án"}
+          title={"Tạo mới hồ sơ"}
           content={
-            <ProjectNewEditForm
+            <ProfileNewEditForm
               onCloseModal={handleClose}
               onUpdateData={handleUpdateData}
             />

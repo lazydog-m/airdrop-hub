@@ -21,7 +21,7 @@ Modal.propTypes = {
 }
 
 export default function Modal({
-  isOpen, onClose, size = 'md', title, content, footer }) {
+  isOpen, onClose, size = 'md', title, content, bottom }) {
 
   return (
     <Dialog
@@ -39,7 +39,7 @@ export default function Modal({
           borderRadius: 8,
           border: '2px solid #1A1A1C',
           backgroundColor: '#09090B',
-          bottom: 190,
+          bottom: bottom,
         }
       }}
     >

@@ -15,7 +15,7 @@ export default function CollapseButton({ onToggleCollapse, onOpenSidebar, isColl
     <div
       className="sidebar-toggle"
       style={{
-        marginLeft: !isCollapse ? 240 : 58,
+        marginLeft: isMobile ? 0 : !isCollapse ? 240 : 58,
       }}
       onClick={isMobile ? onOpenSidebar : onToggleCollapse}
     >

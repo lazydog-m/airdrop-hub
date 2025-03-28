@@ -23,11 +23,13 @@ export const CheckboxItems = ({
   onChangeSelectedItems,
   onClearSelectedItems,
   count,
+  minWidth = 170,
+  convert,
   ...other
 }) => {
 
   return (
-    <div className='dropdown-menu'>
+    <div className='dropdown-menu' style={{ minWidth }}>
       {items.map((item) => {
         const isChecked = selectedItems.includes(item);
         return (
@@ -39,7 +41,7 @@ export const CheckboxItems = ({
               {...other}
               label={
                 <span className='text-capitalize'>
-                  {item}
+                  {convert ? convert(item) : item}
                 </span>
               }
               checked={selectedItems.includes(item)}
@@ -54,7 +56,7 @@ export const CheckboxItems = ({
         <ButtonOutline
           onClick={onClearSelectedItems}
           className='button-outlined w-full mt-5 font-inter pointer color-white h-35 fs-13 d-flex'
-          title='Clear filters'
+          title='Làm mới'
         />
       }
     </div>
