@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://docs.pingcap.com/tidbcloud/secure-connections-to-serverless-clusters/
+HostUrl=https://letsencrypt.org/certs/isrgrootx1.pem
