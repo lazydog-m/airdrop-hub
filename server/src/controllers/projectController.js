@@ -2,14 +2,25 @@ const express = require('express');
 const { HttpStatus } = require('../enums');
 const RestApiException = require('../exceptions/RestApiException');
 const api = express.Router();
-const { getAllProjects, getProjectById, createProject, updateProject } = require('../services/projectService');
+const { getAllProjects, getProjectById, createProject, updateProject, updateProjectStatus, deleteProject, createDailyTasksCompleted, getDailyTasks, updateProjectStar } = require('../services/projectService');
 const apiRes = require('../utils/apiResponse');
+const sequelize = require('../configs/dbConnection');
 
 // Get all projects
 api.get('/', async (req, res, next) => {
   try {
     const projects = await getAllProjects(req);
     return apiRes.toJson(res, projects);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Get all daily tasks from projects
+api.get('/daily-tasks', async (req, res, next) => {
+  try {
+    const dailyTasks = await getDailyTasks(req);
+    return apiRes.toJson(res, dailyTasks);
   } catch (error) {
     next(error);
   }
@@ -36,7 +47,19 @@ api.post('/', async (req, res, next) => {
   }
 });
 
-// Update a new project
+// Create daily tasks completed for project
+api.post('/daily-tasks-completed', async (req, res, next) => {
+  const { body } = req;
+  try {
+    const createdDailyTasksCompleted = await createDailyTasksCompleted(body);
+
+    return apiRes.toJson(res, createdDailyTasksCompleted);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Update a project
 api.put('/', async (req, res, next) => {
   const { body } = req;
   try {
@@ -47,36 +70,37 @@ api.put('/', async (req, res, next) => {
   }
 });
 
-//
-// // Update user by ID
-// router.put('/:id', async (req, res) => {
-//   try {
-//     const [updatedRowsCount] = await User.update(req.body, {
-//         where: { id: req.params.id }
-//     });
-//     if (updatedRowsCount === 0) {
-//       res.status(404).json({ message: 'User not found.' });
-//     } else {
-//       const user = await User.findByPk(req.params.id);
-//       res.json(user);
-//     }
-//   } catch (error) {
-//     res.status(500).json({ message: 'Failed to update user.' });
-//   }
-// });
-//
-// // Delete user by ID
-// router.delete('/:id', async (req, res) => {
-//   try {
-//     const deletedRowsCount = await User.destroy({ where: { id: req.params.id } });
-//     if (deletedRowsCount === 0) {
-//       res.status(404).json({ message: 'User not found.' });
-//     } else {
-//       res.json({ message: 'User deleted successfully.' });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ message: 'Failed to delete user.' });
-//   }
-// });
+// Update project status
+api.put('/status', async (req, res, next) => {
+  const { body } = req;
+  try {
+    const updatedProjectStatus = await updateProjectStatus(body);
+    return apiRes.toJson(res, updatedProjectStatus);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Update project star
+api.put('/star', async (req, res, next) => {
+  const { body } = req;
+  try {
+    const updatedProjectStar = await updateProjectStar(body);
+    return apiRes.toJson(res, updatedProjectStar);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Delete a project
+api.delete('/:id', async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const deletedProject = await deleteProject(id);
+    return apiRes.toJson(res, deletedProject);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = api;

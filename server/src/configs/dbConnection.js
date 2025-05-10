@@ -10,6 +10,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   port: process.env.DB_PORT,
   dialect: 'mysql',
   logging: false,
+  // timezone: 'Asia/Ho_Chi_Minh',
   dialectOptions: {
     ssl:
       process.env?.ENABLE_SSL === 'true'
@@ -22,6 +23,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
         }
         : null,
   },
+  timezone: '+07:00'
 });
 
 module.exports = sequelize;

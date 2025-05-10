@@ -2,6 +2,10 @@ require('dotenv').config();
 
 const express = require('express');
 const projectRoutes = require('./src/controllers/projectController');
+const profileRoutes = require('./src/controllers/profileController');
+const walletRoutes = require('./src/controllers/walletController');
+const taskRoutes = require('./src/controllers/taskController');
+const profileWalletRoutes = require('./src/controllers/profileWalletController');
 const databaseSync = require('./src/utils/dbMigration');
 const errorHandler = require('./src/middleware/errorHandler');
 const cors = require('cors');
@@ -25,8 +29,12 @@ const registerRoutes = (prefix, router) => {
 
 // middlewares
 registerRoutes('/projects', projectRoutes);
+registerRoutes('/profiles', profileRoutes);
+registerRoutes('/wallets', walletRoutes);
+registerRoutes('/profile-wallets', profileWalletRoutes);
+registerRoutes('/tasks', taskRoutes);
 
-// app.use('/projects', projectRoutes);
+// app.use('/hello', projectRoutes);
 
 // error handler middleware
 app.use(errorHandler);

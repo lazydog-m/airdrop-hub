@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../configs/dbConnection');
-const { ProjectStatus, ProjectType, ProjectCost } = require('../enums');
+const { ProjectStatus, ProjectType, ProjectCost, DailyTaskRefresh } = require('../enums');
 
 const Project = db.define('projects', {
   id: {
@@ -15,7 +15,7 @@ const Project = db.define('projects', {
   url: {
     type: DataTypes.STRING(1000),
   },
-  tutorial_url: {
+  url_daily_tasks: {
     type: DataTypes.STRING(1000),
   },
   discord_url: {
@@ -24,22 +24,38 @@ const Project = db.define('projects', {
   funding_rounds_url: {
     type: DataTypes.STRING(1000),
   },
-  has_daily_tasks: {
+  zealy_url: {
+    type: DataTypes.STRING(1000),
+  },
+  galxe_url: {
+    type: DataTypes.STRING(1000),
+  },
+  faucet_url: {
+    type: DataTypes.STRING(1000),
+  },
+  daily_tasks: {
+    type: DataTypes.STRING,
+  },
+  is_cheat: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
   is_cheating: {
     type: DataTypes.BOOLEAN,
-    defaultValue: true,
+    defaultValue: false,
+  },
+  is_star: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
   end_date: {
     type: DataTypes.DATE,
   },
+  deletedAt: {
+    type: DataTypes.DATE,
+  },
   note: {
     type: DataTypes.TEXT,
-  },
-  expected_airdrop_time: {
-    type: DataTypes.STRING(10),
   },
   status: {
     type: DataTypes.ENUM,
@@ -55,6 +71,11 @@ const Project = db.define('projects', {
     type: DataTypes.ENUM,
     values: [ProjectCost.FREE, ProjectCost.FEE, ProjectCost.HOLD],
     defaultValue: ProjectCost.FREE,
+  },
+  daily_tasks_refresh: {
+    type: DataTypes.ENUM,
+    values: [DailyTaskRefresh.UTC0, DailyTaskRefresh.NEW_TASK, DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP, DailyTaskRefresh.UNKNOWN],
+    defaultValue: DailyTaskRefresh.UNKNOWN,
   },
 },
   {

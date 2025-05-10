@@ -40,6 +40,11 @@ const ProjectStatus = {
   END_AIRDROP: 'end_airdrop',
 }
 
+const WalletStatus = {
+  IN_ACTIVE: 'in_active',
+  UN_ACTIVE: 'un_active',
+}
+
 const ProjectCost = {
   FREE: 'free',
   FEE: 'fee',
@@ -55,12 +60,47 @@ const ProjectType = {
   GAME: 'game',
 }
 
+const DailyTaskRefresh = {
+  UTC0: 'utc0',
+  NEW_TASK: 'new_task',
+  COUNT_DOWN_TIME_IT_UP: 'count_down_time_it_up',
+  UNKNOWN: 'unknown',
+}
+
+const TaskStatus = {
+  TO_DO: 'to_do',
+  IN_PROGRESS: 'in_progress',
+  TO_REVIEW: 'to_review',
+  COMPLETED: 'completed',
+}
+
+const TaskType = {
+  NEW_PROJECT: 'new_project',
+  NEW_TASK: 'new_task',
+}
+
+const TaskRank = {
+  HIGH: 'high',
+  MEDIUM: 'medium',
+  LOW: 'low',
+}
+
+const TRASH_DATA_TYPE = 'TRASH_DATA_TYPE';
+const CURRENT_DATA_TYPE = 'CURRENT_DATA_TYPE';
+
 module.exports = {
   HttpStatus,
   Message,
   Metadata,
   ProjectStatus,
   ProjectType,
+  DailyTaskRefresh,
   ProjectCost,
   HttpStatusCode,
+  WalletStatus,
+  TaskRank,
+  TaskStatus,
+  TaskType,
+  TRASH_DATA_TYPE,
+  CURRENT_DATA_TYPE,
 };
