@@ -9,6 +9,7 @@ const useConfirm = () => {
   });
 
   const showConfirm = (title, api, onCancel) => {
+    // document.body.style.overflowY = 'hidden';
     Swal.fire({
       title: title || "Confirm?",
       icon: "warning",
@@ -22,9 +23,7 @@ const useConfirm = () => {
       customClass: {
         container: 'my-swal'
       },
-
     }).then((result) => {
-      document.body.style.overflowY = 'hidden';
       if (result.isConfirmed) {
         api();
       } else {

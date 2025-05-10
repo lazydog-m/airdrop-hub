@@ -7,6 +7,9 @@ import { ButtonGhost, ButtonOutlineTags } from '@/components/Button';
 import { Color, ProjectCost, ProjectStatus, ProjectType } from '@/enums/enum';
 import { Badge } from '@/components/ui/badge';
 import { convertProjectCostTypeEnumToColorHex, convertProjectFilterOtherToColorHex, convertProjectStatusEnumToColorHex, convertProjectStatusEnumToText, convertProjectTypeEnumToColorHex } from '@/utils/convertUtil';
+import useDebounce from '@/hooks/useDebounce';
+import { Tooltip } from 'antd';
+import TooltipDefault from '@/components/TooltipDefault';
 
 export default function ProjectFilterSearch({
   selectedStatusItems,
@@ -26,18 +29,31 @@ export default function ProjectFilterSearch({
   onClearSelectedOtherItems,
 
   onClearAllSelectedItems,
-  search,
   onChangeSearch,
+  search,
 }) {
 
-  const [openSort, setOpenSort] = useState(false);
+  // const [openSort, setOpenSort] = useState(false);
 
-  const handleChangeSelectedSort = (selected) => {
-    onChangeSelectedSort(selected);
+  // const handleChangeSelectedSort = (selected) => {
+  //   onChangeSelectedSort(selected);
+  //
+  //   setTimeout(() => {
+  //     setOpenSort(false);
+  //   }, 50);
+  // }
 
-    setTimeout(() => {
-      setOpenSort(false);
-    }, 50);
+  const [filterSearch, setFilterSearch] = useState('');
+
+  const debounceValue = useDebounce(filterSearch, 500);
+
+  useEffect(() => {
+    onChangeSearch(debounceValue);
+  }, [debounceValue]);
+
+  const clearAll = () => {
+    onClearAllSelectedItems();
+    setFilterSearch('');
   }
 
   return (
@@ -47,8 +63,8 @@ export default function ProjectFilterSearch({
           placeholder='Tìm kiếm dự án ...'
           style={{ width: '200px' }}
           className='color-white font-inter h-40 fs-13'
-          value={search}
-          onChange={onChangeSearch}
+          value={filterSearch}
+          onChange={(event) => setFilterSearch(event.target.value)}
         />
 
         <div className="filters-button d-flex gap-10">
@@ -145,13 +161,10 @@ export default function ProjectFilterSearch({
             }
           />
 
-          {(selectedStatusItems.length > 0 || selectedTypeItems.length > 0) &&
+          {(selectedStatusItems.length > 0 || selectedTypeItems.length > 0 || selectedCostItems.length > 0 || selectedOtherItems.length > 0 || search) &&
             <ButtonGhost
               icon={<ListFilter color={Color.ORANGE} />}
-              onClick={onClearAllSelectedItems}
-              title={
-                <span style={{ color: Color.ORANGE }}>Làm mới</span>
-              }
+              onClick={clearAll}
             />
           }
         </div>
@@ -174,8 +187,10 @@ const statusFilters = {
 const otherFilters = {
   name: 'Khác',
   items: [
-    'Cheating',
-    'Tasks Hàng Ngày'
+    'Làm Hằng Ngày',
+    'Làm Mới 7 Giờ Sáng',
+    'Chưa Làm Hôm Nay',
+    'Cheat',
   ],
 };
 

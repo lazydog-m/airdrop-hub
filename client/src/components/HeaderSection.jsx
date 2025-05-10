@@ -1,10 +1,25 @@
-import { Breadcrumb } from 'antd';
 import PropTypes from 'prop-types';
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Link } from 'react-router-dom';
 
-export const HeaderAction = ({ heading, action }) => {
+export const HeaderAction = ({ heading, action, ...other }) => {
 
   return (
-    <div className='d-flex justify-content-between'>
+    <div className='d-flex justify-content-between align-items-center' {...other}>
       <span className='fw-700 font-inter fs-23 color-white'>{heading}</span>
       {action}
     </div>
@@ -12,38 +27,66 @@ export const HeaderAction = ({ heading, action }) => {
 
 }
 
-export const HeaderBreadcrumbs = ({ heading, action, links, headingStyle, style, ...other }) => {
+export const HeaderBreadcrumbs = ({ links, page, ...other }) => {
 
   return (
     <>
-      <div className='heading-action d-flex justify-content-between' style={{ ...style }}>
-        <span className='fw-bold fs-20' style={{ ...headingStyle }}>{heading}</span>
-        {action}
-      </div>
-      <Breadcrumb
-        className='mt-10'
-        style={{ ...style }}
-        items={links}
-        {...other}
-      />
+      <Breadcrumb className='color-white font-inter'>
+        <BreadcrumbList>
+          {links.map((link) => {
+            return (
+              <>
+                <BreadcrumbItem>
+                  <Link
+                    to={link.url}
+                    className='hover-link'
+                  >
+                    {link.title}
+                  </Link>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </>
+            )
+          })}
+          {/*
+        <BreadcrumbItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1">
+              <BreadcrumbEllipsis className="h-4 w-4" />
+              <span className="sr-only">Toggle menu</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem>Documentation</DropdownMenuItem>
+              <DropdownMenuItem>Themes</DropdownMenuItem>
+              <DropdownMenuItem>GitHub</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+*/}
+          <BreadcrumbItem>
+            <BreadcrumbPage>{page}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
     </>
   )
 
 }
 
-HeaderAction.propTypes = {
-  heading: PropTypes.string,
-  action: PropTypes.node,
-  headingStyle: PropTypes.object,
-  headingCustom: PropTypes.node,
-  style: PropTypes.object,
-}
-
-HeaderBreadcrumbs.propTypes = {
-  heading: PropTypes.string,
-  action: PropTypes.node,
-  links: PropTypes.array,
-  style: PropTypes.object,
-  headingStyle: PropTypes.object,
-}
+// HeaderAction.propTypes = {
+//   heading: PropTypes.string,
+//   action: PropTypes.node,
+//   headingStyle: PropTypes.object,
+//   headingCustom: PropTypes.node,
+//   style: PropTypes.object,
+// }
+//
+// HeaderBreadcrumbs.propTypes = {
+//   heading: PropTypes.string,
+//   action: PropTypes.node,
+//   links: PropTypes.array,
+//   style: PropTypes.object,
+//   headingStyle: PropTypes.object,
+// }
 

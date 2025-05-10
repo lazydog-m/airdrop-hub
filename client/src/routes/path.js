@@ -1,47 +1,32 @@
-export const PATH_PAGE = {
+function path(root, sublink) {
+  return `${root}${sublink}`;
+}
+
+const ROOTS_AUTH = '/auth';
+const ROOTS_DASHBOARD = '/dashboard';
+
+export const PATH_DASHBOARD = {
   project: {
-    list: '/project/list',
-    create: '/project/create',
-    edit: (id) => `/project/${id}/edit`,
+    list: path(ROOTS_DASHBOARD, '/project/list'),
+    create: path(ROOTS_DASHBOARD, '/project/create'),
+    edit: (id) => path(ROOTS_DASHBOARD, `/project/${id}/edit`),
   },
   profile: {
-    list: '/profile/list',
-    create: '/profile/create',
-    edit: (id) => `/profile/${id}/edit`,
+    list: path(ROOTS_DASHBOARD, '/profile/list'),
+    create: path(ROOTS_DASHBOARD, '/profile/create'),
+    edit: (id) => path(ROOTS_DASHBOARD, `/profile/${id}/edit`),
   },
-  statistics: '/statistics',
-  thong_ke: '/thong-ke',
-  voucher: {
-    tao_moi: '/voucher/tao-moi',
-    danh_sach: '/voucher/danh-sach',
-    cap_nhat: (id) => `/voucher/${id}`,
+  wallet: {
+    list: path(ROOTS_DASHBOARD, '/wallet/list'),
+    create: path(ROOTS_DASHBOARD, '/wallet/create'),
+    edit: (id) => path(ROOTS_DASHBOARD, `/wallet/${id}/edit`),
   },
-  khach_hang: {
-    tao_moi: '/khach-hang/tao-moi',
-    danh_sach: '/khach-hang/danh-sach',
-    cap_nhat: (id) => `/khach-hang/${id}`,
+  task: {
+    list: path(ROOTS_DASHBOARD, '/task/list'),
+    create: path(ROOTS_DASHBOARD, '/task/create'),
+    edit: (id) => path(ROOTS_DASHBOARD, `/task/${id}/edit`),
   },
-  nhan_vien: {
-    tao_moi: '/nhan-vien/tao-moi',
-    danh_sach: '/nhan-vien/danh-sach',
-    cap_nhat: (id) => `/nhan-vien/${id}`,
-  },
-  don_hang: {
-    danh_sach: '/don-hang/danh-sach',
-    chi_tiet: (id) => `/don-hang/${id}`,
-  },
-  san_pham: {
-    tao_moi: '/san-pham/tao-moi',
-    danh_sach: '/san-pham/danh-sach',
-    cap_nhat: (id) => `/san-pham/${id}`,
-    mau_sac: '/mau-sac/danh-sach',
-    tao_moi_mau_sac: '/mau-sac/tao-moi',
-    cap_nhat_mau_sac: (id) => `/mau-sac/${id}`,
-    thuong_hieu: '/thuong-hieu/danh-sach',
-    tao_moi_thuong_hieu: '/thuong-hieu/tao-moi',
-    cap_nhat_thuong_hieu: (id) => `/thuong-hieu/${id}`,
-  },
-  dashboard: '/darshboard',
+  app: path(ROOTS_DASHBOARD, '/app'),
 };
 
 

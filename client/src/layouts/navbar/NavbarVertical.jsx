@@ -6,8 +6,8 @@ import useResponsive from '../../hooks/useResponsive';
 import { Layout, Menu, Drawer } from 'antd';
 import './navbar-vertical-style.css'
 import { Logo, LogoMobile } from '../../components/Logo';
-import { PATH_PAGE } from '../../routes/path';
-import { ChartPie, CircleUserRound, FolderDot } from 'lucide-react';
+import { PATH_DASHBOARD } from '../../routes/path';
+import { CalendarCheck, ChartPie, CircleUserRound, FolderDot, SquareCheck, WalletIcon } from 'lucide-react';
 
 NavbarVertical.propTypes = {
   isCollapse: PropTypes.bool,
@@ -40,7 +40,7 @@ const siderStyle = {
   position: 'fixed',
   padding: '0px 5px 0px 5px',
   backgroundColor: bgColor,
-  zIndex: 1000,
+  zIndex: 1100,
   left: 0,
   top: 0,
 };
@@ -64,21 +64,31 @@ export default function NavbarVertical({ isCollapse, isOpenSidebar, onCloseSideb
       onCloseSidebar();
     }
 
+    document.body.style.overflowY = 'auto';
+
     if (pathname.includes('/project/list')) {
+      document.body.style.overflowY = 'hidden';
       setSelectedKey(['project']);
       setOpenKeys([]);
     }
-    else if (pathname.includes('/statistics')) {
+    else if (pathname.includes('/profile/list')) {
+      document.body.style.overflowY = 'hidden';
+      setSelectedKey(['profile']);
+      setOpenKeys([]);
+    }
+    else if (pathname.includes('/wallet/list')) {
+      document.body.style.overflowY = 'hidden';
+      setSelectedKey(['wallet']);
+      setOpenKeys([]);
+    }
+    else if (pathname.includes('/task')) {
+      // document.body.style.overflowY = 'hidden';
+      setSelectedKey(['task']);
+      setOpenKeys([]);
+    }
+    else if (pathname.includes('/app')) {
       setSelectedKey(['statistics']);
       setOpenKeys([]);
-    }
-    else if (pathname.includes('/don-hang')) {
-      setSelectedKey(['bill']);
-      setOpenKeys([]);
-    }
-    else if (pathname.includes('/khach-hang')) {
-      setSelectedKey(['customer']);
-      setOpenKeys(['account']);
     }
     else {
       setSelectedKey([]);
@@ -160,6 +170,8 @@ const ICONS = {
   statistics: <ChartPie size={17} />,
   project: <FolderDot size={17} />,
   profile: <CircleUserRound size={17} />,
+  wallet: <WalletIcon size={17} />,
+  task: <SquareCheck size={17} />,
 }
 
 const labelStyle = {
@@ -202,28 +214,42 @@ const ListMenuItem = ({ item, index, selectedKey, openKeys, onOpenChange, isColl
 
 const group = [
   {
-    name: 'Quản lý',
+    name: 'Menu',
     items: [
       {
         key: 'statistics',
-        label: <Link to={PATH_PAGE.statistics}>
+        label: <Link to={PATH_DASHBOARD.app}>
           <SpanStyle label="Thống Kê" />
         </Link>,
         icon: ICONS.statistics,
       },
       {
         key: 'project',
-        label: <Link to={PATH_PAGE.project.list}>
+        label: <Link to={PATH_DASHBOARD.project.list}>
           <SpanStyle label="Quản Lý Dự Án" />
         </Link>,
         icon: ICONS.project,
       },
       {
         key: 'profile',
-        label: <Link to={PATH_PAGE.profile.list}>
+        label: <Link to={PATH_DASHBOARD.profile.list}>
           <SpanStyle label="Quản Lý Hồ Sơ" />
         </Link>,
         icon: ICONS.profile,
+      },
+      {
+        key: 'wallet',
+        label: <Link to={PATH_DASHBOARD.wallet.list}>
+          <SpanStyle label="Quản Lý Ví" />
+        </Link>,
+        icon: ICONS.wallet,
+      },
+      {
+        key: 'task',
+        label: <Link to={PATH_DASHBOARD.task.list}>
+          <SpanStyle label="Quản Lý Công Việc" />
+        </Link>,
+        icon: ICONS.task,
       },
       // {
       //   key: 'account',

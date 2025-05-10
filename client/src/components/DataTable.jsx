@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
@@ -6,79 +6,104 @@ import TableHead from '@mui/material/TableHead';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { ButtonIcon, ButtonOutline } from './Button';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Button } from './ui/button';
+import { parseInt } from 'lodash';
 
-export default function DataTable({ colunms, data, hasPagination = true, ...other }) {
+const LIMIT = 12;
+export default function DataTable({ colunms, data = [], maxHeight = 650, onChangePage = () => { }, loading, pagination, ...other }) {
+
+  const start = data.length <= 0 ? 0 : (pagination?.page - 1) * LIMIT + 1;
+  const end = data.length <= 0 ? 0 : Math.min(start + LIMIT - 1, pagination?.totalItems);
+  console.log(data)
+
   return (
     <div {...other}>
-      <TableContainer component={Paper} className='custom-table'>
-        <Table>
+      <TableContainer
+        component={Paper}
+        // style={{ overflowY: 'scroll' }}
+        className='custom-table'
+        sx={{
+          maxHeight,
+        }}
+      >
+        <Table
+          stickyHeader
+          className='table-default'
+        >
           <TableHead>
             <TableRow>
               {colunms.map((item) => {
                 return (
-                  <TableCell key={item.header} align={item.align}>
-                    {item.header}
+                  <TableCell
+                    // width={item.width}
+                    key={item.header}
+                    align={item.align}
+                  >
+                    <span className='fw-bold font-inter' style={item.style}>
+                      {item.header}
+                    </span>
                   </TableCell>
                 )
               })}
             </TableRow>
           </TableHead>
           <TableBody>
-            {data}
+            {data?.length > 0 ? data :
+              <TableRow>
+                <TableCell colSpan={8}>
+                  <div className='font-inter color-white text-center' style={{ padding: '30px' }}>
+                    Chưa có dữ liệu.
+                  </div>
+                </TableCell>
+              </TableRow>
+            }
           </TableBody>
         </Table>
       </TableContainer>
 
-      {hasPagination &&
-        <div className='pagination d-flex justify-content-end gap-20'>
-
-          <div className='row-per-page mt-15 d-flex align-items-center gap-10'>
-            <span className='font-inter fs-14 color-white'>Rows per page</span>
-            <Select>
-              <SelectTrigger className="w-[70px] color-white font-inter fs-13 pointer">
-                <SelectValue defaultValue="10" placeholder='10' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup style={{ padding: '3px' }}>
-                  <SelectItem value="10" className='pointer'>10</SelectItem>
-                  <SelectItem value="20" className='pointer'>25</SelectItem>
-                  <SelectItem value="50" className='pointer'>50</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className='pagination-redirect mt-16 pe-10 d-flex align-items-center gap-20'>
-            <span className='font-inter fs-14 color-white'>1-10 of 20</span>
-
-            <div className='pagination-arrow d-flex gap-8'>
-              <Button variant="outline" size="icon" className='color-white font-inter pointer'>
-                <ChevronsLeft />
-              </Button>
-              <Button variant="outline" size="icon" className='color-white font-inter pointer'>
-                <ChevronLeft />
-              </Button>
-              <Button variant="outline" size="icon" className='color-white font-inter pointer'>
-                <ChevronRight />
-              </Button>
-              <Button variant="outline" size="icon" className='color-white font-inter pointer'>
-                <ChevronsRight />
-              </Button>
-            </div>
-          </div>
+      <div className='pagination d-flex justify-content-between mt-20 color-white font-inter'>
+        <div className='align-items-center justify-content-center d-flex fs-14 fw-400'>
+          {`Trang ${pagination?.page || 0} | Đang xem ${start || 0} - ${end || 0}/${pagination?.totalItems || 0}`}
         </div>
-      }
+
+        <div className='d-flex gap-15'>
+          <ButtonOutline
+            disabled={!pagination?.hasPre}
+            onClick={() => onChangePage('prevs')}
+            icon={
+              <ChevronsLeft />
+            }
+          />
+          <ButtonOutline
+            disabled={!pagination?.hasPre}
+            onClick={() => onChangePage('prev')}
+            icon={
+              <ChevronLeft />
+            }
+          />
+
+          <ButtonOutline
+            disabled={!pagination?.hasNext}
+            onClick={() => onChangePage('next')}
+            isReverse
+            icon={
+              <ChevronRight />
+            }
+          />
+
+          <ButtonOutline
+            disabled={!pagination?.hasNext}
+            onClick={() => onChangePage('nexts')}
+            icon={
+              <ChevronsRight />
+            }
+          />
+        </div>
+
+      </div>
 
     </div>
   );
 }
+

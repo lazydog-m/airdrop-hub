@@ -21,10 +21,12 @@ Modal.propTypes = {
 }
 
 export default function Modal({
-  isOpen, onClose, size = 'md', title, content, bottom }) {
+  isOpen, onClose, size = 'md', title, content, minH, ...other }) {
 
   return (
     <Dialog
+      // scroll='body'
+      // {...other}
       open={isOpen}
       onClose={onClose}
       TransitionComponent={Transition}
@@ -39,7 +41,6 @@ export default function Modal({
           borderRadius: 8,
           border: '2px solid #1A1A1C',
           backgroundColor: '#09090B',
-          bottom: bottom,
         }
       }}
     >
@@ -59,7 +60,9 @@ export default function Modal({
           icon={<X />}
         />
       </DialogTitle>
-      <DialogContent className='color-white'>
+      <DialogContent className='color-white' sx={{
+        minHeight: minH,
+      }}>
         {content}
       </DialogContent>
     </Dialog>

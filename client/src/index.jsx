@@ -6,18 +6,24 @@ import { LoadingProvider } from './contexts/LoadingContext'
 import { NofiticationProvider } from './contexts/NotificationContext'
 import { CollapseProvider } from './contexts/CollapseContext'
 import { Toaster } from "@/components/ui/sonner"
+import { SpinnerProvider } from './contexts/SpinnerContext.jsx'
+import { MessageProvider } from './contexts/MessageContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <HelmetProvider>
-    <LoadingProvider>
-      <NofiticationProvider>
-        <CollapseProvider>
-          <BrowserRouter>
-            <Toaster />
-            <App />
-          </BrowserRouter>
-        </CollapseProvider>
-      </NofiticationProvider>
-    </LoadingProvider>
+    <MessageProvider>
+      <LoadingProvider>
+        <SpinnerProvider>
+          <NofiticationProvider>
+            <CollapseProvider>
+              <BrowserRouter>
+                <Toaster />
+                <App />
+              </BrowserRouter>
+            </CollapseProvider>
+          </NofiticationProvider>
+        </SpinnerProvider>
+      </LoadingProvider>
+    </MessageProvider>
   </HelmetProvider>
 )

@@ -9,7 +9,6 @@ import {
 
 export default function Select({ placeholder, onValueChange, value, items = [], convertItem, ...other }) {
   return (
-
     <SelectMain
       onValueChange={onValueChange}
       value={value}
@@ -22,8 +21,8 @@ export default function Select({ placeholder, onValueChange, value, items = [], 
         <SelectGroup style={{ padding: '3px' }}>
           {items.map((item) => {
             return (
-              <SelectItem value={item} className='pointer text-capitalize'>
-                <span className="text-capitalize">
+              <SelectItem value={item} className='pointer text-capitalize' style={{ height: '35px' }}>
+                <span className="text-capitalize font-inter">
                   {convertItem ? convertItem(item) : item}
                 </span>
               </SelectItem>

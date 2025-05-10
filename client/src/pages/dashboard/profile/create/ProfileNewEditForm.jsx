@@ -6,46 +6,42 @@ import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom"
 // form
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, useWatch } from 'react-hook-form';
 import Select from "@/components/Select";
-import { ProjectCost, ProjectStatus, ProjectType } from "@/enums/enum";
 import { ButtonPrimary } from "@/components/Button";
 import { apiPost, apiPut } from "@/utils/axios";
 import useConfirm from "@/hooks/useConfirm";
 import useNotification from "@/hooks/useNotification";
-import useLoading from "@/hooks/useLoading";
 import { Checkbox } from "@/components/Checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { convertProjectStatusEnumToText } from "@/utils/convertUtil";
+import useSpinner from "@/hooks/useSpinner";
+import useMessage from "@/hooks/useMessage";
 
-export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProject, onUpdateData }) {
+export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProfile, onUpdateData }) {
 
-  const ProjectSchema = Yup.object().shape({
-    name: Yup.string()
-      .trim().required('Tên dự án không được để trống!'),
+  const ProfileSchema = Yup.object().shape({
+    email: Yup.string().email('Email không hợp lệ!')
+      .trim().required('Email không được để trống!'),
+    email_password: Yup.string()
+      .trim().required('Mật khẩu email không được để trống!'),
   });
 
-  console.log(currentProject)
-
   const defaultValues = {
-    name: currentProject?.name || '',
-    type: currentProject?.type || ProjectType.TESTNET,
-    status: currentProject?.status || ProjectStatus.DOING,
-    cost_type: currentProject?.cost_type || ProjectCost.FREE,
-    url: currentProject?.url || '',
-    tutorial_url: currentProject?.tutorial_url || '',
-    discord_url: currentProject?.discord_url || '',
-    funding_rounds_url: currentProject?.funding_rounds_url || '',
-    is_cheating: isEdit ? currentProject?.is_cheating : true,
-    has_daily_tasks: isEdit ? currentProject?.has_daily_tasks : true,
-    note: currentProject?.note || '',
-    expected_airdrop_time: currentProject?.expected_airdrop_time || '',
+    email: currentProfile?.email || '',
+    email_password: currentProfile?.email_password || '',
+    discord_password: currentProfile?.discord_password || '',
+    x_username: currentProfile?.x_username || '',
+    discord_username: currentProfile?.discord_username || '',
+    telegram_phone: currentProfile?.telegram_phone || '',
+    note: currentProfile?.note || '',
   };
 
   const methods = useForm({
-    resolver: yupResolver(ProjectSchema),
+    resolver: yupResolver(ProfileSchema),
     defaultValues,
   });
+
+  const { onSuccess } = useMessage();
 
   const {
     reset,
@@ -57,41 +53,42 @@ export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProjec
 
   const { showConfirm } = useConfirm();
   const { onOpenSuccessNotify, onOpenErrorNotify } = useNotification();
-  const { onOpenLoading, onCloseLoading } = useLoading();
+  const { onOpen, onClose } = useSpinner();
 
   const onSubmit = async (data) => {
     if (isEdit) {
       const body = {
         ...data,
-        id: currentProject.id
+        id: currentProfile.id,
+        stt: currentProfile.stt,
       }
-      showConfirm("Xác nhận cập nhật dự án?", () => put(body));
+      showConfirm("Xác nhận cập nhật hồ sơ?", () => put(body));
     }
     else {
-      showConfirm("Xác nhận thêm mới dự án?", () => post(data));
+      showConfirm("Xác nhận thêm mới hồ sơ?", () => post(data));
     }
   }
 
   const post = async (body) => {
-    onOpenLoading();
     try {
-      const response = await apiPost("/projects", body);
-      onOpenSuccessNotify("Tạo dự án thành công!");
-      onUpdateData(isEdit, response.data.data)
+      onOpen();
+      const response = await apiPost("/profiles", body);
+      onUpdateData(isEdit, response.data.data, "Tạo hồ sơ thành công!")
       onCloseModal();
     } catch (error) {
       console.error(error);
       onOpenErrorNotify(error.message);
+      onClose();
     } finally {
-      onCloseLoading();
+      // onClose();
     }
   }
 
   const put = async (body) => {
-    onOpenLoading();
     try {
-      const response = await apiPut("/projects", body);
-      onOpenSuccessNotify("Cập nhật dự án thành công!");
+      onOpen();
+      const response = await apiPut("/profiles", body);
+      onSuccess("Cập nhật hồ sơ thành công!");
       console.log(response.data)
       onUpdateData(isEdit, response.data.data)
       onCloseModal();
@@ -99,7 +96,7 @@ export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProjec
       console.error(error);
       onOpenErrorNotify(error.message);
     } finally {
-      onCloseLoading();
+      onClose();
     }
   }
 
@@ -107,125 +104,52 @@ export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProjec
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Row className='mt-5' gutter={[25, 20]} >
 
-        <Col span={!isEdit ? 12 : 8}>
+        <Col span={12}>
           <RHFInput
-            label='Tên dự án'
-            name='name'
-            placeholder='Nhập tên dự án'
+            label='Email'
+            name='email'
+            placeholder='Nhập Email'
             required
           />
         </Col>
 
-        <Col span={!isEdit ? 12 : 8}>
-          <Controller
-            name='type'
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <>
-                <label className='d-block font-inter fw-500 fs-14'>
-                  Loại dự án
-                </label>
-
-                <Select
-                  onValueChange={(value) => field.onChange(value)}
-                  value={field.value}
-                  placeholder='Select type'
-                  className='mt-10'
-                  items={[ProjectType.TESTNET, ProjectType.WEB, ProjectType.RETROACTIVE, ProjectType.DEPIN, ProjectType.GAME, ProjectType.GALXE]}
-                />
-                {error && <span className='font-inter color-red mt-3 d-block'>{error?.message}</span>}
-              </>
-            )}
-          />
-        </Col>
-
-        {isEdit &&
-          <Col span={!isEdit ? 12 : 8}>
-            <Controller
-              name='status'
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <>
-                  <label className='d-block font-inter fw-500 fs-14'>
-                    Trạng thái
-                  </label>
-
-                  <Select
-                    onValueChange={(value) => field.onChange(value)}
-                    value={field.value}
-                    placeholder='Select status'
-                    className='mt-10'
-                    items={[ProjectStatus.DOING, ProjectStatus.END_PENDING_UPDATE, ProjectStatus.SNAPSHOT, ProjectStatus.TGE, ProjectStatus.END_AIRDROP]}
-                    convertItem={convertProjectStatusEnumToText}
-                  />
-                  {error && <span className='font-inter color-red mt-3 d-block'>{error?.message}</span>}
-                </>
-              )}
-            />
-          </Col>
-        }
-
         <Col span={12}>
-          <Controller
-            name='cost_type'
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <>
-                <label className='d-block font-inter fw-500 fs-14'>
-                  Chi phí
-                </label>
-
-                <Select
-                  onValueChange={(value) => field.onChange(value)}
-                  value={field.value}
-                  placeholder='Select cost type'
-                  className='mt-10'
-                  items={[ProjectCost.FREE, ProjectCost.FEE, ProjectCost.HOLD]}
-                />
-                {error && <span className='font-inter color-red mt-3 d-block'>{error?.message}</span>}
-              </>
-            )}
+          <RHFInput
+            label='Mật khẩu Email'
+            name='email_password'
+            placeholder='Nhập mật khẩu Email'
+            required
           />
         </Col>
 
         <Col span={12}>
           <RHFInput
-            label='Thời gian dự kiến trả Airdrop'
-            name='expected_airdrop_time'
-            placeholder='Q1/Năm?'
-          />
-        </Col>
-
-
-        <Col span={12}>
-          <RHFInput
-            label='Link'
-            name='url'
-            placeholder='https://www.airhub.dev/example'
+            label='Username Discord'
+            name='discord_username'
+            placeholder='Nhập username Discord'
           />
         </Col>
 
         <Col span={12}>
           <RHFInput
-            label='Link Hướng Dẫn'
-            name='tutorial_url'
-            placeholder='https://www.airhub.dev/tutorial'
+            label='Mật khẩu Discord'
+            name='discord_password'
+            placeholder='Nhập mật khẩu Discord'
           />
         </Col>
 
         <Col span={12}>
           <RHFInput
-            label='Link Discord'
-            name='discord_url'
-            placeholder='https://discord.com/channels/123456'
+            label='Username X'
+            name='x_username'
+            placeholder='Nhập username X'
           />
         </Col>
-
         <Col span={12}>
           <RHFInput
-            label='Link Funding Rounds'
-            name='funding_rounds_url'
-            placeholder='https://cryptorank.io/ico/project'
+            label='SĐT Telegram'
+            name='telegram_phone'
+            placeholder='Nhập SĐT Telegram'
           />
         </Col>
 
@@ -262,41 +186,11 @@ export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProjec
                       }, 0);
                     }
                   }}
-                  style={{ minHeight: '80px', maxHeight: '80px' }}
+                  style={{ minHeight: '170px', maxHeight: '170px' }}
                 />
               </>
             )}
 
-          />
-        </Col>
-
-        <Col span={24} className='d-flex gap-15 mt-6'>
-          <Controller
-            name='is_cheating'
-            control={control}
-            render={({ field }) => (
-              <>
-                <Checkbox
-                  {...field}
-                  label='Cheating'
-                  checked={field.value}
-                />
-              </>
-            )}
-          />
-
-          <Controller
-            name='has_daily_tasks'
-            control={control}
-            render={({ field }) => (
-              <>
-                <Checkbox
-                  {...field}
-                  label='Task Hàng Ngày'
-                  checked={field.value}
-                />
-              </>
-            )}
           />
         </Col>
 

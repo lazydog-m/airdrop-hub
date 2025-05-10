@@ -1,4 +1,4 @@
-import { Color, ProjectCost, ProjectStatus, ProjectType } from "@/enums/enum";
+import { Color, DailyTaskRefresh, ProjectCost, ProjectStatus, ProjectType, TaskStatus, WalletStatus } from "@/enums/enum";
 
 export const convertProjectStatusEnumToText = (status) => {
 
@@ -83,11 +83,139 @@ export const convertProjectCostTypeEnumToColorHex = (costType) => {
 export const convertProjectFilterOtherToColorHex = (other) => {
 
   switch (other) {
-    case 'Cheating':
+    case 'Chưa Làm Hôm Nay':
+      return Color.ORANGE
+    case 'Cheat':
       return Color.SECONDARY
-    case 'Tasks Hàng Ngày':
+    case 'Làm Hằng Ngày':
+      return Color.SUCCESS
+    case 'Làm Mới 7 Giờ Sáng':
+      return Color.INFO
+    default: return null
+  }
+
+}
+
+export const convertWalletStatusEnumToText = (status) => {
+
+  switch (status) {
+    case WalletStatus.IN_ACTIVE:
+      return 'Đang hoạt động'
+    case WalletStatus.UN_ACTIVE:
+      return 'Ngừng hoạt động'
+    default: return null
+  }
+
+}
+
+export const convertWalletStatusEnumToReverse = (status) => {
+
+  switch (status) {
+    case WalletStatus.IN_ACTIVE:
+      return WalletStatus.UN_ACTIVE
+    case WalletStatus.UN_ACTIVE:
+      return WalletStatus.IN_ACTIVE
+    default: return null
+  }
+
+}
+
+export const convertWalletStatusEnumToTextReverse = (status) => {
+
+  switch (status) {
+    case WalletStatus.IN_ACTIVE:
+      return 'Ngừng hoạt động'
+    case WalletStatus.UN_ACTIVE:
+      return 'Đang hoạt động'
+    default: return null
+  }
+
+}
+
+export const convertWalletStatusEnumToColorHex = (status) => {
+
+  switch (status) {
+    case WalletStatus.IN_ACTIVE:
+      return Color.PRIMARY
+    case WalletStatus.UN_ACTIVE:
+      return Color.ORANGE
+    default: return null
+  }
+
+}
+
+export const convertDailyTaskRefreshEnumToText = (type) => {
+
+  switch (type) {
+    case DailyTaskRefresh.UNKNOWN:
+      return 'Chưa rõ'
+    case DailyTaskRefresh.UTC0:
+      return 'Vào lúc 7 giờ sáng (00:00 UTC)'
+    case DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP:
+      return 'Khi Hết 24 giờ tính từ lúc làm'
+    case DailyTaskRefresh.NEW_TASK:
+      return 'Khi có nhiệm vụ mới'
+    default: return null
+  }
+
+}
+
+export const convertEmailToEmailUsername = (email) => {
+  const username = email?.split('@')[0] || null;
+  return username;
+}
+
+export const shortenAddress = (address) => {
+  if (!address) return '';
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
+
+export const convertBitToBoolean = (bit) => {
+
+  switch (bit) {
+    case 1:
+      return true
+    case 0:
+      return false
+    default: return null
+  }
+
+}
+
+
+export const convertTaskStatusEnumToText = (status) => {
+
+  switch (status) {
+    case TaskStatus.TO_DO:
+      return "Cần làm"
+    case TaskStatus.IN_PROGRESS:
+      return "Đang làm"
+    case TaskStatus.TO_REVIEW:
+      return "Cần xem lại"
+    case TaskStatus.COMPLETED:
+      return "Đã hoàn thành"
+    default: return status
+  }
+
+}
+
+export const convertTaskStatusEnumToColorHex = (status) => {
+
+  switch (status) {
+    case TaskStatus.TO_DO:
+      return Color.WARNING
+    case TaskStatus.IN_PROGRESS:
+      return Color.PRIMARY
+    case TaskStatus.TO_REVIEW:
+      return Color.SECONDARY
+    case TaskStatus.COMPLETED:
       return Color.SUCCESS
     default: return null
   }
 
+}
+
+export const getMasked = (data) => {
+  const masked = "*".repeat(data.length);
+  return masked;
 }

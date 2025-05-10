@@ -33,3 +33,38 @@ export const Color = {
   BROWN: '#F5DEB3',
   BROWN1: '#C19A6B',
 }
+
+export const WalletStatus = {
+  IN_ACTIVE: 'in_active',
+  UN_ACTIVE: 'un_active',
+}
+
+export const DailyTaskRefresh = {
+  UTC0: 'utc0',
+  NEW_TASK: 'new_task',
+  COUNT_DOWN_TIME_IT_UP: 'count_down_time_it_up',
+  UNKNOWN: 'unknown',
+}
+
+export const NOT_AVAILABLE = 'N/A';
+export const TRASH_DATA_TYPE = 'TRASH_DATA_TYPE';
+export const CURRENT_DATA_TYPE = 'CURRENT_DATA_TYPE';
+
+
+export const TaskStatus = {
+  TO_DO: 'to_do',
+  IN_PROGRESS: 'in_progress',
+  TO_REVIEW: 'to_review',
+  COMPLETED: 'completed',
+}
+
+export const TaskType = {
+  NEW_PROJECT: 'new_project',
+  NEW_TASK: 'new_task',
+}
+
+export const TaskRank = {
+  HIGH: 'high',
+  MEDIUM: 'medium',
+  LOW: 'low',
+}

@@ -1,6 +1,7 @@
 import { Button } from "./ui/button";
 import { Badge } from '@/components/ui/badge'
 import { Separator } from "./ui/separator";
+import { reverse } from "lodash";
 
 export const ButtonPrimary = ({ icon, title, ...other }) => {
   return (
@@ -10,9 +11,26 @@ export const ButtonPrimary = ({ icon, title, ...other }) => {
   )
 }
 
-export const ButtonOutline = ({ icon, title, ...other }) => {
+export const ButtonDanger = ({ icon, title, ...other }) => {
   return (
-    <Button className='button-outlined font-inter pointer color-white h-40 fs-13 d-flex' {...other}>
+    <Button variant={'destructive'} className='font-inter pointer color-white h-40 fs-13 d-flex' {...other}>
+      {icon} {title}
+    </Button>
+  )
+}
+
+export const ButtonOutline = ({ icon, title, isReverse, ...other }) => {
+
+  if (isReverse) {
+    return (
+      <Button className='button-outlined font-inter pointer color-white h-40 fs-13 d-flex align-items-center justify-content-center select-none' {...other}>
+        {title} {icon}
+      </Button>
+    )
+  }
+
+  return (
+    <Button className='button-outlined font-inter pointer color-white h-40 fs-13 d-flex  align-items-center justify-content-center  select-none' {...other}>
       {icon} {title}
     </Button>
   )
@@ -31,7 +49,19 @@ export const ButtonIcon = ({ icon, variant = 'outline', ...other }) => {
   )
 }
 
-export const ButtonGhost = ({ icon, title, ...other }) => {
+export const ButtonGhost = ({ icon, title, isReverse, ...other }) => {
+  if (isReverse) {
+    return (
+      <Button
+        variant='ghost'
+        className={`color-white font-inter pointer fs-13 h-40 d-flex align-items-center`}
+        {...other}
+      >
+        {icon} {title}
+      </Button>
+    )
+  }
+
   return (
     <Button
       variant='ghost'

@@ -18,7 +18,7 @@ export const Checkbox = ({ label, checked, onChange = () => { }, ...other }) => 
 }
 
 export const CheckboxItems = ({
-  items,
+  items = [],
   selectedItems,
   onChangeSelectedItems,
   onClearSelectedItems,
@@ -52,7 +52,7 @@ export const CheckboxItems = ({
           </div>
         )
       })}
-      {selectedItems.length > 0 &&
+      {selectedItems?.length > 0 &&
         <ButtonOutline
           onClick={onClearSelectedItems}
           className='button-outlined w-full mt-5 font-inter pointer color-white h-35 fs-13 d-flex'

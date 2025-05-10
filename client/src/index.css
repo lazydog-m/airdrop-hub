@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
 /* @custom-variant dark (&:is(.dark *)); */
+
+@plugin "tailwindcss-animate";
+
+/* @plugin "tailwind-scrollbar-hide"; */
+
+/* @plugin "tailwind-scrollbar-hide"; */
+
+/* @custom-variant dark (&:is(.dark *)); */
 /* @tailwind base; */
 /* @tailwind components; */
 /* @tailwind utilities; */
@@ -14,7 +22,7 @@ iframe#webpack-dev-server-client-overlay {
   top: 0;
   left: 0;
   right: 0;
-  /* z-index: 1000; */
+  z-index: 1000;
 }
 
 .ant-layout-sider .ant-menu-item {
@@ -49,6 +57,13 @@ iframe#webpack-dev-server-client-overlay {
   background-color: var(--color) !important;
 }
 
+.ant-picker-panel-layout {
+  background-color: var(--bg) !important;
+  color: white !important;
+  border: 1px solid var(--hover) !important;
+  border-radius: 0px !important;
+}
+
 :root {
   --bg: #09090B;
   --color: #585858;
@@ -66,6 +81,7 @@ body {
   margin: 0 auto;
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji" !important;
   background-color: var(--bg) !important;
+  padding-right: 0 !important;
   /* overflow: hidden; */
 }
 
@@ -997,6 +1013,17 @@ body {
   padding: 5px;
 }
 
+.select-none {
+  user-select: none;
+  /* Không cho phép chọn văn bản */
+  -webkit-user-select: none;
+  /* Đối với trình duyệt WebKit (Safari, Chrome) */
+  -moz-user-select: none;
+  /* Đối với Firefox */
+  -ms-user-select: none;
+  /* Đối với Internet Explorer/Edge */
+}
+
 .dropdown-menu-item {
   height: 35px;
   border-radius: 5px;
@@ -1076,13 +1103,15 @@ body {
 }
 
 .custom-table {
-  border: 1px solid var(--hover);
+  border: 1px solid var(--hover) !important;
   border-radius: 6px !important;
   background-color: var(--bg) !important;
+  table-layout: fixed !important;
 }
 
 /*table header*/
 .MuiTableRow-root .MuiTableCell-head {
+  background-color: var(--bg) !important;
   line-height: 1.1 !important;
   color: var(--text-gray) !important;
   font-size: 13.5px;
@@ -1091,6 +1120,7 @@ body {
   font-family: var(--ff);
   border-bottom: 1px solid var(--hover);
   padding-block: 12px !important;
+  border-left: 1px solid var(--hover) !important;
 }
 
 /*table body*/
@@ -1099,18 +1129,25 @@ body {
   color: white !important;
   font-family: var(--ff) !important;
   font-size: 13.5px !important;
-  padding-block: 7px !important;
+  padding-block: 6.85px !important;
   letter-spacing: normal !important;
+  border-left: 1px solid var(--hover) !important;
+  /* border: 1px solid var(--hover) !important; */
   /* font-weight: 500 !important; */
+}
+
+.MuiTableCell-root:first-child {
+  border-left: none !important;
 }
 
 .MuiTableRow-root {
   transition: linear 0.1s;
+  /* background-color: var(--bg) !important; */
 }
 
 .MuiTableRow-root:hover {
-  background-color: var(--hover-row-table);
-  padding: 5px !important;
+  background-color: var(--hover-row-table) !important;
+  /* padding: 5px !important; */
   transition: linear 0.1s;
 }
 
@@ -1119,19 +1156,46 @@ body {
   /* Xóa đường viền dưới cho ô cuối cùng */
 }
 
+.css-gb76a6-MuiTableCell-root {
+  background-color: var(--bg) !important;
+}
+
+.css-1mg8qbc-MuiTableCell-root {
+  background-color: var(--bg) !important;
+}
+
 ::-webkit-scrollbar-track {
-  /* border-radius: 10px; */
+  border-radius: 10px;
   background-color: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
   background: #27272A;
-  /* border-radius: 10px; */
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9f9f9f;
+}
+
+::-webkit-scrollbar {
+  /* background-color: white !important; */
+}
+
+.custom-table {
+  overflow-y: auto !important;
+  scrollbar-highlight-color: black !important;
+  color-scheme: dark !important;
+}
+
+/* .custom-table::-webkit-scrollbar { */
+/*   background: black !important; */
+/* } */
 
 .custom-input::placeholder {
   font-family: var(--ff) !important;
@@ -1188,4 +1252,293 @@ body {
   color: #00BAFE;
   text-decoration: underline;
   text-decoration-color: #00BAFE;
+}
+
+.text-too-long {
+  display: block;
+  width: 200px;
+  /* Đặt chiều rộng phù hợp */
+  white-space: nowrap;
+  /* Ngăn không cho xuống dòng */
+  overflow: hidden;
+  /* Ẩn phần văn bản bị tràn */
+  text-overflow: ellipsis;
+  /* Thêm dấu ... */
+}
+
+.text-too-long-500 {
+  display: block;
+  width: 500px;
+  /* Đặt chiều rộng phù hợp */
+  white-space: nowrap;
+  /* Ngăn không cho xuống dòng */
+  overflow: hidden;
+  /* Ẩn phần văn bản bị tràn */
+  text-overflow: ellipsis;
+  /* Thêm dấu ... */
+}
+
+.copy {
+  user-select: none;
+  /* CSS cho các trình duyệt hiện đại */
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  cursor: pointer;
+}
+
+.ant-message-success {
+  font-family: var(--ff) !important;
+}
+
+.ant-message-inner {
+  background-color: #22C55E !important;
+}
+
+:where(.css-dev-only-do-not-override-1261szd).ant-message .ant-message-notice-wrapper .ant-message-notice-content {
+  background-color: #22C55E !important;
+}
+
+.ant-tooltip-inner {
+  font-family: var(--ff) !important;
+  background-color: var(--hover) !important;
+  margin-bottom: 3px !important;
+  /* Màu nền mong muốn */
+  /* color: #000 !important; */
+  /* Màu chữ */
+}
+
+.autocomplete {
+  margin: 1px 0 0 0;
+  position: absolute;
+  border: 1px solid #262626;
+  border-radius: 5px;
+  color: white;
+  background-color: var(--bg);
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  z-index: 1000;
+  padding: 5px 5px 5px 5px;
+  max-height: 187px;
+  overflow-y: auto;
+}
+
+.autocomplete-item {
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: var(--ff);
+  font-size: 13.5px;
+  height: 35px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+.autocomplete-item:hover {
+  background-color: #272727;
+}
+
+/* .button-icon-star:hover .star { */
+/*   color: #FCB700; */
+/* } */
+
+.active-row {
+  background-color: var(--hover-row-table);
+}
+
+.task-row {
+  height: 50px;
+  padding-inline: 20px;
+  /* transition: linear 0.1s; */
+  border-bottom: 1px solid var(--hover);
+}
+
+.task-row:hover {
+  background-color: var(--hover-row-table);
+  border-radius: 5px;
+}
+
+.task-name:hover {
+  /* cursor: pointer; */
+  /* color: #38B6FF; */
+  /* transition: linear 0.1s; */
+}
+
+.task-container {
+  overflow-x: auto;
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-highlight-color: black !important;
+  color-scheme: dark !important;
+}
+
+.task-row {
+  display: flex;
+  height: 53px;
+  min-width: 1200px;
+}
+
+.task-cell {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.tiptap p {
+  font-size: 20px !important;
+  font-family: var(--ff) !important;
+  color: white !important;
+}
+
+.tiptap {
+  background-color: var(--bg);
+}
+
+.tiptap li[data-checked] input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 7px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.tiptap li[data-checked='true'] {
+  text-decoration: line-through !important;
+  text-decoration-color: white !important;
+}
+
+.tiptap ol {
+  font-size: 20px;
+  color: white !important;
+}
+
+.reactjs-tiptap-editor {
+  color: var(--hover) !important;
+}
+
+.reactjs-tiptap-editor .richtext-items-center {
+  color: white !important;
+}
+
+.hover-link {
+  color: #9C999B;
+}
+
+.hover-link:hover {
+  color: white;
+}
+
+.richtext-dialog-content {
+  border-color: var(--hover) !important;
+}
+
+.MuiSvgIcon-root,
+.MuiTypography-root {
+  color: white !important;
+  font-family: var(--ff) !important;
+}
+
+.MuiButtonBase-root {
+  color: white !important;
+  font-family: var(--ff) !important;
+}
+
+.css-1mvmid-MuiYearCalendar-button.Mui-selected {
+  background-color: #666 !important;
+  font-family: var(--ff) !important;
+}
+
+.MuiYearCalendar-button.Mui-disabled {
+  color: var(--text-gray) !important;
+  font-family: var(--ff) !important;
+}
+
+.MuiYearCalendar-button:not(.Mui-disabled) {
+  color: white !important;
+  font-family: var(--ff) !important;
+}
+
+.loader {
+  position: relative;
+  width: 60px;
+  /* Giảm kích thước thêm */
+  height: 60px;
+  /* Giảm kích thước thêm */
+  border-radius: 50%;
+  animation: rotate 0.75s linear infinite;
+}
+
+.loader::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  /* Giảm kích thước */
+  height: 16px;
+  /* Giảm kích thước */
+  border: 1px solid #ff3d00;
+  border-width: 5px 1px 3px;
+  /* Điều chỉnh cho phù hợp */
+  border-radius: 2px 2px 1px 1px;
+  box-sizing: border-box;
+  transform: rotate(45deg) translate(10px, -4px);
+  /* Điều chỉnh vị trí */
+  background-image: linear-gradient(#ff3d00 8px, transparent 0),
+    linear-gradient(#ff3d00 12px, transparent 0),
+    linear-gradient(#ff3d00 12px, transparent 0);
+  background-size: 4px 5px, 0.5px 12px, 0.5px 12px;
+  /* Điều chỉnh kích thước */
+  background-repeat: no-repeat;
+  background-position: center, 5px 0px, 1px 0px;
+  /* Điều chỉnh vị trí */
+}
+
+.loader::after {
+  content: '';
+  position: absolute;
+  height: 1.5px;
+  /* Giảm kích thước */
+  width: 1.5px;
+  /* Giảm kích thước */
+  left: 8px;
+  /* Điều chỉnh vị trí */
+  top: 18px;
+  /* Điều chỉnh vị trí */
+  border-radius: 50%;
+  color: #fff;
+  box-shadow: -1.5px 2px 1px, -2px 6px 1px,
+    -4px 9px 2px 1px, -2px 9px 2px,
+    -5px 13px 3px 1px, -1px 14px 4px,
+    -1.5px 17px 3px 1px, -5px 20px 3px 1px,
+    2px 24px 5px 1px, -3px 26px 5px 1px,
+    3px 28px 6px, -1px 30px 7px;
+  /* Điều chỉnh bóng */
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#nprogress {
+  pointer-events: none;
+  z-index: 9999 !important;
+}
+
+#nprogress .bar {
+  position: fixed;
+  z-index: 9999 !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+.css-d7yl7t-MuiButtonBase-root-MuiPickersDay-root.Mui-disabled {
+  color: var(--text-gray) !important;
+  font-family: var(--ff) !important;
 }
