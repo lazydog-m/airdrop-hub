@@ -22,12 +22,16 @@ export default function TaskNewEdit() {
       onOpen();
       try {
         const response = await apiGet(`/tasks/${id}`);
-        setData(response.data.data || []);
-        console.log(response.data);
+        setTimeout(() => {
+          setData(response.data.data || []);
+          console.log(response.data);
+          onClose();
+        }, 200);
       } catch (error) {
         console.error(error);
-      } finally {
         onClose();
+      } finally {
+        // onClose();
       }
     }
 

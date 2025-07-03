@@ -32,7 +32,7 @@ export default function ProfileFilterSearch({
   }
 
   return (
-    <div className="d-flex mt-20 justify-content-between align-items-center">
+    <div className="mt-20 justify-content-between align-items-center">
       <div className="filter-search d-flex gap-10">
         <Input
           placeholder='Tìm kiếm hồ sơ ...'
@@ -81,6 +81,7 @@ export default function ProfileFilterSearch({
         </div>
 */}
       </div>
+      <span className='color-red mt-10 ms-2 d-block font-inter'>Lưu ý: 1 tài khoản Google được liên kết với các tài khoản như X, Discord và Telegram</span>
     </div>
   )
 }

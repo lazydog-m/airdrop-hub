@@ -1120,7 +1120,7 @@ body {
   font-family: var(--ff);
   border-bottom: 1px solid var(--hover);
   padding-block: 12px !important;
-  border-left: 1px solid var(--hover) !important;
+  /* border-left: 1px solid var(--hover) !important; */
 }
 
 /*table body*/
@@ -1131,7 +1131,7 @@ body {
   font-size: 13.5px !important;
   padding-block: 6.85px !important;
   letter-spacing: normal !important;
-  border-left: 1px solid var(--hover) !important;
+  /* border-left: 1px solid var(--hover) !important; */
   /* border: 1px solid var(--hover) !important; */
   /* font-weight: 500 !important; */
 }
@@ -1159,6 +1159,11 @@ body {
 .css-gb76a6-MuiTableCell-root {
   background-color: var(--bg) !important;
 }
+
+/* .MuiTableRow-head { */
+/*   background-color: red !important; */
+/*   transition: linear 0.1s; */
+/* } */
 
 .css-1mg8qbc-MuiTableCell-root {
   background-color: var(--bg) !important;

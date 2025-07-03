@@ -4,7 +4,8 @@ import TableRow from '@mui/material/TableRow';
 import DataTable from '@/components/DataTable';
 import { ButtonIcon } from '@/components/Button';
 import { convertProjectCostTypeEnumToColorHex, convertProjectStatusEnumToColorHex, convertProjectStatusEnumToText, convertProjectTypeEnumToColorHex } from '@/utils/convertUtil';
-import { Check, CheckCheck, ClockIcon, Ellipsis, Fingerprint, Pickaxe, SquareArrowOutUpRight, SquarePen, Star, Trash2, X } from 'lucide-react';
+import { Check, CheckCheck, ClockIcon, Ellipsis, Fingerprint, ListCheck, ListTodo, Pickaxe, SquareArrowOutUpRight, SquarePen, Star, Trash2, X } from 'lucide-react';
+import { TbBrandDiscord, TbCalendarCheck } from "react-icons/tb";
 import { Badge } from '@/components/ui/badge';
 import { Color, DailyTaskRefresh, NOT_AVAILABLE, ProjectStatus } from '@/enums/enum';
 import { Link } from 'react-router-dom';
@@ -312,7 +313,7 @@ export default function ProjectDataTable({ data = [], onUpdateData, onDeleteData
                     color: 'black',
                   }}
                 >
-                  <Pickaxe size={'15px'} />
+                  <TbCalendarCheck size={'15px'} />
                 </Badge>
               }
               {/* row.daily_tasks && row.daily_tasks?.trim() !== '' && row.daily_tasks_completed && !row.daily_tasks_refresh_end_of_day &&

@@ -148,6 +148,7 @@ export default function TaskNewEditForm({ isEdit, currentTask, onUpdateData }) {
             name='task_name'
             placeholder='Nhập tên công việc'
             required
+            style={{ height: '45px', fontSize: '15px' }}
           />
         </Col>
 

@@ -152,7 +152,7 @@ export const convertDailyTaskRefreshEnumToText = (type) => {
     case DailyTaskRefresh.UTC0:
       return 'Vào lúc 7 giờ sáng (00:00 UTC)'
     case DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP:
-      return 'Khi Hết 24 giờ tính từ lúc làm'
+      return 'Khi hết 24 giờ đếm ngược'
     case DailyTaskRefresh.NEW_TASK:
       return 'Khi có nhiệm vụ mới'
     default: return null
