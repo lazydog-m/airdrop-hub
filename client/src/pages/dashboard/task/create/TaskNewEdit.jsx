@@ -8,6 +8,7 @@ import Container from "@/components/Container";
 import { HeaderAction, HeaderBreadcrumbs } from "@/components/HeaderSection";
 import { PATH_DASHBOARD } from "@/routes/path";
 import TaskNewEditForm from './TaskNewEditForm';
+import { delayApi } from '@/utils/commonUtil';
 
 export default function TaskNewEdit() {
 
@@ -22,11 +23,11 @@ export default function TaskNewEdit() {
       onOpen();
       try {
         const response = await apiGet(`/tasks/${id}`);
-        setTimeout(() => {
+        delayApi(() => {
           setData(response.data.data || []);
           console.log(response.data);
           onClose();
-        }, 200);
+        })
       } catch (error) {
         console.error(error);
         onClose();

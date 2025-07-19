@@ -7,13 +7,13 @@ export default function CopyButton({ text, textTooLong, copied, onCopy, ...other
   return (
     <Badge
       onClick={text === NOT_AVAILABLE ? () => { } : onCopy}
-      variant={'secondary'}
-      className='custom-badge copy'
+      // variant={'secondary'}
+      className='badge-default copy font-inter'
       {...other}>
-      <span className={textTooLong ? 'text-too-long' : ''}>
+      <span className={textTooLong ? 'text-too-long font-inter' : ''}>
         {text}
       </span>
-      <span className='ms-4'>
+      <span className='ms-4 font-inter'>
         {text === NOT_AVAILABLE ? null : copied ? <CopyCheck size={'14px'} /> : <Copy size={'14px'} />}
       </span>
     </Badge>

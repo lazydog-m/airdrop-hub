@@ -33,21 +33,21 @@ export default function Modal({
       maxWidth={size}
       BackdropProps={{
         style: {
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
         },
       }}
       PaperProps={{
         style: {
-          borderRadius: 8,
-          border: '2px solid #1A1A1C',
-          backgroundColor: '#09090B',
+          borderRadius: 0,
+          border: '1px solid #404040',
+          backgroundColor: '#202020',
         }
       }}
     >
       <DialogTitle
         className='d-flex justify-content-between align-items-center color-white font-inter'
         sx={{
-          letterSpacing: 'normal',
+          letterSpacing: '0.05em',
           fontSize: 18
         }}
       >
@@ -61,7 +61,7 @@ export default function Modal({
         />
       </DialogTitle>
       <DialogContent className='color-white' sx={{
-        minHeight: minH,
+        minHeight: minH
       }}>
         {content}
       </DialogContent>

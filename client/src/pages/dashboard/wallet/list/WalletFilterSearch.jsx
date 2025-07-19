@@ -6,7 +6,7 @@ import Popover from "@/components/Popover";
 import { ButtonGhost, ButtonOutlineTags } from '@/components/Button';
 import { Color, WalletStatus } from '@/enums/enum';
 import { Badge } from '@/components/ui/badge';
-import { convertWalletStatusEnumToColorHex, convertWalletStatusEnumToText } from '@/utils/convertUtil';
+import { convertWalletStatusEnumToColorHex, convertWalletStatusEnumToText, darkenColor, lightenColor } from '@/utils/convertUtil';
 import useDebounce from '@/hooks/useDebounce';
 
 export default function WalletFilterSearch({
@@ -37,7 +37,7 @@ export default function WalletFilterSearch({
         <Input
           placeholder='Tìm kiếm ví ...'
           style={{ width: '200px' }}
-          className='color-white font-inter h-40 fs-13'
+          className='custom-input'
           value={filterSearch}
           onChange={(event) => setFilterSearch(event.target.value)}
         />
@@ -94,8 +94,12 @@ const Tags = ({ selectedItems, style = () => { }, convert }) => {
     selectedItems.map((item) => {
       return (
         <Badge
-          style={{ backgroundColor: style(item) }}
-          className='text-capitalize font-inter fw-400 fs-12'
+          style={{
+            backgroundColor: darkenColor(style(item)),
+            borderColor: lightenColor(style(item)),
+            color: 'white'
+          }}
+          className='text-capitalize fw-400 fs-12 bdr'
         >
           {convert ? convert(item) : item}
         </Badge>

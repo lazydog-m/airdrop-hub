@@ -2,13 +2,13 @@ import * as React from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import DataTable from '@/components/DataTable';
-import { ButtonIcon } from '@/components/Button';
-import { SquarePen, Trash2, WalletIcon } from 'lucide-react';
+import { ButtonIcon, ButtonOutline, ButtonPrimary } from '@/components/Button';
+import { Chrome, Loader, SquarePen, Trash2, WalletIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Color, NOT_AVAILABLE } from '@/enums/enum';
 import Modal from '@/components/Modal';
 import useSpinner from '@/hooks/useSpinner';
-import { apiDelete, apiPut } from '@/utils/axios';
+import { apiDelete, apiGet, apiPost, apiPut } from '@/utils/axios';
 import useConfirm from '@/hooks/useConfirm';
 import useNotification from '@/hooks/useNotification';
 import SwitchStyle from '@/components/Switch';
@@ -18,31 +18,47 @@ import ProfileWalletList from './profile-wallet/ProfileWalletList';
 import useCopy from '@/hooks/useCopy';
 import CopyButton from '@/components/CopyButton';
 import useMessage from '@/hooks/useMessage';
+import { Checkbox } from '@/components/Checkbox';
+import { Button } from '@/components/ui/button';
 
 const colunms = [
-  { header: '#', align: 'left' },
-  { header: 'Tên Hồ Sơ', align: 'left' },
-  { header: 'Email', align: 'left' },
-  { header: 'Mật Khẩu Email', align: 'left' },
-  { header: 'Username X', align: 'left' },
-  { header: 'Username Discord', align: 'left' },
-  { header: 'Mật Khẩu Discord', align: 'left' },
-  { header: 'SĐT Telegram', align: 'left' },
+  { header: 'Hồ Sơ', align: 'left' },
+  // { header: 'Email', align: 'left' },
+  // { header: 'Mật Khẩu Email', align: 'left' },
+  // { header: 'Username X', align: 'left' },
+  // { header: 'Username Discord', align: 'left' },
+  // { header: 'Mật Khẩu Discord', align: 'left' },
+  // { header: 'SĐT Telegram', align: 'left' },
   { header: '', align: 'left' },
 ]
 
 const DataTableMemo = React.memo(DataTable);
 
-export default function ProfileDataTable({ data = [], onUpdateData, onDeleteData, pagination, onChangePage }) {
-  console.log(data)
+export default function ProfileDataTable({
+  data = [],
+  onUpdateData,
+  onDeleteData,
+  onChangePage,
+  pagination,
+  onSelectAllRows,
+  onSelectRow,
+  openningIds = new Set(),
+  onAddOpenningId,
+  onRemoveOpenningId,
+  selected = [],
+  loadingIds = new Set(),
+  onAddLoadingId,
+  onRemoveLoadingId,
+}) {
+
   const [open, setOpen] = React.useState(false);
-  const [openProfile, setOpenProfile] = React.useState(false);
+  const [openProfileWallet, setOpenProfileWallet] = React.useState(false);
   const [profile, setProfile] = React.useState({});
   const { onOpen, onClose } = useSpinner();
   const { showConfirm } = useConfirm();
-  const { onOpenSuccessNotify, onOpenErrorNotify } = useNotification();
   const { copied, handleCopy } = useCopy();
-  const { onSuccess } = useMessage();
+  const { onSuccess, onError } = useMessage();
+  const isEdit = true;
 
   const handleCopyText = (id, text, type) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -60,72 +76,94 @@ export default function ProfileDataTable({ data = [], onUpdateData, onDeleteData
     setOpen(false);
   };
 
-  const handleClickOpenWallet = (item) => {
-    setOpenProfile(true);
+  const handleClickOpenProfileWallet = (item) => {
+    setOpenProfileWallet(true);
     setProfile(item);
   };
 
-  const handleCloseWallet = () => {
-    setOpenProfile(false);
+  const handleCloseProfileWallet = () => {
+    setOpenProfileWallet(false);
   };
 
-  // const handleUpdateWalletStatus = (id, status) => {
-  //   const statusToTextReverse = convertWalletStatusEnumToTextReverse(status);
-  //   const body = {
-  //     id,
-  //     status: convertWalletStatusEnumToReverse(status),
-  //   };
-  //   showConfirm(`Xác nhận cập nhật trạng thái của ví thành '${statusToTextReverse?.toUpperCase()}'?`, () => putStatus(body));
-  // }
-  //
-  // const putStatus = async (body) => {
-  //   onOpen();
-  //   console.log(body)
-  //   try {
-  //     const response = await apiPut(`/wallets/status`, body);
-  //     onUpdateData(true, response.data.data);
-  //     onOpenSuccessNotify("Cập nhật trạng thái của ví thành công!");
-  //   } catch (error) {
-  //     console.error(error);
-  //     onOpenErrorNotify(error.message);
-  //   } finally {
-  //     onClose();
-  //   }
-  // }
 
   const handleDelete = (id) => {
     showConfirm("Xác nhận xóa hồ sơ?", () => remove(id));
+  }
+
+  const triggerRemove = () => {
+    onSuccess("Xóa hồ sơ thành công!")
+    onClose();
   }
 
   const remove = async (id) => {
     try {
       onOpen();
       const response = await apiDelete(`/profiles/${id}`);
-      onDeleteData("Xóa hồ sơ thành công!");
+      onDeleteData(response.data.data, triggerRemove);
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
+      onError(error.message);
       onClose();
-    } finally {
-      // onClose();
+    }
+  }
+
+  const handleOpenProfile = (id) => {
+    openProfile(id);
+  }
+
+  const handleCloseProfile = (id) => {
+    closeProfile(id);
+  }
+
+  const openProfile = async (id) => {
+    try {
+      onAddLoadingId(id);
+      const response = await apiGet(`/profiles/${id}/open`);
+      const profileId = response.data.data;
+      onSuccess("Mở thành công!");
+      onAddOpenningId(profileId);
+      onRemoveLoadingId(profileId);
+    } catch (error) {
+      console.error(error);
+      onError(error.message);
+      onRemoveLoadingId(id);
+    }
+  }
+
+  const closeProfile = async (id) => {
+    try {
+      onAddLoadingId(id);
+      const response = await apiGet(`/profiles/${id}/close`);
+      const profileId = response.data.data;
+      onSuccess("Đóng thành công!");
+      onRemoveOpenningId(profileId);
+      onRemoveLoadingId(profileId);
+    } catch (error) {
+      console.error(error);
+      onError(error.message);
+      onRemoveLoadingId(id);
     }
   }
 
   const rows = React.useMemo(() => {
     return data.map((row, index) => (
       <TableRow
+        className='table-row'
         key={row.id}
+        selected={selected.includes(row.id)}
       >
         <TableCell align="left">
-          <span className='font-inter d-flex color-white'>
-            {row.stt}
-          </span>
+          <Checkbox
+            checked={selected.includes(row.id)}
+            onClick={() => onSelectRow(row.id)}
+          />
         </TableCell>
         <TableCell align="left">
           <span>
-            {convertEmailToEmailUsername(row.email)}
+            {row.email}
           </span>
         </TableCell>
+        {/*
         <TableCell align="left">
           <CopyButton
             text={row.email}
@@ -168,40 +206,78 @@ export default function ProfileDataTable({ data = [], onUpdateData, onDeleteData
             onCopy={(copied.id !== row.id || copied.type !== TELEGRAM_PHONE_TYPE) ? () => handleCopyText(row.id, row.telegram_phone, TELEGRAM_PHONE_TYPE) : () => { }}
           />
         </TableCell>
+*/}
         {/*
               <TableCell align="left">
                 <SwitchStyle checked={row.status === WalletStatus.IN_ACTIVE} onClick={() => handleUpdateWalletStatus(row.id, row.status)} />
               </TableCell>
 */}
-        <TableCell align="left">
+        <TableCell align="left" style={{ userSelect: '-moz-none' }}>
+          {openningIds.has(row.id) ?
+            <ButtonOutline
+              onClick={() => handleCloseProfile(row.id)}
+              style={{
+                // width: '80px',
+                opacity: loadingIds.has(row.id) ? '0.5' : '1',
+                pointerEvents: loadingIds.has(row.id) ? 'none' : '',
+                height: '36.5px',
+              }}
+              icon={loadingIds.has(row.id) ? <Loader className="animate-spin" /> : <Chrome />}
+              title='Đóng'
+            />
+            :
+            <ButtonPrimary
+              onClick={() => handleOpenProfile(row.id)}
+              style={{
+                // width: '60px',
+                opacity: loadingIds.has(row.id) ? '0.5' : '1',
+                pointerEvents: loadingIds.has(row.id) ? 'none' : '',
+                height: '36.5px',
+              }}
+              icon={loadingIds.has(row.id) ? <Loader className="animate-spin" /> : <Chrome />}
+              title='Mở'
+            />
+          }
+
+          {/*
           <ButtonIcon
             onClick={() => handleClickOpen(row)}
             variant='ghost'
             icon={<SquarePen color={Color.WARNING} />}
           />
           <ButtonIcon
-            onClick={() => handleClickOpenWallet(row)}
+            onClick={() => handleClickOpenProfileWallet(row)}
             variant='ghost'
             icon={<WalletIcon color={Color.SECONDARY} />}
           />
+
           <ButtonIcon
             onClick={() => handleDelete(row.id)}
             variant='ghost'
             icon={<Trash2 color={Color.DANGER} />}
           />
+*/}
         </TableCell>
       </TableRow >
     ))
-  }, [data, copied]);
+  }, [data, copied, selected, loadingIds, openningIds]);
 
   return (
     <>
       <DataTableMemo
-        className='mt-15'
+        className='mt-20'
         colunms={colunms}
         data={rows}
-        onChangePage={onChangePage}
         pagination={pagination}
+
+        selected={selected}
+        isCheckedAll={data.length > 0 && data?.every(row => selected?.includes(row.id))}
+        isIndeterminate={selected.length > 0 && data?.some(row => selected.includes(row.id)) && !data.every(row => selected.includes(row.id))}
+
+        onSelectAllRows={onSelectAllRows}
+        onChangePage={onChangePage}
+
+        selectedObjText={'hồ sơ'}
       />
 
       <Modal
@@ -212,7 +288,7 @@ export default function ProfileDataTable({ data = [], onUpdateData, onDeleteData
           <ProfileNewEditForm
             onCloseModal={handleClose}
             currentProfile={profile}
-            isEdit={true}
+            isEdit={isEdit}
             onUpdateData={onUpdateData}
           />
         }
@@ -221,8 +297,8 @@ export default function ProfileDataTable({ data = [], onUpdateData, onDeleteData
       <Modal
         // minH={'500px'}
         size='xl'
-        isOpen={openProfile}
-        onClose={handleCloseWallet}
+        isOpen={openProfileWallet}
+        onClose={handleCloseProfileWallet}
         title={"Danh sách địa chỉ ví"}
         content={
           <ProfileWalletList id={profile.id} />

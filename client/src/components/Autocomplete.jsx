@@ -1,32 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Input } from './ui/input';
 
-const suggestions = [
-  'Apple',
-  'Apple1',
-  'Apple2',
-  'Apple3',
-  'Apple4',
-  'Apple5',
-  'Applex',
-  'Apple5x',
-  'Apple5a',
-  'Apple5s',
-  'Apple5d',
-  'Apple5f',
-  'Apple5q',
-  'Apple51',
-  'Apple52',
-  'Apple53',
-  'Banana',
-  'Cherry',
-  'Date',
-  'Elderberry',
-  'Fig',
-  'Grape',
-  'Honeydew',
-];
-
 function AutocompleteInput({ value = '', items = [], onChange = () => { }, ...other }) {
   const [inputValue, setInputValue] = useState(value);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -165,7 +139,7 @@ function AutocompleteInput({ value = '', items = [], onChange = () => { }, ...ot
               key={index}
               onMouseDown={handleSuggestionMouseDown}
               style={{
-                backgroundColor: highlightedIndex === index ? '#272727' : '',
+                backgroundColor: highlightedIndex === index ? '#505050' : '',
               }}
             >
               {suggestion}

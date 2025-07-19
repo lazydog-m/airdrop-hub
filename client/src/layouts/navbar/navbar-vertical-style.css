@@ -1,6 +1,7 @@
 .nav-vertical {
   overflow-y: auto !important;
-  border-right: 1px solid #27272A !important;
+  overflow-x: hidden !important;
+  border-right: 1px solid #1E1E1E !important;
 }
 
 .ant-menu .ant-menu-submenu-arrow {

@@ -27,7 +27,7 @@ export default function RHFInput({ name, label, required, ...other }) {
             </label>
           }
           <Input
-            className='mt-10 font-inter custom-input'
+            className='mt-10 font-inter custom-input focus-visible:ring-0'
             autoComplete='off'
             {...field}
             {...other}

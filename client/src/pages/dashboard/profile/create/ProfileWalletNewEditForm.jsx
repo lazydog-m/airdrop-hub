@@ -43,7 +43,6 @@ export default function ProfileWalletNewEditForm({ isEdit, currentProfileWallet,
   });
 
   const [loading, setLoading] = useState(false);
-  const { onSuccess } = useMessage();
 
   const {
     reset,
@@ -54,7 +53,7 @@ export default function ProfileWalletNewEditForm({ isEdit, currentProfileWallet,
   } = methods;
 
   const { showConfirm } = useConfirm();
-  const { onOpenSuccessNotify, onOpenErrorNotify } = useNotification();
+  const { onSuccess, onError } = useMessage();
   const { onOpen, onClose } = useSpinner();
 
   const onSubmit = async (data) => {
@@ -62,7 +61,6 @@ export default function ProfileWalletNewEditForm({ isEdit, currentProfileWallet,
       const body = {
         ...data,
         id: currentProfileWallet.id,
-        stt: currentProfileWallet.stt,
         profile_id: currentProfileWallet.profile_id,
         wallet_name: findWalletNameByWalletId(data.wallet_id),
         need_check_wallet_id: data.wallet_id !== currentProfileWallet.wallet_id, // ví chọn khác ví hiện tại
@@ -80,19 +78,21 @@ export default function ProfileWalletNewEditForm({ isEdit, currentProfileWallet,
     }
   }
 
+  const triggerPost = () => {
+    onSuccess("Tạo địa chỉ ví thành công!");
+    onCloseModal();
+    onClose();
+  }
+
   const post = async (body) => {
     try {
       onOpen();
       const response = await apiPost("/profile-wallets", body);
-      // onSuccess("Tạo địa chỉ ví thành công!");
-      onUpdateData(isEdit, response.data.data, "Tạo địa chỉ ví thành công!")
-      onCloseModal();
+      onUpdateData(isEdit, response.data.data, triggerPost)
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
+      onError(error.message);
       onClose();
-    } finally {
-      // onClose();
     }
   }
 
@@ -101,13 +101,12 @@ export default function ProfileWalletNewEditForm({ isEdit, currentProfileWallet,
       onOpen();
       const response = await apiPut("/profile-wallets", body);
       onSuccess("Cập nhật địa chỉ ví thành công!");
-      console.log(response.data)
       onUpdateData(isEdit, response.data.data)
       onCloseModal();
+      onClose();
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
-    } finally {
+      onError(error.message);
       onClose();
     }
   }
@@ -122,11 +121,11 @@ export default function ProfileWalletNewEditForm({ isEdit, currentProfileWallet,
         setLoading(true);
         const response = await apiGet("/wallets/no-page", params);
         setWallets(response.data.data || []);
-        console.log(response.data);
+        setLoading(false);
       } catch (error) {
         console.error(error);
-      } finally {
-        setLoading(false);
+        onError(error.message)
+        // setLoading(false);
       }
     }
 

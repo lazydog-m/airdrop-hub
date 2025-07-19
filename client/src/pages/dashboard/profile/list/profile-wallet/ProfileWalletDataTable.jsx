@@ -17,9 +17,9 @@ import ProfileWalletNewEditForm from '../../create/ProfileWalletNewEditForm';
 import CopyButton from '@/components/CopyButton';
 import useCopy from '@/hooks/useCopy';
 import useMessage from '@/hooks/useMessage';
+import { Checkbox } from '@/components/Checkbox';
 
 const colunms = [
-  { header: '#', align: 'left' },
   { header: 'Ví', align: 'left' },
   { header: 'Địa Chỉ Ví', align: 'left' },
   { header: 'Mật Khẩu Ví', align: 'left' },
@@ -29,14 +29,23 @@ const colunms = [
 
 const DataTableMemo = React.memo(DataTable);
 
-export default function ProfileWalletDataTable({ data = [], onUpdateData, onDeleteData, pagination, onChangePage }) {
+export default function ProfileWalletDataTable({
+  data = [],
+  onUpdateData,
+  onDeleteData,
+  onChangePage,
+  pagination,
+  onSelectAllRows,
+  onSelectRow,
+  selected = []
+}) {
   const [open, setOpen] = React.useState(false);
   const [profileWallet, setProfileWallet] = React.useState({});
   const { onOpen, onClose } = useSpinner();
   const { showConfirm } = useConfirm();
-  const { onOpenSuccessNotify, onOpenErrorNotify } = useNotification();
   const { copied, handleCopy } = useCopy();
-  const { onSuccess } = useMessage();
+  const { onSuccess, onError } = useMessage();
+  const isEdit = true;
 
   const handleCopyText = (id, text, type) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -57,17 +66,18 @@ export default function ProfileWalletDataTable({ data = [], onUpdateData, onDele
   const rows = React.useMemo(() => {
     return data.map((row, index) => (
       <TableRow
+        className='table-row'
         key={row.id}
+        selected={selected.includes(row.id)}
       >
         <TableCell align="left">
-          <span className='font-inter d-flex color-white'>
-            {row.stt}
-          </span>
+          <Checkbox
+            checked={selected.includes(row.id)}
+            onClick={() => onSelectRow(row.id)}
+          />
         </TableCell>
         <TableCell align="left">
-          <Badge variant={'secondary'} className='custom-badge'>
-            {row.name}
-          </Badge>
+          {row.name}
         </TableCell>
         <TableCell align="left">
           <CopyButton
@@ -100,17 +110,25 @@ export default function ProfileWalletDataTable({ data = [], onUpdateData, onDele
         </TableCell>
       </TableRow >
     ))
-  }, [data, copied]);
+  }, [data, copied, selected]);
 
   return (
     <>
       <DataTableMemo
         maxHeight={499}
-        className='mt-15'
+        className='mt-20'
         colunms={colunms}
         data={rows}
-        onChangePage={onChangePage}
         pagination={pagination}
+
+        selected={selected}
+        isCheckedAll={data.length > 0 && data?.every(row => selected?.includes(row.id))}
+        isIndeterminate={selected.length > 0 && data?.some(row => selected.includes(row.id)) && !data.every(row => selected.includes(row.id))}
+
+        onSelectAllRows={onSelectAllRows}
+        onChangePage={onChangePage}
+
+        selectedObjText={'hồ sơ'}
       />
 
       <Modal
@@ -122,7 +140,7 @@ export default function ProfileWalletDataTable({ data = [], onUpdateData, onDele
           <ProfileWalletNewEditForm
             onCloseModal={handleClose}
             currentProfileWallet={profileWallet}
-            isEdit={true}
+            isEdit={isEdit}
             onUpdateData={onUpdateData}
           />
         }

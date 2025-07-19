@@ -18,7 +18,7 @@ export const SelectItems = ({
                 className={`pointer color-white font-inter fs-13 dropdown-menu-item d-flex align-items-center justify-content-between gap-10`}
                 style={{ minWidth: width }}
               >
-                <span className='font-inter fw-bold color-white'>{item?.title}</span>
+                <span className='font-inter fw-400 color-white'>{item?.title}</span>
               </div>
             </Link>
             : item?.actions ?

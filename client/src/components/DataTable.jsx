@@ -6,26 +6,32 @@ import TableHead from '@mui/material/TableHead';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { ButtonIcon, ButtonOutline } from './Button';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
-import { parseInt } from 'lodash';
+import { Checkbox } from './Checkbox';
+import TablePagination from './TablePagination';
 
-const LIMIT = 12;
-export default function DataTable({ colunms, data = [], maxHeight = 650, onChangePage = () => { }, loading, pagination, ...other }) {
+export default function DataTable({
+  colunms,
 
-  const start = data.length <= 0 ? 0 : (pagination?.page - 1) * LIMIT + 1;
-  const end = data.length <= 0 ? 0 : Math.min(start + LIMIT - 1, pagination?.totalItems);
-  console.log(data)
+  data = [],
+  pagination = {},
+  selected = [],
+
+  isCheckedAll,
+  isIndeterminate,
+
+  onChangePage = () => { },
+  onSelectAllRows = () => { },
+
+  selectedObjText = '',
+  ...other
+}) {
 
   return (
-    <div {...other}>
+
+    < div {...other}>
       <TableContainer
         component={Paper}
-        // style={{ overflowY: 'scroll' }}
         className='custom-table'
-        sx={{
-          maxHeight,
-        }}
       >
         <Table
           stickyHeader
@@ -33,6 +39,17 @@ export default function DataTable({ colunms, data = [], maxHeight = 650, onChang
         >
           <TableHead>
             <TableRow>
+              <TableCell
+                key='checkbox-all'
+                align='left'
+              >
+                <Checkbox
+                  defaultChecked={false}
+                  checked={isCheckedAll}
+                  onChange={(checked) => onSelectAllRows(checked)}
+                  indeterminate={isIndeterminate}
+                />
+              </TableCell>
               {colunms.map((item) => {
                 return (
                   <TableCell
@@ -62,48 +79,13 @@ export default function DataTable({ colunms, data = [], maxHeight = 650, onChang
         </Table>
       </TableContainer>
 
-      <div className='pagination d-flex justify-content-between mt-20 color-white font-inter'>
-        <div className='align-items-center justify-content-center d-flex fs-14 fw-400'>
-          {`Trang ${pagination?.page || 0} | Đang xem ${start || 0} - ${end || 0}/${pagination?.totalItems || 0}`}
-        </div>
-
-        <div className='d-flex gap-15'>
-          <ButtonOutline
-            disabled={!pagination?.hasPre}
-            onClick={() => onChangePage('prevs')}
-            icon={
-              <ChevronsLeft />
-            }
-          />
-          <ButtonOutline
-            disabled={!pagination?.hasPre}
-            onClick={() => onChangePage('prev')}
-            icon={
-              <ChevronLeft />
-            }
-          />
-
-          <ButtonOutline
-            disabled={!pagination?.hasNext}
-            onClick={() => onChangePage('next')}
-            isReverse
-            icon={
-              <ChevronRight />
-            }
-          />
-
-          <ButtonOutline
-            disabled={!pagination?.hasNext}
-            onClick={() => onChangePage('nexts')}
-            icon={
-              <ChevronsRight />
-            }
-          />
-        </div>
-
-      </div>
-
-    </div>
+      <TablePagination
+        pagination={pagination}
+        onChangePage={onChangePage}
+        selected={selected}
+        selectedObjText={selectedObjText}
+      />
+    </div >
   );
 }
 

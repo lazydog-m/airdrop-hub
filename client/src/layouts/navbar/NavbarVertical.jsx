@@ -17,7 +17,7 @@ NavbarVertical.propTypes = {
 
 const { Sider } = Layout;
 
-const bgColor = '#09090B';
+const bgColor = '#1E1E1E';
 const headerColor = '#9A9A9B';
 const ff = "Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'";
 
@@ -28,15 +28,15 @@ const NAVBAR_VERTICAL_COLLAPSED_WIDTH = 58;
 const DRAWER_WIDTH = 280;
 const NAVBAR_VERTICAL_MOBILE_WIDTH = 280;
 
-
 const menuStyle = {
+  letterSpacing: '0.05em',
   border: 'none',
   backgroundColor: bgColor,
   fontFamily: ff,
 };
 
 const siderStyle = {
-  height: '100vh',
+  height: '100%',
   position: 'fixed',
   padding: '0px 5px 0px 5px',
   backgroundColor: bgColor,
@@ -46,7 +46,7 @@ const siderStyle = {
 };
 
 const siderMobileStyle = {
-  height: '100vh',
+  height: '100%',
   position: 'fixed',
   padding: '0px 5px 0px 5px',
   backgroundColor: bgColor,
@@ -59,6 +59,14 @@ export default function NavbarVertical({ isCollapse, isOpenSidebar, onCloseSideb
   const [selectedKey, setSelectedKey] = useState('');
   const [openKeys, setOpenKeys] = useState([]);
 
+  // useEffect(() => {
+  //   if (isOpenSidebar) {
+  //     document.body.style.overflowY = 'hidden';
+  //   } else {
+  //     document.body.style.overflowY = 'auto';
+  //   }
+  // }, [isOpenSidebar])
+
   useEffect(() => {
     if (isOpenSidebar) {
       onCloseSidebar();
@@ -67,22 +75,18 @@ export default function NavbarVertical({ isCollapse, isOpenSidebar, onCloseSideb
     document.body.style.overflowY = 'auto';
 
     if (pathname.includes('/project/list')) {
-      document.body.style.overflowY = 'hidden';
       setSelectedKey(['project']);
       setOpenKeys([]);
     }
     else if (pathname.includes('/profile/list')) {
-      document.body.style.overflowY = 'hidden';
       setSelectedKey(['profile']);
       setOpenKeys([]);
     }
     else if (pathname.includes('/wallet/list')) {
-      document.body.style.overflowY = 'hidden';
       setSelectedKey(['wallet']);
       setOpenKeys([]);
     }
     else if (pathname.includes('/task')) {
-      // document.body.style.overflowY = 'hidden';
       setSelectedKey(['task']);
       setOpenKeys([]);
     }
@@ -132,6 +136,7 @@ export default function NavbarVertical({ isCollapse, isOpenSidebar, onCloseSideb
         <Drawer
           className='draw-nav-mobile'
           width={DRAWER_WIDTH}
+          getContainer={false}
           placement={'left'}
           closable={false}
           onClose={onCloseSidebar}

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ButtonIcon } from '@/components/Button';
-import { convertTaskStatusEnumToColorHex, convertTaskStatusEnumToText, convertWalletStatusEnumToReverse, convertWalletStatusEnumToTextReverse } from '@/utils/convertUtil';
+import { convertTaskStatusEnumToColorHex, convertTaskStatusEnumToText, convertWalletStatusEnumToReverse, convertWalletStatusEnumToTextReverse, darkenColor, lightenColor } from '@/utils/convertUtil';
 import { Calendar1, CalendarX, GripVertical, SquarePen, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Color, TaskStatus, } from '@/enums/enum';
@@ -139,13 +139,16 @@ export default function TaskDataTable({ data, onUpdateData, onUpdateRow, onDelet
                                 <Badge
                                   className='text-capitalize custom-badge select-none pointer d-flex align-items-center justify-content-center'
                                   style={{
-                                    backgroundColor: convertTaskStatusEnumToColorHex(row.status),
-                                    color: 'black',
+                                    backgroundColor: `${darkenColor(convertTaskStatusEnumToColorHex(row.status))}`,
+                                    color: 'white',
+                                    borderColor: `${lightenColor(convertTaskStatusEnumToColorHex(row.status))}`,
                                     height: 'auto',
-                                    borderRadius: '9px'
+                                    borderRadius: '0px'
                                   }}
                                 >
-                                  {convertTaskStatusEnumToText(row.status)}
+                                  <span className='fs-14'>
+                                    {convertTaskStatusEnumToText(row.status)}
+                                  </span>
                                 </Badge>
                               }
                               content={
@@ -161,11 +164,15 @@ export default function TaskDataTable({ data, onUpdateData, onUpdateRow, onDelet
                                               onClick={() => handleUpdateTaskStatus(row.id, row.status)}
                                               className='text-capitalize custom-badge select-none'
                                               style={{
-                                                backgroundColor: convertTaskStatusEnumToColorHex(item),
-                                                color: 'black',
+                                                backgroundColor: `${darkenColor(convertTaskStatusEnumToColorHex(item))}`,
+                                                color: 'white',
+                                                borderColor: `${lightenColor(convertTaskStatusEnumToColorHex(item))}`,
+                                                borderRadius: '0px'
                                               }}
                                             >
-                                              {convertTaskStatusEnumToText(item)}
+                                              <span className='fs-14'>
+                                                {convertTaskStatusEnumToText(item)}
+                                              </span>
                                             </Badge>
                                         }
                                       })
@@ -178,10 +185,18 @@ export default function TaskDataTable({ data, onUpdateData, onUpdateRow, onDelet
 
                             <Badge
                               className='text-capitalize custom-badge align-items-center gap-6 d-flex h-9'
-                              style={{ backgroundColor: convertDayLeftToColoHex(formatDueDateText(row.due_date)), borderRadius: '9px' }}
+                              style={{
+                                backgroundColor: `${darkenColor(convertDayLeftToColoHex(formatDueDateText(row.due_date)))}`,
+                                color: 'white',
+                                borderColor: `${lightenColor(convertDayLeftToColoHex(formatDueDateText(row.due_date)))}`,
+                                height: '30px',
+                                borderRadius: '0px'
+                              }}
                             >
                               {row.due_date ? <Calendar1 size={'15px'} style={{ marginBottom: '2.3px' }} /> : <CalendarX size={'15px'} style={{ marginBottom: '2.3px' }} />}
-                              {`${formatDueDateText(row.due_date)} ${row.due_date ? `- ${formatDateVN(row.due_date)}` : ''}`}
+                              <span className='fs-14'>
+                                {`${formatDueDateText(row.due_date)} ${row.due_date ? `- ${formatDateVN(row.due_date)}` : ''}`}
+                              </span>
                             </Badge>
                           </div>
 

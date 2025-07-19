@@ -17,9 +17,9 @@ import SwitchStyle from '@/components/Switch';
 import useMessage from '@/hooks/useMessage';
 import useCopy from '@/hooks/useCopy';
 import CopyButton from '@/components/CopyButton';
+import { Checkbox } from '@/components/Checkbox';
 
 const colunms = [
-  { header: '#', align: 'left' },
   { header: 'Tên Ví', align: 'left' },
   { header: 'Mật Khẩu Ví', align: 'left' },
   { header: 'Trạng Thái', align: 'left' },
@@ -28,13 +28,23 @@ const colunms = [
 
 const DataTableMemo = React.memo(DataTable);
 
-export default function WalletDataTable({ data, onUpdateData, onDeleteData, dataType, pagination, onChangePage }) {
+export default function WalletDataTable({
+  data = [],
+  onUpdateData,
+  onDeleteData,
+  onChangePage,
+  onSelectAllRows,
+  onSelectRow,
+  pagination,
+  dataType,
+  selected = []
+}) {
   const [open, setOpen] = React.useState(false);
   const [wallet, setWallet] = React.useState({});
   const { onOpen, onClose } = useSpinner();
   const { showConfirm } = useConfirm();
-  const { onSuccess } = useMessage();
-  const { onOpenSuccessNotify, onOpenErrorNotify } = useNotification();
+  const { onSuccess, onError } = useMessage();
+  const isEdit = true;
 
   const { copied, handleCopy } = useCopy();
 
@@ -54,27 +64,25 @@ export default function WalletDataTable({ data, onUpdateData, onDeleteData, data
     setOpen(false);
   };
 
-  const handleUpdateWalletStatus = (id, status, stt) => {
+  const handleUpdateWalletStatus = (id, status) => {
     const statusToTextReverse = convertWalletStatusEnumToTextReverse(status);
     const body = {
       id,
       status: convertWalletStatusEnumToReverse(status),
-      stt,
     };
     showConfirm(`Xác nhận cập nhật trạng thái của ví thành '${statusToTextReverse?.toUpperCase()}'?`, () => putStatus(body));
   }
 
   const putStatus = async (body) => {
-    console.log(body)
     try {
       onOpen();
       const response = await apiPut(`/wallets/status`, body);
       onUpdateData(true, response.data.data);
       onSuccess("Cập nhật trạng thái của ví thành công!");
+      onClose();
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
-    } finally {
+      onError(error.message);
       onClose();
     }
   }
@@ -83,29 +91,35 @@ export default function WalletDataTable({ data, onUpdateData, onDeleteData, data
     showConfirm("Xác nhận xóa ví?", () => remove(id));
   }
 
+  const triggerRemove = () => {
+    onSuccess("Xóa ví thành công!")
+    onClose();
+  }
+
   const remove = async (id) => {
     try {
       onOpen();
       const response = await apiDelete(`/wallets/${id}`);
-      onDeleteData("Xóa ví thành công!");
+      onDeleteData(response.data.data, triggerRemove);
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
+      onError(error.message);
       onClose();
-    } finally {
-      // onClose();
     }
   }
 
   const rows = React.useMemo(() => {
     return data.map((row, index) => (
       <TableRow
+        className='table-row'
         key={row.id}
+        selected={selected.includes(row.id)}
       >
         <TableCell align="left">
-          <span className='font-inter d-flex color-white'>
-            {row.stt}
-          </span>
+          <Checkbox
+            checked={selected.includes(row.id)}
+            onClick={() => onSelectRow(row.id)}
+          />
         </TableCell>
         <TableCell align="left">
           <span className='font-inter d-flex color-white fw-bold'>
@@ -120,7 +134,7 @@ export default function WalletDataTable({ data, onUpdateData, onDeleteData, data
           />
         </TableCell>
         <TableCell align="left">
-          <SwitchStyle checked={row.status === WalletStatus.IN_ACTIVE} onClick={() => handleUpdateWalletStatus(row.id, row.status, row.stt)} />
+          <SwitchStyle checked={row.status === WalletStatus.IN_ACTIVE} onClick={() => handleUpdateWalletStatus(row.id, row.status)} />
         </TableCell>
         <TableCell align="left">
           <ButtonIcon
@@ -138,16 +152,24 @@ export default function WalletDataTable({ data, onUpdateData, onDeleteData, data
         </TableCell>
       </TableRow >
     ))
-  }, [data, copied]);
+  }, [data, copied, selected]);
 
   return (
     <>
       <DataTableMemo
-        className='mt-15'
+        className='mt-20'
         colunms={colunms}
         data={rows}
-        onChangePage={onChangePage}
         pagination={pagination}
+
+        selected={selected}
+        isCheckedAll={data.length > 0 && data?.every(row => selected?.includes(row.id))}
+        isIndeterminate={selected.length > 0 && data?.some(row => selected.includes(row.id)) && !data.every(row => selected.includes(row.id))}
+
+        onSelectAllRows={onSelectAllRows}
+        onChangePage={onChangePage}
+
+        selectedObjText={'ví'}
       />
 
       <Modal
@@ -159,7 +181,7 @@ export default function WalletDataTable({ data, onUpdateData, onDeleteData, data
           <WalletNewEditForm
             onCloseModal={handleClose}
             currentWallet={wallet}
-            isEdit={true}
+            isEdit={isEdit}
             onUpdateData={onUpdateData}
           />
         }

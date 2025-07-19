@@ -28,10 +28,11 @@ export const Color = {
   ORANGE: '#FA8072',
   SECONDARY: '#7173F2',
   PRIMARY: '#0EA5E9',
-  INFO: '#a8dadc',
+  INFO: '#87CEEB',
   ORANGE1: '#ffb4a2',
   BROWN: '#F5DEB3',
   BROWN1: '#C19A6B',
+  MAIN: '#D97757',
 }
 
 export const WalletStatus = {

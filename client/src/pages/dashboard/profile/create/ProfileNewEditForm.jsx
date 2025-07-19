@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import useSpinner from "@/hooks/useSpinner";
 import useMessage from "@/hooks/useMessage";
+import RHFTextarea from "@/components/hook-form/RHFTextarea";
 
 export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProfile, onUpdateData }) {
 
@@ -41,7 +42,7 @@ export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProfil
     defaultValues,
   });
 
-  const { onSuccess } = useMessage();
+  const { onSuccess, onError } = useMessage();
 
   const {
     reset,
@@ -60,7 +61,6 @@ export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProfil
       const body = {
         ...data,
         id: currentProfile.id,
-        stt: currentProfile.stt,
       }
       showConfirm("Xác nhận cập nhật hồ sơ?", () => put(body));
     }
@@ -69,18 +69,21 @@ export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProfil
     }
   }
 
+  const triggerPost = () => {
+    onSuccess("Tạo hồ sơ thành công!")
+    onCloseModal();
+    onClose();
+  }
+
   const post = async (body) => {
     try {
       onOpen();
       const response = await apiPost("/profiles", body);
-      onUpdateData(isEdit, response.data.data, "Tạo hồ sơ thành công!")
-      onCloseModal();
+      onUpdateData(isEdit, response.data.data, triggerPost);
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
+      onError(error.message);
       onClose();
-    } finally {
-      // onClose();
     }
   }
 
@@ -89,13 +92,12 @@ export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProfil
       onOpen();
       const response = await apiPut("/profiles", body);
       onSuccess("Cập nhật hồ sơ thành công!");
-      console.log(response.data)
       onUpdateData(isEdit, response.data.data)
       onCloseModal();
+      onClose();
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
-    } finally {
+      onError(error.message);
       onClose();
     }
   }
@@ -154,43 +156,10 @@ export default function ProfileNewEditForm({ onCloseModal, isEdit, currentProfil
         </Col>
 
         <Col span={24}>
-          <Controller
+          <RHFTextarea
+            label='Ghi chú'
             name='note'
-            control={control}
-            render={({ field }) => (
-              <>
-                <label className='d-block font-inter fw-500 fs-14'>
-                  Ghi chú
-                </label>
-                <Textarea
-                  className='mt-10 font-inter'
-                  autoComplete='off'
-                  placeholder='Nhập ghi chú ...'
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault(); // Ngăn chặn hành vi mặc định
-
-                      // Lấy vị trí con trỏ
-                      const start = e.target.selectionStart;
-                      const end = e.target.selectionEnd;
-
-                      // Cập nhật giá trị với ký tự xuống dòng tại vị trí con trỏ
-                      const newValue = field.value.substring(0, start) + '\n' + field.value.substring(end);
-                      field.onChange(newValue); // Cập nhật giá trị mới
-
-                      // Đặt lại vị trí con trỏ
-                      setTimeout(() => {
-                        e.target.selectionStart = e.target.selectionEnd = start + 1;
-                        e.target.focus(); // Đảm bảo focus vào Textarea
-                      }, 0);
-                    }
-                  }}
-                  style={{ minHeight: '170px', maxHeight: '170px' }}
-                />
-              </>
-            )}
-
+            placeholder='Nhập ghi chú ...'
           />
         </Col>
 

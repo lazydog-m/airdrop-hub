@@ -6,9 +6,9 @@ export const convertProjectStatusEnumToText = (status) => {
     case ProjectStatus.DOING:
       return "Đang làm"
     case ProjectStatus.END_PENDING_UPDATE:
-      return "Đã end - Chờ update"
+      return "End - Chờ update"
     case ProjectStatus.END_AIRDROP:
-      return "Đã trả Airdrop"
+      return "Airdrop"
     default: return status
   }
 
@@ -19,9 +19,9 @@ export const convertProjectStatusTextToEnum = (statusText) => {
   switch (statusText) {
     case "Đang làm":
       return ProjectStatus.DOING
-    case "Đã end - Chờ update":
+    case "End - Chờ update":
       return ProjectStatus.END_PENDING_UPDATE
-    case "Đã trả Airdrop":
+    case "Airdrop":
       return ProjectStatus.END_AIRDROP
     default: return statusText
   }
@@ -150,11 +150,11 @@ export const convertDailyTaskRefreshEnumToText = (type) => {
     case DailyTaskRefresh.UNKNOWN:
       return 'Chưa rõ'
     case DailyTaskRefresh.UTC0:
-      return 'Vào lúc 7 giờ sáng (00:00 UTC)'
+      return '7 giờ sáng (00:00 UTC)'
     case DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP:
-      return 'Khi hết 24 giờ đếm ngược'
+      return 'Hết 24 giờ đếm ngược'
     case DailyTaskRefresh.NEW_TASK:
-      return 'Khi có nhiệm vụ mới'
+      return 'Chờ nhiệm vụ mới'
     default: return null
   }
 
@@ -218,4 +218,36 @@ export const convertTaskStatusEnumToColorHex = (status) => {
 export const getMasked = (data) => {
   const masked = "*".repeat(data.length);
   return masked;
+}
+
+export const lightenColor = (hex, percent = 0.05) => {
+  if (!hex?.startsWith("#") || hex.length !== 7) return hex;
+
+  let r = parseInt(hex.slice(1, 3), 16);
+  let g = parseInt(hex.slice(3, 5), 16);
+  let b = parseInt(hex.slice(5, 7), 16);
+
+  r = Math.min(255, Math.floor(r + (255 - r) * percent));
+  g = Math.min(255, Math.floor(g + (255 - g) * percent));
+  b = Math.min(255, Math.floor(b + (255 - b) * percent));
+
+  return `#${r.toString(16).padStart(2, "0")}${g
+    .toString(16)
+    .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+}
+
+export const darkenColor = (hex, percent = 0.60) => {
+  if (!hex?.startsWith('#') || hex.length !== 7) return hex;
+
+  let r = parseInt(hex.slice(1, 3), 16);
+  let g = parseInt(hex.slice(3, 5), 16);
+  let b = parseInt(hex.slice(5, 7), 16);
+
+  r = Math.max(0, Math.floor(r * (1 - percent)));
+  g = Math.max(0, Math.floor(g * (1 - percent)));
+  b = Math.max(0, Math.floor(b * (1 - percent)));
+
+  return `#${r.toString(16).padStart(2, '0')}${g
+    .toString(16)
+    .padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 }

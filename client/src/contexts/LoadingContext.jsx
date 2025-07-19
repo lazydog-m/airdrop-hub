@@ -23,7 +23,7 @@ const rootStyle = {
   alignItems: "center",
   justifyContent: "center",
   backgroundColor: "rgba(0, 0, 0, 0.7)",
-  zIndex: 9999999999,
+  zIndex: 9999,
 }
 
 function LoadingProvider({ children }) {
@@ -36,7 +36,6 @@ function LoadingProvider({ children }) {
   const handleCloseLoading = () => {
     setIsLoading(false);
   }
-
 
   return (
     <LoadingContext.Provider

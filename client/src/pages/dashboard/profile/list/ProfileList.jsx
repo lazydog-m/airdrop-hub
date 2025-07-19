@@ -13,24 +13,77 @@ import ProfileNewEditForm from '../create/ProfileNewEditForm';
 import ProfileFilterSearch from './ProfileFilterSearch';
 import { convertEmailToEmailUsername } from '@/utils/convertUtil';
 import useMessage from '@/hooks/useMessage';
+import useTable from '@/hooks/useTable';
+import { delayApi } from '@/utils/commonUtil';
+import useSocket from '@/hooks/useSocket';
 
 const ProfileDataTableMemo = React.memo(ProfileDataTable);
 
 export default function ProfileList() {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [key, setKey] = useState(0);
   const [pagination, setPagination] = useState({});
-  const [message, setMessage] = useState('');
   const { onOpen, onClose } = useSpinner();
-  const { onSuccess } = useMessage();
-  const previousKey = useRef(key);
+  const { onError } = useMessage();
+  const [openningIds, setOpenningIds] = useState(new Set());
+  const [loadingIds, setLoadingIds] = React.useState(new Set());
+  const socket = useSocket();
 
-  const handleUpdateData = useCallback((isEdit, profileNew, message = '') => {
+  const [selectedStatusItems, setSelectedStatusItems] = useState(['']);
+  const [search, setSearch] = useState('');
+
+  const {
+    onSelectRow,
+    selected,
+    setSelected,
+    onSelectAllRows,
+    page,
+    onChangePage,
+  } = useTable({});
+
+  const fetchApi = async (dataTrigger = false, onTrigger = () => { }) => {
+    const params = {
+      page,
+      search,
+    }
+
+    try {
+      onOpen();
+      const response = await apiGet("/profiles", params);
+
+      if (dataTrigger) {
+        setData(response.data.data.data || []);
+        setPagination(response.data.data.pagination || {});
+        // setOpenningIds(new Set(response.data.data.browsers));
+        onTrigger();
+      }
+      else {
+        delayApi(() => {
+          setData(response.data.data.data || []);
+          setPagination(response.data.data.pagination || {});
+          setOpenningIds(new Set(response.data.data.browsers));
+          onClose();
+        })
+      }
+    } catch (error) {
+      console.error(error);
+      onError(error.message);
+      onClose();
+    }
+  }
+
+  const handleSelectAllRows = React.useCallback((checked) => {
+    const selecteds = data.map((row) => row.id);
+    onSelectAllRows(checked, selecteds);
+  }, [data])
+
+  const handleSelectRow = React.useCallback((id) => {
+    onSelectRow(id);
+  }, [selected])
+
+  const handleUpdateData = useCallback((isEdit, profileNew, onTrigger = () => { }) => {
     if (!isEdit) {
-      setKey((key) => (key + 1))
-      setMessage(message);
+      fetchApi(true, onTrigger)
     }
     else {
       setData((prevData) =>
@@ -39,12 +92,15 @@ export default function ProfileList() {
         )
       );
     }
-  }, []);
+  }, [search, page]);
 
-  const handleDeleteData = useCallback((message = '') => {
-    setKey((key) => (key + 1))
-    setMessage(message);
-  }, []);
+  const handleDeleteData = useCallback((id, onTrigger = () => { }) => {
+    fetchApi(true, () => {
+      const newSelected = selected.filter(selected => selected !== id);
+      setSelected(newSelected);
+      onTrigger();
+    })
+  }, [search, page, selected]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -54,12 +110,9 @@ export default function ProfileList() {
     setOpen(false);
   };
 
-  const [selectedStatusItems, setSelectedStatusItems] = useState(['']);
-  const [search, setSearch] = useState('');
-
   const handleChangeSearch = (value) => {
     setSearch(value);
-    setPage(1);
+    onChangePage(1);
   }
 
   const handleChangeSelectedStatusItems = (label, isChecked) => {
@@ -70,74 +123,72 @@ export default function ProfileList() {
         return prev.filter((item) => item !== label);
       }
     });
-    setPage(1);
+    onChangePage(1);
   };
 
   const handleClearAllSelectedItems = () => {
     setSelectedStatusItems([]);
     setSearch('');
-    setPage(1);
+    onChangePage(1);
   }
 
-  const handleChangePage = useCallback((action) => {
+  const handleChangePage = useCallback((newPage) => {
+    onChangePage(newPage)
+  }, [])
 
-    if (action === 'prev') {
-      setPage((prev) => prev - 1);
-    }
-    if (action === 'next') {
-      setPage((prev) => prev + 1);
-    }
+  const handleAddOpenningId = useCallback((id) => {
+    setOpenningIds((prev) => new Set(prev).add(id));
+  }, [])
 
-    if (action === 'prevs') {
-      setPage(1);
-    }
-    if (action === 'nexts') {
-      console.log(pagination)
-      setPage(pagination?.totalPages);
-    }
+  const handleAddOpenningIds = (ids = []) => {
+    const updatedOpenningIds = new Set([...openningIds, ...ids]);
+    setOpenningIds(updatedOpenningIds);
+  };
 
-  }, [pagination])
+  console.log(openningIds)
+
+  const handleRemoveOpenningIds = (ids = []) => {
+    const updatedOpenningIds = new Set(openningIds);
+    ids?.forEach((id) => {
+      updatedOpenningIds.delete(id);
+    });
+    setOpenningIds(updatedOpenningIds);
+  };
+
+  const handleRemoveOpenningId = useCallback((id) => {
+    setOpenningIds((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(id);
+      return newSet;
+    });
+  }, [])
+
+  const handleAddLoadingId = useCallback((id) => {
+    setLoadingIds((prev) => new Set(prev).add(id));
+  }, [])
+
+  const handleRemoveLoadingId = useCallback((id) => {
+    setLoadingIds((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(id);
+      return newSet;
+    });
+  }, [])
 
   useEffect(() => {
-    const fetch = async () => {
-      const params = {
-        page,
-        search,
-      }
+    fetchApi();
+  }, [search, page])
 
-      try {
-        if (previousKey.current !== key) {
-          previousKey.current = key;
-        }
-        else {
-          onOpen();
-        }
-        const response = await apiGet("/profiles", params);
+  useEffect(() => {
+    socket.on('profileIdClosed', (data) => {
+      handleRemoveOpenningId(data.id);
+      console.log(data.id)
+    });
 
-        if (message) {
-          onSuccess(message);
-          setData(response.data.data.data || []);
-          setPagination(response.data.data.pagination || {});
-          onClose();
-          setMessage('');
-        }
-        else {
-          setTimeout(() => {
-            setData(response.data.data.data || []);
-            setPagination(response.data.data.pagination || {});
-            onClose();
-          }, 200)
-        }
-      } catch (error) {
-        console.error(error);
-        onClose();
-      } finally {
-        // onClose();
-      }
-    }
-
-    fetch();
-  }, [search, page, key])
+    return () => {
+      socket.off('profileIdClosed');
+    };
+  }, [socket]);
 
   return (
     <Page title='Quản lý hồ sơ - AirdropHub'>
@@ -160,14 +211,32 @@ export default function ProfileList() {
           onClearAllSelectedItems={handleClearAllSelectedItems}
           search={search}
           onChangeSearch={handleChangeSearch}
+          selected={selected}
+          onAddOpenningIds={handleAddOpenningIds}
+          onRemoveOpenningIds={handleRemoveOpenningIds}
+          loadingIds={loadingIds}
+          openningIds={openningIds}
         />
 
         <ProfileDataTableMemo
+          pagination={pagination}
+          onChangePage={handleChangePage}
+
           data={data}
           onUpdateData={handleUpdateData}
           onDeleteData={handleDeleteData}
-          pagination={pagination}
-          onChangePage={handleChangePage}
+
+          selected={selected}
+          onSelectAllRows={handleSelectAllRows}
+          onSelectRow={handleSelectRow}
+
+          openningIds={openningIds}
+          onAddOpenningId={handleAddOpenningId}
+          onRemoveOpenningId={handleRemoveOpenningId}
+
+          loadingIds={loadingIds}
+          onAddLoadingId={handleAddLoadingId}
+          onRemoveLoadingId={handleRemoveLoadingId}
         />
 
         <Modal

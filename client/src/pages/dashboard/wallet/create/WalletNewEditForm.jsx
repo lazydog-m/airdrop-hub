@@ -46,16 +46,14 @@ export default function WalletNewEditForm({ onCloseModal, isEdit, currentWallet,
   } = methods;
 
   const { showConfirm } = useConfirm();
-  const { onOpenSuccessNotify, onOpenErrorNotify } = useNotification();
   const { onOpen, onClose } = useSpinner();
-  const { onSuccess } = useMessage();
+  const { onSuccess, onError } = useMessage();
 
   const onSubmit = async (data) => {
     if (isEdit) {
       const body = {
         ...data,
         id: currentWallet.id,
-        stt: currentWallet.stt,
       }
       showConfirm("Xác nhận cập nhật ví?", () => put(body));
     }
@@ -64,18 +62,21 @@ export default function WalletNewEditForm({ onCloseModal, isEdit, currentWallet,
     }
   }
 
+  const triggerPost = () => {
+    onSuccess("Thêm mới ví thành công!")
+    onCloseModal();
+    onClose();
+  }
+
   const post = async (body) => {
     try {
       onOpen();
       const response = await apiPost("/wallets", body);
-      onUpdateData(isEdit, response.data.data, "Tạo ví thành công!")
-      onCloseModal();
+      onUpdateData(isEdit, response.data.data, triggerPost);
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
+      onError(error.message);
       onClose();
-    } finally {
-      // onClose();
     }
   }
 
@@ -84,13 +85,12 @@ export default function WalletNewEditForm({ onCloseModal, isEdit, currentWallet,
       onOpen();
       const response = await apiPut("/wallets", body);
       onSuccess("Cập nhật ví thành công!");
-      console.log(response.data)
       onUpdateData(isEdit, response.data.data)
       onCloseModal();
+      onClose();
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
-    } finally {
+      onError(error.message);
       onClose();
     }
   }

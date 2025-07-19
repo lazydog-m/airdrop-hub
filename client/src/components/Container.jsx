@@ -10,7 +10,7 @@ const containerStyle = {
   // borderRadius: '5px',
   // boxShadow: '0 2px 5px rgba(90, 89, 89, 0.255)',
   padding: '20px',
-  minHeight: '100vh',
+  // minHeight: '100vh',
 }
 
 export default function Container({ children, style, ...other }) {

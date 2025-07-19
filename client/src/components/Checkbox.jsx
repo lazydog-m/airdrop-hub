@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Checkbox as CheckboxAntd } from 'antd';
 import { ButtonOutline } from './Button';
 import { toString } from 'lodash';
+import { Color } from '@/enums/enum';
 
 export const Checkbox = ({ label, checked, onChange = () => { }, ...other }) => {
   return (
@@ -12,7 +13,9 @@ export const Checkbox = ({ label, checked, onChange = () => { }, ...other }) => 
       checked={checked}
       onChange={(e) => onChange(e.target.checked)}
     >
-      <span className='color-white fs-13 font-inter'>{label}</span>
+      {label &&
+        <span className='color-white fs-13 fw-400 font-inter'>{label}</span>
+      }
     </CheckboxAntd>
   );
 }
@@ -39,8 +42,9 @@ export const CheckboxItems = ({
           >
             <Checkbox
               {...other}
+              className='checkbox-dropdown'
               label={
-                <span className='text-capitalize'>
+                <span className='text-capitalize ms-4 fw-400 fs-13'>
                   {convert ? convert(item) : item}
                 </span>
               }
@@ -54,8 +58,9 @@ export const CheckboxItems = ({
       })}
       {selectedItems?.length > 0 &&
         <ButtonOutline
+          style={{ color: Color.ORANGE, borderColor: '#505050' }}
           onClick={onClearSelectedItems}
-          className='button-outlined w-full mt-5 font-inter pointer color-white h-35 fs-13 d-flex'
+          className='button-outlined w-full mt-5 fw-500 font-inter pointer color-white h-35 fs-13 d-flex'
           title='Làm mới'
         />
       }

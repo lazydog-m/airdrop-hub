@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
-import { CirclePlus, ListFilter } from 'lucide-react';
+import { CirclePlus, Grip, ListFilter, Pause, Play } from 'lucide-react';
 import { CheckboxItems } from '@/components/Checkbox';
 import Popover from "@/components/Popover";
-import { ButtonGhost, ButtonOutlineTags } from '@/components/Button';
+import { ButtonGhost, ButtonOutline, ButtonOutlineDanger, ButtonOutlinePrimary, ButtonOutlineTags } from '@/components/Button';
 import { Color, WalletStatus } from '@/enums/enum';
 import { Badge } from '@/components/ui/badge';
 import { convertWalletStatusEnumToColorHex, convertWalletStatusEnumToText } from '@/utils/convertUtil';
 import useDebounce from '@/hooks/useDebounce';
+import useSpinner from '@/hooks/useSpinner';
+import { apiGet } from '@/utils/axios';
+import useMessage from '@/hooks/useMessage';
 
 export default function ProfileFilterSearch({
   selectedStatusItems,
@@ -16,8 +19,15 @@ export default function ProfileFilterSearch({
   onClearAllSelectedItems,
   search,
   onChangeSearch,
+  selected = [],
+  onAddOpenningIds,
+  onRemoveOpenningIds,
+  loadingIds = new Set(),
+  openningIds = new Set(),
 }) {
 
+  const { onOpen, onClose } = useSpinner();
+  const { onSuccess, onError } = useMessage();
   const [filterSearch, setFilterSearch] = useState('');
 
   const debounceValue = useDebounce(filterSearch, 500);
@@ -31,16 +41,125 @@ export default function ProfileFilterSearch({
     setFilterSearch('');
   }
 
+  const openProfiles = async () => {
+    const params = {
+      ids: selected,
+    }
+
+    try {
+      onOpen();
+      const response = await apiGet("/profiles/open-multiple", params);
+      const ids = response.data.data;
+      onAddOpenningIds(ids);
+      onClose();
+    } catch (error) {
+      console.error(error);
+      onError(error.message);
+      onClose();
+    }
+  }
+
+  const closeProfiles = async () => {
+    const params = {
+      ids: selected,
+    }
+
+    try {
+      onOpen();
+      const response = await apiGet("/profiles/close-multiple", params);
+      const ids = response.data.data;
+      onRemoveOpenningIds(ids);
+      onClose();
+    } catch (error) {
+      console.error(error);
+      onError(error.message);
+      onClose();
+    }
+  }
+
+  const sortProfileLayouts = async () => {
+    const params = {
+      // ids: selected,
+    }
+
+    try {
+      onOpen();
+      const response = await apiGet("/profiles/sort-layout", params);
+      // const ids = response.data.data;
+      // onRemoveOpenningIds(ids);
+      onClose();
+    } catch (error) {
+      console.error(error);
+      onError(error.message);
+      onClose();
+    }
+  }
+
+  const handleOpenProfiles = () => {
+    if (selected.length > 0) {
+      openProfiles();
+    }
+  }
+
+  const handleCloseProfiles = () => {
+    if (selected.length > 0) {
+      closeProfiles();
+    }
+  }
+
+  const handleSortProfileLayout = () => {
+    if (openningIds.size > 0) {
+      sortProfileLayouts();
+    }
+  }
+
   return (
     <div className="mt-20 justify-content-between align-items-center">
       <div className="filter-search d-flex gap-10">
         <Input
           placeholder='Tìm kiếm hồ sơ ...'
-          style={{ width: '200px' }}
-          className='color-white font-inter h-40 fs-13'
+          style={{ width: '220px' }}
+          className='custom-input'
           value={filterSearch}
           onChange={(event) => setFilterSearch(event.target.value)}
         />
+
+        {selected.length > 0 &&
+          <>
+            <ButtonOutlinePrimary
+              style={{
+                opacity: loadingIds.size > 0 ? '0.5' : '1',
+                pointerEvents: loadingIds.size > 0 ? 'none' : '',
+              }}
+              onClick={handleOpenProfiles}
+              icon={<Play color={Color.PRIMARY} />}
+              title={'Mở'}
+            />
+
+            <ButtonOutlineDanger
+              style={{
+                opacity: loadingIds.size > 0 ? '0.5' : '1',
+                pointerEvents: loadingIds.size > 0 ? 'none' : '',
+              }}
+              onClick={handleCloseProfiles}
+              icon={<Pause />}
+              title={'Đóng'}
+            />
+
+          </>
+        }
+
+        {openningIds.size > 0 &&
+          <ButtonOutline
+            style={{
+              opacity: openningIds.size > 0 ? '1' : '0.5',
+              pointerEvents: openningIds.size > 0 ? '' : 'none',
+            }}
+            onClick={handleSortProfileLayout}
+            icon={<Grip />}
+            title={'Sắp xếp'}
+          />
+        }
 
         {search &&
           <ButtonGhost
@@ -81,7 +200,6 @@ export default function ProfileFilterSearch({
         </div>
 */}
       </div>
-      <span className='color-red mt-10 ms-2 d-block font-inter'>Lưu ý: 1 tài khoản Google được liên kết với các tài khoản như X, Discord và Telegram</span>
     </div>
   )
 }

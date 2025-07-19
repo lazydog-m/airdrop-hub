@@ -14,14 +14,14 @@ export default function Select({ placeholder, onValueChange, value, items = [], 
       value={value}
       {...other}
     >
-      <SelectTrigger className="mt-10 color-white font-inter fs-14 pointer">
+      <SelectTrigger className="mt-10 color-white font-inter fs-14 pointer bdr select-main">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent style={{ zIndex: 99999 }} >
+      <SelectContent style={{ zIndex: 99999, borderRadius: '0rem' }} className='select-content' >
         <SelectGroup style={{ padding: '3px' }}>
           {items.map((item) => {
             return (
-              <SelectItem value={item} className='pointer text-capitalize' style={{ height: '35px' }}>
+              <SelectItem value={item} className='pointer bdr text-capitalize select-item' style={{ height: '35px' }}>
                 <span className="text-capitalize font-inter">
                   {convertItem ? convertItem(item) : item}
                 </span>

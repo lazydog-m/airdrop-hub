@@ -6,7 +6,7 @@ import Popover from "@/components/Popover";
 import { ButtonGhost, ButtonOutlineTags } from '@/components/Button';
 import { Color, ProjectCost, ProjectStatus, ProjectType } from '@/enums/enum';
 import { Badge } from '@/components/ui/badge';
-import { convertProjectCostTypeEnumToColorHex, convertProjectFilterOtherToColorHex, convertProjectStatusEnumToColorHex, convertProjectStatusEnumToText, convertProjectTypeEnumToColorHex } from '@/utils/convertUtil';
+import { convertProjectCostTypeEnumToColorHex, convertProjectFilterOtherToColorHex, convertProjectStatusEnumToColorHex, convertProjectStatusEnumToText, convertProjectTypeEnumToColorHex, darkenColor, lightenColor } from '@/utils/convertUtil';
 import useDebounce from '@/hooks/useDebounce';
 import { Tooltip } from 'antd';
 import TooltipDefault from '@/components/TooltipDefault';
@@ -32,6 +32,8 @@ export default function ProjectFilterSearch({
   onChangeSearch,
   search,
 }) {
+
+  // alert(darkenColor("#fd5c63"))
 
   // const [openSort, setOpenSort] = useState(false);
 
@@ -61,8 +63,8 @@ export default function ProjectFilterSearch({
       <div className="filter-search d-flex gap-10">
         <Input
           placeholder='Tìm kiếm dự án ...'
-          style={{ width: '200px' }}
-          className='color-white font-inter h-40 fs-13'
+          style={{ width: '220px' }}
+          className='custom-input'
           value={filterSearch}
           onChange={(event) => setFilterSearch(event.target.value)}
         />
@@ -142,6 +144,7 @@ export default function ProjectFilterSearch({
           <Popover className='button-dropdown-filter-checkbox'
             trigger={
               <ButtonOutlineTags
+                showTagOne={true}
                 title={otherFilters.name}
                 icon={<CirclePlus />}
                 className='button-outlined font-inter pointer color-white h-40 fs-13 d-flex'
@@ -209,8 +212,12 @@ const Tags = ({ selectedItems, style = () => { }, convert }) => {
     selectedItems.map((item) => {
       return (
         <Badge
-          style={{ backgroundColor: style(item) }}
-          className='text-capitalize font-inter fw-400 fs-12'
+          style={{
+            backgroundColor: darkenColor(style(item)),
+            borderColor: lightenColor(style(item)),
+            color: 'white'
+          }}
+          className='text-capitalize fw-400 fs-12 bdr'
         >
           {convert ? convert(item) : item}
         </Badge>

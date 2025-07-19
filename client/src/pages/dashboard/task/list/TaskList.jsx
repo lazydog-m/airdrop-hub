@@ -14,6 +14,7 @@ import Editor from '@/components/Editor';
 import { Link } from 'react-router-dom';
 import { PATH_DASHBOARD } from '@/routes/path';
 import Select from '@/components/Select';
+import { delayApi } from '@/utils/commonUtil';
 export default function TaskList() {
   const [data, setData] = useState([]);
   const { onOpen, onClose } = useSpinner();
@@ -25,15 +26,14 @@ export default function TaskList() {
         const response = await apiGet("/tasks");
         // setData(response.data.data || []);
 
-        setTimeout(() => {
+        delayApi(() => {
           console.log(response.data);
           setData(response.data.data || []);
           onClose();
-        }, 200)
+        })
       } catch (error) {
         console.error(error);
-      } finally {
-        // onClose();
+        onClose();
       }
     }
 

@@ -28,7 +28,9 @@ import { viVN } from '@mui/x-date-pickers/locales';
 import Popover from "@/components/Popover";
 import { Badge } from "@/components/ui/badge";
 import { SelectItems } from "@/components/SelectItems";
-import { convertTaskStatusEnumToColorHex, convertTaskStatusEnumToText } from "@/utils/convertUtil";
+import { convertTaskStatusEnumToColorHex, convertTaskStatusEnumToText, darkenColor, lightenColor } from "@/utils/convertUtil";
+
+const ff = "Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'";
 
 export default function TaskNewEditForm({ isEdit, currentTask, onUpdateData }) {
 
@@ -166,10 +168,11 @@ export default function TaskNewEditForm({ isEdit, currentTask, onUpdateData }) {
                     <Badge
                       className='text-capitalize custom-badge select-none pointer h-9'
                       style={{
-                        backgroundColor: convertTaskStatusEnumToColorHex(field.value),
-                        color: 'black',
+                        backgroundColor: `${darkenColor(convertTaskStatusEnumToColorHex(field.value))}`,
+                        color: 'white',
+                        borderColor: `${lightenColor(convertTaskStatusEnumToColorHex(field.value))}`,
                         paddingInline: '15px',
-                        borderRadius: '9px'
+                        borderRadius: '0px'
                       }}
                     >
                       <span className="fs-14">
@@ -190,11 +193,15 @@ export default function TaskNewEditForm({ isEdit, currentTask, onUpdateData }) {
                                   onClick={() => field.onChange(item)}
                                   className='text-capitalize custom-badge select-none'
                                   style={{
-                                    backgroundColor: convertTaskStatusEnumToColorHex(item),
-                                    color: 'black',
+                                    backgroundColor: `${darkenColor(convertTaskStatusEnumToColorHex(item))}`,
+                                    color: 'white',
+                                    borderColor: `${lightenColor(convertTaskStatusEnumToColorHex(item))}`,
+                                    borderRadius: '0px'
                                   }}
                                 >
-                                  {convertTaskStatusEnumToText(item)}
+                                  <span className="fs-14">
+                                    {convertTaskStatusEnumToText(item)}
+                                  </span>
                                 </Badge>
                             }
                           })
@@ -231,25 +238,32 @@ export default function TaskNewEditForm({ isEdit, currentTask, onUpdateData }) {
                     localeText={customLocaleText}
                     dayOfWeekFormatter={(date) => date.format("dd")}
                     sx={{
-                      backgroundColor: '#09090B',
-                      border: '1px solid #27272A',
-                      borderRadius: '6px',
+                      backgroundColor: '#323230',
+                      border: '1px solid #404040',
+                      borderRadius: '0px',
                       maxHeight: '550px',
+                      letterSpacing: '0.05rem !important',
                       '& .MuiPickersDay-today': {
-                        // backgroundColor: '#FF5733',  // Màu nền ngày hiện tại
+                        // borderRadius: 0,
+                        letterSpacing: '0.05rem !important',
+                        backgroundColor: darkenColor('#D97757', 0.50),  // Màu nền ngày hiện tại
                         color: '#fff !important',    // Màu chữ của ngày hiện tại
-                        borderColor: '#585858 !important'
+                        borderColor: '#D97757 !important'
                       },
                       '& .MuiButton-root': {
                         marginBottom: '20px',
                         marginRight: '15px',
-                        borderRadius: '6px',
+                        borderRadius: '0px',
                         height: '40px',
                         width: '100px',
-                        backgroundColor: '#585858',
+                        fontSize: '13px',
+                        letterSpacing: '0.05rem !important',
+                        textTransform: 'capitalize',
+                        backgroundColor: '#D97757',
+                        fontFamily: ff,
                         color: '#fff',
                         '&:hover': {
-                          backgroundColor: '#444',
+                          backgroundColor: '#C36B4E',
                         },
                       },
                     }}
@@ -265,14 +279,14 @@ export default function TaskNewEditForm({ isEdit, currentTask, onUpdateData }) {
                         sx: {
                           color: '#fff !important',            // chữ trắng
                           '&.Mui-selected': {
-                            backgroundColor: '#666 !important',  // chọn -> xám
+                            backgroundColor: '#D97757 !important',  // chọn -> xám
                             color: '#fff !important',            // chữ trắng
                           },
                           '&.Mui-selected:hover': {
-                            backgroundColor: '#777 !important',  // hover khi đã chọn
+                            backgroundColor: '#C36B4E !important',  // hover khi đã chọn
                           },
                           '&:hover': {
-                            backgroundColor: '#444',             // hover khi chưa chọn
+                            backgroundColor: '#C36B4E',             // hover khi chưa chọn
                             color: '#fff !important',            // chữ trắng
                           },
                         },

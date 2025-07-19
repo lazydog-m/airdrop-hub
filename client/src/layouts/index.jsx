@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardHeader from "./header";
 import NavbarVertical from "./navbar/NavbarVertical"
 import { Layout } from 'antd';
@@ -21,15 +21,14 @@ const DashboardLayout = () => {
         onCloseSidebar={() => setOpen(false)}
       />
 
-      <Layout style={{ marginLeft: isMobile ? 0 : !isCollapse ? 240 : 58 }}>
+      <Layout className='bg-color' style={{ marginLeft: isMobile ? 0 : !isCollapse ? 240 : 58 }}>
         <DashboardHeader
           isCollapse={isCollapse}
           onOpenSidebar={() => setOpen(true)}
         />
-        <Content style={{ marginTop: 64 }}>
+        <Content>
           <Outlet />
         </Content>
-
       </Layout>
     </Layout>
   )

@@ -19,9 +19,9 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse }) {
   return (
     <Header
       className='header-container bg-color d-flex justify-content-between p-0 align-items-center'
-      style={{ width: '100vw' }}
+      style={{ width: '100%' }}
     >
-      <div className='header-left ms-15 d-flex align-items-center'>
+      <div className='header-left d-flex align-items-center'>
         <CollapseButton
           isCollapse={isCollapse}
           onToggleCollapse={onToggleCollapse}

@@ -25,7 +25,7 @@ const NotiItems = () => {
                   <span className='text-ellipsis'>Please mint NTF today 123123!</span>
                   <Badge status="success" />
                 </div>
-                <span className='noti-message d-flex justify-content-end color-white font-inter fs-12'>2 day ago</span>
+                <span className='noti-date d-flex justify-content-end color-white font-inter fs-12'>2 day ago</span>
               </div>
             </div>
           </Link>
@@ -107,7 +107,9 @@ export default function NotificationPopover({ badgeCount = 2 }) {
           <Bell className='noti-icon bg-primary' size={19} />
           {badgeCount > 0 && (
             <div className="noti-badge font-inter fs-8">
-              {badgeCount}
+              <span className='d-block ms-1'>
+                {badgeCount}
+              </span>
             </div>
           )}
         </div>

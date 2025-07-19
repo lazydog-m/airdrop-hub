@@ -63,7 +63,7 @@ const extensions = [
   // Bold,
   // Italic,
   // TextUnderline,
-  Strike,
+  // Strike,
   // Emoji,
   // Color,
   // Highlight,

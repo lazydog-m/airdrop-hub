@@ -11,13 +11,12 @@ import { DailyTaskRefresh, ProjectCost, ProjectType } from "@/enums/enum";
 import { ButtonPrimary } from "@/components/Button";
 import { apiGet, apiPost, apiPut } from "@/utils/axios";
 import useConfirm from "@/hooks/useConfirm";
-import useNotification from "@/hooks/useNotification";
 import { Checkbox } from "@/components/Checkbox";
-import { Textarea } from "@/components/ui/textarea";
 import useSpinner from "@/hooks/useSpinner";
 import { convertDailyTaskRefreshEnumToText } from "@/utils/convertUtil";
 import useMessage from "@/hooks/useMessage";
 import AutocompleteInput from "@/components/Autocomplete";
+import RHFTextarea from "@/components/hook-form/RHFTextarea";
 
 export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProject, onUpdateData }) {
 
@@ -58,9 +57,8 @@ export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProjec
   } = methods;
 
   const { showConfirm } = useConfirm();
-  const { onOpenErrorNotify } = useNotification();
   const { onOpen, onClose } = useSpinner();
-  const { onSuccess } = useMessage();
+  const { onSuccess, onError } = useMessage();
   const [dailyTasks, setDailyTasks] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -70,7 +68,6 @@ export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProjec
       const body = {
         ...data,
         id: currentProject.id,
-        stt: currentProject.stt,
       }
       showConfirm("Xác nhận cập nhật dự án?", () => put(body));
     }
@@ -79,19 +76,21 @@ export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProjec
     }
   }
 
+  const triggerPost = () => {
+    onSuccess("Tạo dự án thành công!")
+    onCloseModal();
+    onClose();
+  }
+
   const post = async (body) => {
     try {
       onOpen();
       const response = await apiPost("/projects", body);
-      // onSuccess("");
-      onUpdateData(isEdit, response.data.data, 'Tạo dự án thành công!')
-      onCloseModal();
+      onUpdateData(isEdit, response.data.data, triggerPost);
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
+      onError(error.message);
       onClose();
-    } finally {
-      // onClose();
     }
   }
 
@@ -102,10 +101,10 @@ export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProjec
       onSuccess("Cập nhật dự án thành công!");
       onUpdateData(isEdit, response.data.data)
       onCloseModal();
+      onClose();
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
-    } finally {
+      onError(error.message);
       onClose();
     }
   }
@@ -117,9 +116,10 @@ export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProjec
         const response = await apiGet("/projects/daily-tasks");
         setDailyTasks(response.data.data || []);
         console.log(response.data);
+        setLoading(false);
       } catch (error) {
         console.error(error);
-      } finally {
+        onError(error.message);
         setLoading(false);
       }
     }
@@ -186,6 +186,30 @@ export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProjec
         </Col>
 
         <Col span={8}>
+          <RHFInput
+            label='Link'
+            name='url'
+            placeholder='https://www.airdrophub.dev'
+          />
+        </Col>
+
+        <Col span={8}>
+          <RHFInput
+            label='Funding rounds'
+            name='funding_rounds_url'
+            placeholder='https://cryptorank.io/ico'
+          />
+        </Col>
+
+        <Col span={8}>
+          <RHFInput
+            label='Discord'
+            name='discord_url'
+            placeholder='https://discord.com/channels'
+          />
+        </Col>
+
+        <Col span={8}>
           <Controller
             name='daily_tasks'
             control={control}
@@ -221,7 +245,7 @@ export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProjec
             render={({ field, fieldState: { error } }) => (
               <>
                 <label className='d-block font-inter fw-500 fs-14'>
-                  Làm mới khi nào
+                  Làm mới task
                 </label>
                 <Select
                   onValueChange={(value) => field.onChange(value)}
@@ -234,30 +258,6 @@ export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProjec
                 {error && <span className='font-inter color-red mt-3 d-block'>{error?.message}</span>}
               </>
             )}
-          />
-        </Col>
-
-        <Col span={8}>
-          <RHFInput
-            label='Link'
-            name='url'
-            placeholder='https://www.airdrophub.dev'
-          />
-        </Col>
-
-        <Col span={8}>
-          <RHFInput
-            label='Funding rounds'
-            name='funding_rounds_url'
-            placeholder='https://cryptorank.io/ico'
-          />
-        </Col>
-
-        <Col span={8}>
-          <RHFInput
-            label='Discord'
-            name='discord_url'
-            placeholder='https://discord.com/channels'
           />
         </Col>
 
@@ -285,45 +285,11 @@ export default function ProjectNewEditForm({ onCloseModal, isEdit, currentProjec
           />
         </Col>
 
-
         <Col span={24}>
-          <Controller
+          <RHFTextarea
+            label='Ghi chú'
             name='note'
-            control={control}
-            render={({ field }) => (
-              <>
-                <label className='d-block font-inter fw-500 fs-14'>
-                  Ghi chú
-                </label>
-                <Textarea
-                  className='mt-10 font-inter'
-                  autoComplete='off'
-                  placeholder='Nhập ghi chú ...'
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault(); // Ngăn chặn hành vi mặc định
-
-                      // Lấy vị trí con trỏ
-                      const start = e.target.selectionStart;
-                      const end = e.target.selectionEnd;
-
-                      // Cập nhật giá trị với ký tự xuống dòng tại vị trí con trỏ
-                      const newValue = field.value.substring(0, start) + '\n' + field.value.substring(end);
-                      field.onChange(newValue); // Cập nhật giá trị mới
-
-                      // Đặt lại vị trí con trỏ
-                      setTimeout(() => {
-                        e.target.selectionStart = e.target.selectionEnd = start + 1;
-                        e.target.focus(); // Đảm bảo focus vào Textarea
-                      }, 0);
-                    }
-                  }}
-                  style={{ minHeight: '120px', maxHeight: '120px' }}
-                />
-              </>
-            )}
-
+            placeholder='Nhập ghi chú ...'
           />
         </Col>
 

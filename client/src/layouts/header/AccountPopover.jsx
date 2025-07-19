@@ -63,7 +63,7 @@ export default function AccountPopover({ imageUrl = 'https://github.com/shadcn.p
   return (
     <Popover
       trigger={
-        <Avatar style={{ width: '30px', height: '30px', cursor: 'pointer' }}>
+        <Avatar style={{ width: '30px', height: '30px', cursor: 'pointer', userSelect: 'none' }}>
           <AvatarImage src={imageUrl} alt="@shadcn" />
           <AvatarFallback className='color-white'>AC</AvatarFallback>
         </Avatar>

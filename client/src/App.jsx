@@ -1,5 +1,6 @@
 import Router from './routes';
 import './index.css';
+import './assets/css/style.scss'
 
 function App() {
 

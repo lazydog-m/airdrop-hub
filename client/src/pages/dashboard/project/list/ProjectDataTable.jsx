@@ -3,9 +3,9 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import DataTable from '@/components/DataTable';
 import { ButtonIcon } from '@/components/Button';
-import { convertProjectCostTypeEnumToColorHex, convertProjectStatusEnumToColorHex, convertProjectStatusEnumToText, convertProjectTypeEnumToColorHex } from '@/utils/convertUtil';
-import { Check, CheckCheck, ClockIcon, Ellipsis, Fingerprint, ListCheck, ListTodo, Pickaxe, SquareArrowOutUpRight, SquarePen, Star, Trash2, X } from 'lucide-react';
-import { TbBrandDiscord, TbCalendarCheck } from "react-icons/tb";
+import { convertProjectCostTypeEnumToColorHex, convertProjectStatusEnumToColorHex, convertProjectStatusEnumToText, convertProjectTypeEnumToColorHex, darkenColor, lightenColor } from '@/utils/convertUtil';
+import { Check, Ellipsis, Fingerprint, SquareArrowOutUpRight, SquarePen, Trash2, X } from 'lucide-react';
+import { TbCalendarCheck } from "react-icons/tb";
 import { Badge } from '@/components/ui/badge';
 import { Color, DailyTaskRefresh, NOT_AVAILABLE, ProjectStatus } from '@/enums/enum';
 import { Link } from 'react-router-dom';
@@ -18,13 +18,11 @@ import { FaDiscord } from 'react-icons/fa6';
 import useSpinner from '@/hooks/useSpinner';
 import { apiDelete, apiPost, apiPut } from '@/utils/axios';
 import useConfirm from '@/hooks/useConfirm';
-import useNotification from '@/hooks/useNotification';
 import useMessage from '@/hooks/useMessage';
 import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Checkbox } from '@/components/Checkbox';
 
 const colunms = [
-  { header: '#', align: 'left' },
   { header: 'Tên Dự Án', align: 'left' },
   { header: 'Mảng', align: 'left' },
   { header: 'Trạng Thái', align: 'left' },
@@ -37,32 +35,34 @@ const colunms = [
 
 const DataTableMemo = React.memo(DataTable);
 
-export default function ProjectDataTable({ data = [], onUpdateData, onDeleteData, onUpdateMessage, onChangePage, loading, pagination }) {
+export default function ProjectDataTable({
+  data = [],
+  onUpdateData,
+  onDeleteData,
+  onChangePage,
+  pagination,
+  onSelectAllRows,
+  onSelectRow,
+  selected = []
+}) {
 
-  console.log(data)
   const [open, setOpen] = React.useState(false);
   const [project, setProject] = React.useState({});
   const { onOpen, onClose } = useSpinner();
   const { showConfirm } = useConfirm();
-  const { onOpenSuccessNotify, onOpenErrorNotify } = useNotification();
 
-  const { onSuccess } = useMessage();
+  const { onSuccess, onError } = useMessage();
+  const isEdit = true;
 
-  const handleCopyText = (text) => {
-    navigator.clipboard.writeText(text).then(() => {
-      onSuccess('Đã copy!');
-    });
-  }
-
-  const handleClick = (event) => {
-    const rows = document.querySelectorAll('.table-row');
-    rows.forEach((row) => row.classList.remove('active-row'));
-
-    const rowElement = event.target.closest('tr');
-    if (rowElement) {
-      rowElement.classList.add('active-row');
-    }
-  };
+  // const handleClick = (event) => {
+  //   const rows = document.querySelectorAll('.table-row');
+  //   rows.forEach((row) => row.classList.remove('active-row'));
+  //
+  //   const rowElement = event.target.closest('tr');
+  //   if (rowElement) {
+  //     rowElement.classList.add('active-row');
+  //   }
+  // };
 
   const handleClickOpen = (item) => {
     setOpen(true);
@@ -77,56 +77,31 @@ export default function ProjectDataTable({ data = [], onUpdateData, onDeleteData
     showConfirm("Xác nhận xóa dự án?", () => remove(id));
   }
 
-  const handleUpdateProjectStatus = (id, status, stt) => {
+  const handleUpdateProjectStatus = (id, status) => {
     const body = {
       id,
       status,
-      stt,
     };
     showConfirm(`Xác nhận cập nhật trạng thái của dự án thành '${convertProjectStatusEnumToText(status)?.toUpperCase()}'?`, () => putStatus(body));
   }
 
-  const handleUpdateProjectStar = (id, star, stt) => {
-    const body = {
-      id,
-      is_star: !star,
-      stt,
-    };
-    putStar(body);
-  }
-
-  const handleCreateDailyTaskComplted = (project_id, stt) => {
+  const handleCompleteDailyTask = (project_id) => {
     const body = {
       project_id,
-      stt,
     };
-    showConfirm(`Xác nhận dự án đã hoàn thành nhiệm vụ của ngày hôm nay?`, () => postDailyTasksCompleted(body));
+    showConfirm(`Xác nhận hoàn thành nhiệm vụ của ngày hôm nay?`, () => postCompleteDailyTasks(body));
   }
 
-  const postDailyTasksCompleted = async (body) => {
+  const postCompleteDailyTasks = async (body) => {
     try {
       onOpen();
-      const response = await apiPost(`/projects/daily-tasks-completed`, body);
-      onUpdateData(true, response.data.data);
+      const response = await apiPost(`/projects/complete-daily-tasks`, body);
       onSuccess("Đã hoàn thành!");
-    } catch (error) {
-      console.error(error);
-      onOpenErrorNotify(error.message);
-    } finally {
+      onUpdateData(isEdit, response.data.data);
       onClose();
-    }
-  }
-
-  const putStar = async (body) => {
-    try {
-      onOpen();
-      const response = await apiPut(`/projects/star`, body);
-      onUpdateData(true, response.data.data);
-      onSuccess(body.is_star ? "Đã đánh dấu quan trọng!" : 'Đã bỏ đánh dấu quan trọng!');
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
-    } finally {
+      onError(error.message);
       onClose();
     }
   }
@@ -135,29 +110,30 @@ export default function ProjectDataTable({ data = [], onUpdateData, onDeleteData
     try {
       onOpen();
       const response = await apiPut(`/projects/status`, body);
-      onUpdateData(true, response.data.data);
       onSuccess("Cập nhật trạng thái của dự án thành công!");
+      onUpdateData(isEdit, response.data.data);
+      onClose();
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
-    } finally {
+      onError(error.message);
       onClose();
     }
+  }
+
+  const triggerRemove = () => {
+    onSuccess("Xóa dự án thành công!")
+    onClose();
   }
 
   const remove = async (id) => {
     try {
       onOpen();
       const response = await apiDelete(`/projects/${id}`);
-      onDeleteData("Xóa dự án thành công!");
-      // onSuccess("Xóa dự án thành công!");
-      // onClose();
+      onDeleteData(response.data.data, triggerRemove);
     } catch (error) {
       console.error(error);
-      onOpenErrorNotify(error.message);
+      onError(error.message);
       onClose();
-    } finally {
-      // onClose();
     }
   }
 
@@ -166,157 +142,156 @@ export default function ProjectDataTable({ data = [], onUpdateData, onDeleteData
       <TableRow
         className='table-row'
         key={row.id}
+        selected={selected.includes(row.id)}
       >
-        <TableCell align="left">
-          {loading ? <SkeletonTable /> :
-            <span className='font-inter color-white'>
-              {row.stt}
-            </span>
-          }
+        <TableCell align="left" >
+          <Checkbox
+            checked={selected.includes(row.id)}
+            onClick={() => onSelectRow(row.id)}
+          />
         </TableCell>
         <TableCell align="left">
-          {loading ? <SkeletonTable /> :
-            <span className='font-inter color-white fw-bold text-too-long'>
-              {row.name}
-            </span>
-          }
+          <span className='font-inter color-white fw-bold text-too-long'>
+            {row.name}
+          </span>
         </TableCell>
         <TableCell align="left">
-          {loading ? <SkeletonTable /> :
-            <div className='d-flex gap-6'>
+          <div className='d-flex gap-8'>
+            <Badge
+              className='text-capitalize custom-badge bdr'
+              style={{
+                backgroundColor: `${darkenColor(convertProjectTypeEnumToColorHex(row.type))}`,
+                color: 'white',
+                borderColor: `${lightenColor(convertProjectTypeEnumToColorHex(row.type))}`,
+              }}
+            >
+              {row.type}
+            </Badge>
+            <Badge
+              className='text-capitalize custom-badge bdr'
+              style={{
+                backgroundColor: `${darkenColor(convertProjectCostTypeEnumToColorHex(row.cost_type))}`,
+                color: 'white',
+                borderColor: `${lightenColor(convertProjectCostTypeEnumToColorHex(row.cost_type))}`,
+              }}
+            >
+              {row.cost_type}
+            </Badge>
+          </div>
+        </TableCell>
+        <TableCell align="left">
+          <Popover className='button-dropdown-filter-checkbox pointer'
+            trigger={
               <Badge
-                className='text-capitalize custom-badge'
+                className='text-capitalize custom-badge select-none bdr'
                 style={{
-                  backgroundColor: convertProjectTypeEnumToColorHex(row.type),
-                  color: 'black',
+                  backgroundColor: `${darkenColor(convertProjectStatusEnumToColorHex(row.status))}`,
+                  color: 'white',
+                  borderColor: `${lightenColor(convertProjectStatusEnumToColorHex(row.status))}`,
                 }}
               >
-                {row.type}
-              </Badge>
-              <Badge
-                className='text-capitalize custom-badge'
-                style={{
-                  backgroundColor: convertProjectCostTypeEnumToColorHex(row.cost_type),
-                }}
-              >
-                {row.cost_type}
-              </Badge>
-            </div>
-          }
-        </TableCell>
-        <TableCell align="left">
-          {loading ? <SkeletonTable /> :
-            <Popover className='button-dropdown-filter-checkbox pointer'
-              trigger={
-                <Badge
-                  className='text-capitalize custom-badge select-none'
-                  style={{
-                    backgroundColor: convertProjectStatusEnumToColorHex(row.status),
-                    color: 'black',
-                  }}
-                >
+                <span className=''>
                   {convertProjectStatusEnumToText(row.status)}
-                </Badge>
-              }
-              content={
-                <SelectItems
-                  items={[
-                    {
-                      actions: ProjectStatusList.map((item) => {
-                        return {
-                          disabled: item === row.status,
-                          onClick: () => handleUpdateProjectStatus(row.id, item, row.stt),
-                          title:
-                            <Badge
-                              onClick={() => handleUpdateProjectStatus(row.id, row.status)}
-                              className='text-capitalize custom-badge select-none'
-                              style={{
-                                backgroundColor: convertProjectStatusEnumToColorHex(item),
-                                color: 'black',
-                              }}
-                            >
+                </span>
+              </Badge>
+            }
+            content={
+              <SelectItems
+                items={[
+                  {
+                    actions: ProjectStatusList.map((item) => {
+                      return {
+                        disabled: item === row.status,
+                        onClick: () => handleUpdateProjectStatus(row.id, item),
+                        title:
+                          <Badge
+                            onClick={() => handleUpdateProjectStatus(row.id, row.status)}
+                            className='text-capitalize custom-badge select-none bdr'
+                            style={{
+                              backgroundColor: `${darkenColor(convertProjectStatusEnumToColorHex(item))}`,
+                              color: 'white',
+                              borderColor: `${lightenColor(convertProjectStatusEnumToColorHex(item))}`,
+                            }}
+                          >
+                            <span className='fs-14'>
                               {convertProjectStatusEnumToText(item)}
-                            </Badge>
-                        }
-                      })
-                    },
-                    ,
-                  ]}
-                />
-              }
-            />
-          }
-        </TableCell>
-        {/*
-        <TableCell align="left">
-          {loading ? <SkeletonTable /> :
-            <Badge variant={'secondary'} className='custom-badge'>
-              {`${formatDateVN(row.createdAt)} - ${!row.end_date ? NOT_AVAILABLE : formatDateVN(row.end_date)}`}
-            </Badge>
-          }
-        </TableCell>
-*/}
-        <TableCell align="left">
-          {loading ? <SkeletonTable /> :
-            <Badge variant={'secondary'} className='custom-badge'>
-              {`${formatDateVN(row.createdAt)} - ${!row.end_date ? NOT_AVAILABLE : formatDateVN(row.end_date)}`}
-            </Badge>
-          }
+                            </span>
+                          </Badge>
+                      }
+                    })
+                  },
+                  ,
+                ]}
+              />
+            }
+          />
         </TableCell>
         <TableCell align="left">
-          {loading ? <SkeletonTable /> :
-            <div className='d-flex gap-15'>
-              {row.is_cheat ? <Check color={Color.SUCCESS} /> : <X color={Color.DANGER} />}
-              {row.is_cheating ? <Fingerprint size={'22px'} color={Color.SECONDARY} /> : null}
-            </div>
-          }
+          <Badge variant={'secondary'} className='badge-default bdr'>
+            {`${formatDateVN(row.createdAt)} - ${!row.end_date ? NOT_AVAILABLE : formatDateVN(row.end_date)}`}
+          </Badge>
         </TableCell>
         <TableCell align="left">
-          {loading ? <SkeletonTable /> :
-            <div className='d-flex gap-6'>
-              {row.url_daily_tasks && row.url_daily_tasks?.trim() !== '' && row.daily_tasks && row.daily_tasks?.trim() !== '' ?
-                <Link to={row.url_daily_tasks} target='_blank' rel="noopener noreferrer">
-                  <Badge className='text-capitalize custom-badge pointer select-none gap-6 justify-content-center d-flex align-items-center'
-                    onClick={handleClick}
-                    style={{
-                      backgroundColor: row.daily_tasks_completed ? Color.SUCCESS : row.daily_tasks_refresh === DailyTaskRefresh.NEW_TASK ? Color.SECONDARY :
-                        row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP ? Color.WARNING : Color.ORANGE,
-                      color: 'black',
-                    }}
-                  >
-                    {row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP && !row.daily_tasks_completed && <ClockIcon size={'15px'} />}
-                    {row.daily_tasks}
-                    {row.daily_tasks_completed && <CheckCheck size={'15px'} />}
-                  </Badge>
-                </Link>
-                :
-                row.daily_tasks && row.daily_tasks?.trim() !== '' ?
-                  <Badge className='text-capitalize custom-badge pointer select-none gap-1'
-                    style={{
-                      backgroundColor: row.daily_tasks_completed ? Color.SUCCESS : row.daily_tasks_refresh === DailyTaskRefresh.NEW_TASK ? Color.SECONDARY :
-                        row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP ? Color.WARNING : Color.ORANGE,
-                      color: 'black',
-                    }}
-                  >
-                    {row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP && !row.daily_tasks_completed && <ClockIcon size={'15px'} />}
-                    {row.daily_tasks}
-                    {row.daily_tasks_completed && <CheckCheck size={'15px'} />}
-                  </Badge>
-                  :
-                  <X color={Color.DANGER} />
-              }
-              {row.daily_tasks && row.daily_tasks?.trim() !== '' && !row.daily_tasks_completed && row.status === ProjectStatus.DOING &&
-                <Badge className='custom-badge gap-1 select-none pointer'
-                  onClick={() => handleCreateDailyTaskComplted(row.id, row.stt)}
+          <div className='d-flex gap-15'>
+            {row.is_cheat ? <Check color={Color.SUCCESS} /> : <X color={Color.DANGER} />}
+            {row.is_cheating ? <Fingerprint size={'22px'} color={Color.SECONDARY} /> : null}
+          </div>
+        </TableCell>
+        <TableCell align="left">
+          <div className='d-flex gap-8'>
+            {/*xem xet lai*/}
+            {row.url_daily_tasks && row.url_daily_tasks?.trim() !== '' && row.daily_tasks && row.daily_tasks?.trim() !== '' ?
+              <Link to={row.url_daily_tasks} target='_blank' rel="noopener noreferrer">
+                <Badge className='text-capitalize custom-badge pointer bdr select-none gap-6'
+                  // onClick={handleClick}
                   style={{
-                    backgroundColor: Color.SUCCESS,
-                    color: 'black',
+                    backgroundColor: `${darkenColor(row.daily_tasks_completed ? Color.SUCCESS : row.daily_tasks_refresh === DailyTaskRefresh.NEW_TASK ? Color.SECONDARY :
+                      row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP ? Color.WARNING : Color.ORANGE)}`,
+                    borderColor: `${lightenColor(row.daily_tasks_completed ? Color.SUCCESS : row.daily_tasks_refresh === DailyTaskRefresh.NEW_TASK ? Color.SECONDARY :
+                      row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP ? Color.WARNING : Color.ORANGE)}`,
+                    color: 'white',
                   }}
                 >
-                  <TbCalendarCheck size={'15px'} />
+                  {/*
+                    {row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP && !row.daily_tasks_completed && <ClockIcon size={'15px'} />}
+*/}
+                  {row.daily_tasks}
+                  {row.daily_tasks_completed && <TbCalendarCheck size={'15px'} />}
                 </Badge>
-              }
-              {/* row.daily_tasks && row.daily_tasks?.trim() !== '' && row.daily_tasks_completed && !row.daily_tasks_refresh_end_of_day &&
+              </Link>
+              :
+              row.daily_tasks && row.daily_tasks?.trim() !== '' ?
+                <Badge className='text-capitalize custom-badge pointer bdr select-none gap-6'
+                  style={{
+                    backgroundColor: `${darkenColor(row.daily_tasks_completed ? Color.SUCCESS : row.daily_tasks_refresh === DailyTaskRefresh.NEW_TASK ? Color.SECONDARY :
+                      row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP ? Color.WARNING : Color.ORANGE)}`,
+                    borderColor: `${lightenColor(row.daily_tasks_completed ? Color.SUCCESS : row.daily_tasks_refresh === DailyTaskRefresh.NEW_TASK ? Color.SECONDARY :
+                      row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP ? Color.WARNING : Color.ORANGE)}`,
+                    color: 'white',
+                  }}
+                >
+                  {/*
+                    {row.daily_tasks_refresh === DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP && !row.daily_tasks_completed && <ClockIcon size={'15px'} />}
+*/}
+                  {row.daily_tasks}
+                  {row.daily_tasks_completed && <TbCalendarCheck size={'15px'} />}
+                </Badge>
+                :
+                <X color={Color.DANGER} />
+            }
+            {row.daily_tasks && row.daily_tasks?.trim() !== '' && !row.daily_tasks_completed && row.status === ProjectStatus.DOING &&
+              <Badge className='custom-badge gap-1 select-none pointer bdr'
+                onClick={() => handleCompleteDailyTask(row.id)}
+                style={{
+                  backgroundColor: `${darkenColor(Color.SUCCESS)}`,
+                  borderColor: `${lightenColor(Color.SUCCESS)}`,
+                  color: 'white',
+                }}
+              >
+                <TbCalendarCheck size={'15px'} />
+              </Badge>
+            }
+            {/* row.daily_tasks && row.daily_tasks?.trim() !== '' && row.daily_tasks_completed && !row.daily_tasks_refresh_end_of_day &&
               <Badge className='custom-badge gap-1 select-none'
                 style={{
                   backgroundColor: Color.WARNING,
@@ -327,106 +302,98 @@ export default function ProjectDataTable({ data = [], onUpdateData, onDeleteData
                 <span>
                   {formatDateVN(row.task_time_completed)}
                 </span>
+               dem gio task clock
               </Badge>
             */}
-            </div>
-          }
+          </div>
         </TableCell>
         <TableCell align="left">
-          {loading ? <SkeletonTable /> :
-            <div className='d-flex'>
-              {row.url &&
-                <div className='d-flex me-10 justify-content-center align-items-center'>
-                  <Link to={row.url} target='_blank' rel="noopener noreferrer"
-                  >
-                    <ButtonIcon
-                      className='color-white pointer select-none'
-                      variant='ghost'
-                      icon={<SquareArrowOutUpRight color={Color.PRIMARY} />}
-                    />
-                  </Link>
-                  <Separator orientation="vertical" className='h-4 color-white ms-10' />
-                </div>
-              }
-              <ButtonIcon
-                onClick={() => handleClickOpen(row)}
-                variant='ghost'
-                icon={<SquarePen color={Color.WARNING} />}
-              />
-              {row.discord_url &&
-                <Link to={row.discord_url} target='_blank' rel="noopener noreferrer">
+          <div className='d-flex'>
+            {row.url &&
+              <div className='d-flex me-10 justify-content-center align-items-center'>
+                <Link to={row.url} target='_blank' rel="noopener noreferrer"
+                >
                   <ButtonIcon
-                    className='select-none pointer'
                     variant='ghost'
-                    icon={<FaDiscord color={Color.SECONDARY} />}
+                    icon={<SquareArrowOutUpRight color={Color.PRIMARY} />}
                   />
                 </Link>
-              }
-              <ButtonIcon
-                onClick={() => handleDelete(row.id)}
-                variant='ghost'
-                icon={<Trash2 color={Color.DANGER} />}
-              />
-              {(row.funding_rounds_url || row.galxe_url || row.zealy_url || row.faucet_url) &&
-                <Popover className='button-dropdown-filter-checkbox pointer'
-                  trigger={
-                    <ButtonIcon
-                      variant='ghost'
-                      icon={<Ellipsis />}
-                    />
-                  }
-                  content={
-                    <SelectItems
-                      items={[
-                        row.funding_rounds_url ? {
-                          url: row.funding_rounds_url,
-                          title: `Funding Rounds`,
-                        } : null,
-                        row.galxe_url ? {
-                          url: row.galxe_url,
-                          title: `Galxe`,
-                        } : null,
-                        row.zealy_url ? {
-                          url: row.zealy_url,
-                          title: `Zealy`,
-                        } : null,
-                        row.faucet_url ? {
-                          url: row.faucet_url,
-                          title: `Faucet`,
-                        } : null,
-                      ]}
-                    />
-                  }
-                />
-              }
-              <div className='d-flex justify-content-center align-items-center'>
-                <ButtonIcon
-                  onClick={() => handleUpdateProjectStar(row.id, row.is_star, row.stt)}
-                  className='select-none pointer button-icon-star'
-                  variant='ghost'
-                  icon={
-                    <Star className='star' color={row.is_star ? Color.WARNING : 'white'} style={{ fill: row.is_star ? Color.WARNING : 'none' }} />
-                  }
-                />
+                <Separator orientation="vertical" className='h-4 sepa ms-10' />
               </div>
-            </div>
-          }
+            }
+            <ButtonIcon
+              onClick={() => handleClickOpen(row)}
+              variant='ghost'
+              icon={<SquarePen color={Color.WARNING} />}
+            />
+            {row.discord_url &&
+              <Link to={row.discord_url} target='_blank' rel="noopener noreferrer">
+                <ButtonIcon
+                  variant='ghost'
+                  icon={<FaDiscord color={Color.SECONDARY} />}
+                />
+              </Link>
+            }
+            <ButtonIcon
+              onClick={() => handleDelete(row.id)}
+              variant='ghost'
+              icon={<Trash2 color={Color.DANGER} />}
+            />
+            {(row.funding_rounds_url || row.galxe_url || row.zealy_url || row.faucet_url) &&
+              <Popover className='button-dropdown-filter-checkbox pointer'
+                trigger={
+                  <ButtonIcon
+                    className="pointer button-icon select-none bdr"
+                    variant='ghost'
+                    icon={<Ellipsis />}
+                  />
+                }
+                content={
+                  <SelectItems
+                    items={[
+                      row.funding_rounds_url ? {
+                        url: row.funding_rounds_url,
+                        title: `Funding Rounds`,
+                      } : null,
+                      row.galxe_url ? {
+                        url: row.galxe_url,
+                        title: `Galxe`,
+                      } : null,
+                      row.zealy_url ? {
+                        url: row.zealy_url,
+                        title: `Zealy`,
+                      } : null,
+                      row.faucet_url ? {
+                        url: row.faucet_url,
+                        title: `Faucet`,
+                      } : null,
+                    ]}
+                  />
+                }
+              />
+            }
+          </div>
         </TableCell>
       </TableRow >
     ));
-  }, [data]);
+  }, [data, selected]);
 
   return (
     <>
       <DataTableMemo
-        className='mt-15'
+        className='mt-20'
         colunms={colunms}
-        data={
-          rows
-        }
-        onChangePage={onChangePage}
-        // loading={loading}
+        data={rows}
         pagination={pagination}
+
+        selected={selected}
+        isCheckedAll={data.length > 0 && data?.every(row => selected?.includes(row.id))}
+        isIndeterminate={selected.length > 0 && data?.some(row => selected.includes(row.id)) && !data.every(row => selected.includes(row.id))}
+
+        onSelectAllRows={onSelectAllRows}
+        onChangePage={onChangePage}
+
+        selectedObjText={'dự án'}
       />
 
       <Modal
@@ -435,20 +402,15 @@ export default function ProjectDataTable({ data = [], onUpdateData, onDeleteData
         title={"Cập nhật dự án"}
         content={
           <ProjectNewEditForm
-            onUpdateMessage={onUpdateMessage}
             onCloseModal={handleClose}
             currentProject={project}
-            isEdit={true}
+            isEdit={isEdit}
             onUpdateData={onUpdateData}
           />
         }
       />
     </>
   );
-}
-
-const SkeletonTable = () => {
-  return <Skeleton className='h-5 w-[150px]' />
 }
 
 const ProjectStatusList = [ProjectStatus.DOING, ProjectStatus.END_PENDING_UPDATE, ProjectStatus.TGE, ProjectStatus.SNAPSHOT, ProjectStatus.END_AIRDROP];

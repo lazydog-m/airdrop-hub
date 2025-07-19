@@ -18,7 +18,7 @@ iframe#webpack-dev-server-client-overlay {
 }
 
 .header-container {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -27,8 +27,8 @@ iframe#webpack-dev-server-client-overlay {
 
 .ant-layout-sider .ant-menu-item {
   padding-left: 12px !important;
-  border-radius: 6px;
-  height: 35px;
+  border-radius: 0rem;
+  height: 38px;
   color: white;
   transition: none !important;
 }
@@ -38,7 +38,7 @@ iframe#webpack-dev-server-client-overlay {
 }
 
 .ant-layout-sider .ant-menu-item:hover {
-  background-color: var(--hover) !important;
+  background-color: var(--border) !important;
   transition: none !important;
 }
 
@@ -60,28 +60,67 @@ iframe#webpack-dev-server-client-overlay {
 .ant-picker-panel-layout {
   background-color: var(--bg) !important;
   color: white !important;
-  border: 1px solid var(--hover) !important;
+  border: 1px solid var(--border) !important;
   border-radius: 0px !important;
 }
 
+.ant-popover-inner {
+  border-radius: 0rem !important;
+  margin-top: 3.5px;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
 :root {
-  --bg: #09090B;
-  --color: #585858;
-  --hover: #27272A;
-  --hover-row-table: #18181A;
-  --text-gray: #9F9FA7;
+  --bg: #242424;
+  --bg-light: #323230;
+  --color: #D97757;
+  --color-hover: #C36B4E;
+  --hover-row-table: #1F1F1F;
+  --table-head: #1A1A1A;
+  --border: #404040;
   --ff: 'Inter', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji" !important;
+  --hover: #505050;
+  --hover-light: #585858;
+  --focus: #999999;
+  --text-gray: #9F9FA7;
+  --ls3: 0.03em;
+  --ls5: 0.05em;
+  /* --bg: #09090B; */
+  /* --ff: 'Geist Mono' !important; */
+  /* --hover: #27272A; */
+  /* --hover-row-table: #1F1F1F; */
+  --success: #22C55E;
+  --error: #FA8072;
+  --secondary: #7173F2;
+  --primary: #0EA5E9;
+  --warning: #FCB700;
 }
 
 .bg-hover {
-  background-color: var(--hover);
+  background-color: var(--border);
+}
+
+.bg-color-light {
+  background-color: var(--bg-light) !important;
+}
+
+.sepa {
+  background-color: #686868;
+}
+
+.bdr {
+  border-radius: 0rem !important;
 }
 
 body {
   margin: 0 auto;
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji" !important;
+  font-family: var(--ff) !important;
   background-color: var(--bg) !important;
   padding-right: 0 !important;
+  letter-spacing: var(--ls5) !important;
+  scrollbar-highlight-color: black !important;
+  color-scheme: dark !important;
   /* overflow: hidden; */
 }
 
@@ -98,7 +137,8 @@ body {
 }
 
 .font-inter {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji" !important;
+  font-family: var(--ff) !important;
+  /* font-weight: 600 !important; */
 }
 
 .ant-btn-primary {
@@ -886,6 +926,14 @@ body {
   gap: 22px;
 }
 
+.gap-25 {
+  gap: 25px;
+}
+
+.gap-32 {
+  gap: 32px;
+}
+
 .gap-8 {
   gap: 8px;
 }
@@ -992,25 +1040,90 @@ body {
 
 .button-primary {
   background-color: var(--color);
+  border-radius: 0px !important;
 }
 
 .button-primary:hover {
-  background-color: #4e4e4e;
+  background-color: var(--color-hover);
+}
+
+.button-outline-primary {
+  color: var(--primary);
+  background-color: var(--bg);
+  border-radius: 0px !important;
+  border: 1px solid var(--primary) !important;
+}
+
+.button-outline-primary:hover {
+  background-color: #262F37;
+}
+
+.button-outline-danger {
+  color: var(--error);
+  background-color: var(--bg);
+  border-radius: 0px !important;
+  border: 1px solid var(--error) !important;
+}
+
+.button-outline-danger:hover {
+  background-color: var(--color);
+  color: white;
+}
+
+.button-ghost:hover {
+  background-color: var(--hover);
 }
 
 .button-outlined {
-  background-color: var(--bg);
-  border: 1px solid var(--hover);
+  background-color: var(--bg-light);
+  border: 1px solid var(--border);
+  border-radius: 0rem !important;
 }
 
 .button-outlined:hover {
   background-color: var(--hover);
 }
 
+.button-icon:hover,
+.button-icon-star:hover {
+  background-color: var(--hover);
+}
+
+.button-danger {}
+
 .dropdown-menu {
   min-height: 40px;
   min-width: 200px;
   padding: 5px;
+  background-color: var(--bg-light);
+}
+
+.select-item:hover {
+  background-color: var(--hover);
+}
+
+.select-item:focus {
+  background-color: var(--hover);
+}
+
+.select-content {
+  background-color: var(--bg-light);
+}
+
+.select-main {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border);
+  font-family: var(--ff) !important;
+  outline: none !important;
+  height: 40px;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+.select-main:focus {
+  border: 1px solid var(--focus) !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .select-none {
@@ -1026,7 +1139,7 @@ body {
 
 .dropdown-menu-item {
   height: 35px;
-  border-radius: 5px;
+  border-radius: 0rem;
   padding: 10px;
   user-select: none;
   /* Không cho phép chọn văn bản */
@@ -1042,25 +1155,64 @@ body {
   background-color: var(--hover);
 }
 
-.dropdown-menu-item .checkbox-default {
-  line-height: 1.0;
+.dropdown-menu-item .checkbox-dropdown {
+  line-height: 1.0 !important;
+}
+
+.checkbox-dropdown .ant-checkbox-inner {
+  background-color: var(--bg) !important;
+  border-radius: 0px !important;
+  border-color: #808080 !important;
+}
+
+/* ✅ Đổi màu nền và border khi checked */
+.checkbox-dropdown .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--color) !important;
+  border-color: var(--color-hover) !important;
+}
+
+.checkbox-dropdown .ant-checkbox-checked .ant-checkbox-inner:after {
+  border-color: #ffffff !important;
+  border-width: 2px !important;
+}
+
+.checkbox-dropdown {
+  user-select: none;
+  /* CSS cho các trình duyệt hiện đại */
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
 }
 
 .checkbox-default .ant-checkbox-inner {
-  background-color: var(--bg) !important;
+  background-color: var(--bg-light) !important;
+  border-radius: 0px !important;
+  border-color: var(--hover) !important;
 }
 
 .checkbox-default .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: white !important;
-  border-color: white !important;
-}
-
-.checkbox-default:hover .ant-checkbox-inner {
-  border-color: white !important;
+  background-color: var(--color) !important;
+  border-color: var(--color-hover) !important;
 }
 
 .checkbox-default .ant-checkbox-checked .ant-checkbox-inner:after {
-  border-color: black !important;
+  border-color: #ffffff !important;
+  border-width: 2px !important;
+}
+
+.checkbox-default .ant-checkbox-indeterminate .ant-checkbox-inner {
+  background-color: var(--color) !important;
+  border-color: var(--color-hover) !important;
+}
+
+.checkbox-default .ant-checkbox-indeterminate .ant-checkbox-inner:after {
+  background-color: #ffffff !important;
+  height: 3px !important;
+  width: 8px !important;
+  /* transition: none !important; */
 }
 
 .checkbox-default {
@@ -1103,34 +1255,35 @@ body {
 }
 
 .custom-table {
-  border: 1px solid var(--hover) !important;
-  border-radius: 6px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0rem !important;
   background-color: var(--bg) !important;
   table-layout: fixed !important;
+  box-shadow: none !important;
 }
 
 /*table header*/
 .MuiTableRow-root .MuiTableCell-head {
-  background-color: var(--bg) !important;
+  background-color: var(--table-head) !important;
   line-height: 1.1 !important;
-  color: var(--text-gray) !important;
+  color: white !important;
   font-size: 13.5px;
   font-weight: 500;
-  letter-spacing: normal !important;
   font-family: var(--ff);
-  border-bottom: 1px solid var(--hover);
+  border-bottom: 1px solid var(--border);
   padding-block: 12px !important;
+  /* height: 41px !important; */
   /* border-left: 1px solid var(--hover) !important; */
 }
 
 /*table body*/
 .MuiTableCell-root {
-  border-bottom: 1px solid var(--hover) !important;
+  border-bottom: 1px solid var(--border) !important;
   color: white !important;
   font-family: var(--ff) !important;
   font-size: 13.5px !important;
-  padding-block: 6.85px !important;
-  letter-spacing: normal !important;
+  padding-block: 6.55px !important;
+  letter-spacing: var(--ls5) !important;
   /* border-left: 1px solid var(--hover) !important; */
   /* border: 1px solid var(--hover) !important; */
   /* font-weight: 500 !important; */
@@ -1138,17 +1291,17 @@ body {
 
 .MuiTableCell-root:first-child {
   border-left: none !important;
+  /* border-radius: 0.25rem !important; */
 }
 
 .MuiTableRow-root {
   transition: linear 0.1s;
-  /* background-color: var(--bg) !important; */
+  background-color: var(--bg) !important;
 }
 
 .MuiTableRow-root:hover {
   background-color: var(--hover-row-table) !important;
   /* padding: 5px !important; */
-  transition: linear 0.1s;
 }
 
 .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root {
@@ -1158,6 +1311,14 @@ body {
 
 .css-gb76a6-MuiTableCell-root {
   background-color: var(--bg) !important;
+}
+
+.css-1xtozoh-MuiTableRow-root.Mui-selected {
+  background-color: var(--bg-light) !important;
+}
+
+.css-1xtozoh-MuiTableRow-root.Mui-selected:hover {
+  /* background-color: #282828 !important; */
 }
 
 /* .MuiTableRow-head { */
@@ -1171,25 +1332,21 @@ body {
 
 ::-webkit-scrollbar-track {
   border-radius: 10px;
-  background-color: var(--bg);
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272A;
+  background: var(--hover-light);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  /* width: 8px; */
+  /* height: 8px; */
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #9f9f9f;
-}
-
-::-webkit-scrollbar {
-  /* background-color: white !important; */
 }
 
 .custom-table {
@@ -1198,17 +1355,28 @@ body {
   color-scheme: dark !important;
 }
 
-/* .custom-table::-webkit-scrollbar { */
-/*   background: black !important; */
-/* } */
-
 .custom-input::placeholder {
   font-family: var(--ff) !important;
+  font-size: 14px;
+}
+
+.custom-input {
+  background-color: var(--bg-light);
+  font-family: var(--ff) !important;
+  height: 40px !important;
+  font-size: 14px !important;
+  color: white !important;
+  border-radius: 0rem !important;
+  border: 1px solid var(--border);
+  outline: none !important;
+  box-shadow: none !important;
+  transition: none !important;
 }
 
 .custom-input:focus {
-  /* border-color: white; */
-  /* border-width: 0.5px !important; */
+  border: 1px solid var(--focus) !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .text-capitalize {
@@ -1223,9 +1391,24 @@ body {
   padding-block: 10px;
 }
 
+.badge-default {
+  font-size: 13px;
+  font-weight: 500;
+  background-color: var(--bg-light);
+  border-color: var(--hover);
+  font-family: var(--ff);
+  color: white;
+  border-radius: 0px;
+  letter-spacing: var(--ls5);
+}
+
 .custom-badge {
   font-size: 13px;
   font-weight: 500;
+  font-family: var(--ff);
+  /* border-width: 5px; */
+  /* border-radius: 20px !important; */
+  /*default*/
 }
 
 .my-swal {
@@ -1238,7 +1421,7 @@ body {
 }
 
 .bcl-hover {
-  color: var(--hover);
+  color: var(--border);
 }
 
 .bcl-white {
@@ -1246,7 +1429,7 @@ body {
 }
 
 .input-adm {
-  border: 1px solid var(--hover);
+  border: 1px solid var(--border);
 }
 
 .input-adm:focus-within {
@@ -1295,21 +1478,26 @@ body {
   cursor: pointer;
 }
 
-.ant-message-success {
+.ant-message-success,
+.ant-message-error {
   font-family: var(--ff) !important;
+  letter-spacing: var(--ls3);
 }
 
-.ant-message-inner {
-  background-color: #22C55E !important;
+.ant-message-notice-content:has(.ant-message-success) {
+  background-color: #0D4E25 !important;
+  color: white !important;
+  /* border-radius: 0px !important; */
 }
 
-:where(.css-dev-only-do-not-override-1261szd).ant-message .ant-message-notice-wrapper .ant-message-notice-content {
-  background-color: #22C55E !important;
+.ant-message-notice-content:has(.ant-message-error) {
+  background-color: #652427 !important;
+  color: white !important;
 }
 
 .ant-tooltip-inner {
   font-family: var(--ff) !important;
-  background-color: var(--hover) !important;
+  background-color: var(--border) !important;
   margin-bottom: 3px !important;
   /* Màu nền mong muốn */
   /* color: #000 !important; */
@@ -1320,9 +1508,9 @@ body {
   margin: 1px 0 0 0;
   position: absolute;
   border: 1px solid #262626;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   color: white;
-  background-color: var(--bg);
+  background-color: var(--bg-light);
   padding: 0;
   list-style: none;
   width: 100%;
@@ -1333,7 +1521,7 @@ body {
 }
 
 .autocomplete-item {
-  border-radius: 5px;
+  /* border-radius: 5px; */
   padding: 5px;
   cursor: pointer;
   font-family: var(--ff);
@@ -1345,7 +1533,7 @@ body {
 }
 
 .autocomplete-item:hover {
-  background-color: #272727;
+  background-color: var(--hover);
 }
 
 /* .button-icon-star:hover .star { */
@@ -1360,7 +1548,7 @@ body {
   height: 50px;
   padding-inline: 20px;
   /* transition: linear 0.1s; */
-  border-bottom: 1px solid var(--hover);
+  border-bottom: 1px solid var(--border);
 }
 
 .task-row:hover {
@@ -1394,18 +1582,23 @@ body {
 }
 
 .tiptap p {
-  font-size: 20px !important;
+  font-size: 22px !important;
   font-family: var(--ff) !important;
   color: white !important;
 }
 
 .tiptap {
-  background-color: var(--bg);
+  /* background-color: var(--bg); */
 }
 
+/* .task-list input[type="checkbox"] { */
+/*   background-color: red !important; */
+/* } */
+
 .tiptap li[data-checked] input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  border-radius: 0px !important;
+  width: 22px;
+  height: 22px;
   margin-top: 7px;
   margin-right: 5px;
   cursor: pointer;
@@ -1417,16 +1610,36 @@ body {
 }
 
 .tiptap ol {
+  background-color: white !important;
   font-size: 20px;
   color: white !important;
 }
 
 .reactjs-tiptap-editor {
-  color: var(--hover) !important;
+  color: var(--border) !important;
 }
 
 .reactjs-tiptap-editor .richtext-items-center {
+  border-radius: 0px !important;
   color: white !important;
+  background-color: var(--hover-row-table);
+}
+
+.richtext-border-t {
+  display: none !important;
+}
+
+.richtext-items-center div {
+  background-color: var(--bg-light) !important;
+  display: none;
+}
+
+.richtext-items-center button:has(svg.lucide-link) {
+  display: none !important;
+}
+
+.tippy-box {
+  display: none !important;
 }
 
 .hover-link {
@@ -1437,8 +1650,17 @@ body {
   color: white;
 }
 
-.richtext-dialog-content {
+.richtext-overflow-hidden {
+  background-color: var(--bg-light) !important;
+  border-radius: 0px !important;
+}
+
+.richtext-px-1 {
   border-color: var(--hover) !important;
+}
+
+.richtext-dialog-content {
+  border-color: var(--border) !important;
 }
 
 .MuiSvgIcon-root,
@@ -1467,68 +1689,6 @@ body {
   font-family: var(--ff) !important;
 }
 
-.loader {
-  position: relative;
-  width: 60px;
-  /* Giảm kích thước thêm */
-  height: 60px;
-  /* Giảm kích thước thêm */
-  border-radius: 50%;
-  animation: rotate 0.75s linear infinite;
-}
-
-.loader::before {
-  content: '';
-  position: absolute;
-  width: 8px;
-  /* Giảm kích thước */
-  height: 16px;
-  /* Giảm kích thước */
-  border: 1px solid #ff3d00;
-  border-width: 5px 1px 3px;
-  /* Điều chỉnh cho phù hợp */
-  border-radius: 2px 2px 1px 1px;
-  box-sizing: border-box;
-  transform: rotate(45deg) translate(10px, -4px);
-  /* Điều chỉnh vị trí */
-  background-image: linear-gradient(#ff3d00 8px, transparent 0),
-    linear-gradient(#ff3d00 12px, transparent 0),
-    linear-gradient(#ff3d00 12px, transparent 0);
-  background-size: 4px 5px, 0.5px 12px, 0.5px 12px;
-  /* Điều chỉnh kích thước */
-  background-repeat: no-repeat;
-  background-position: center, 5px 0px, 1px 0px;
-  /* Điều chỉnh vị trí */
-}
-
-.loader::after {
-  content: '';
-  position: absolute;
-  height: 1.5px;
-  /* Giảm kích thước */
-  width: 1.5px;
-  /* Giảm kích thước */
-  left: 8px;
-  /* Điều chỉnh vị trí */
-  top: 18px;
-  /* Điều chỉnh vị trí */
-  border-radius: 50%;
-  color: #fff;
-  box-shadow: -1.5px 2px 1px, -2px 6px 1px,
-    -4px 9px 2px 1px, -2px 9px 2px,
-    -5px 13px 3px 1px, -1px 14px 4px,
-    -1.5px 17px 3px 1px, -5px 20px 3px 1px,
-    2px 24px 5px 1px, -3px 26px 5px 1px,
-    3px 28px 6px, -1px 30px 7px;
-  /* Điều chỉnh bóng */
-}
-
-@keyframes rotate {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 #nprogress {
   pointer-events: none;
   z-index: 9999 !important;
@@ -1546,4 +1706,127 @@ body {
 .css-d7yl7t-MuiButtonBase-root-MuiPickersDay-root.Mui-disabled {
   color: var(--text-gray) !important;
   font-family: var(--ff) !important;
+}
+
+/* From Uiverse.io by Nawsome */
+.pl {
+  display: block;
+  width: 4.975em;
+  height: 4.975em;
+}
+
+.pl__arrows,
+.pl__ring-rotate,
+.pl__ring-stroke,
+.pl__tick {
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.pl__arrows {
+  animation-name: arrows42;
+  transform: rotate(45deg);
+  transform-origin: 16px 52px;
+}
+
+.pl__ring-rotate,
+.pl__ring-stroke {
+  transform-origin: 80px 80px;
+}
+
+.pl__ring-rotate {
+  animation-name: ringRotate42;
+}
+
+.pl__ring-stroke {
+  animation-name: ringStroke42;
+  transform: rotate(-45deg);
+}
+
+.pl__tick {
+  animation-name: tick42;
+}
+
+.pl__tick:nth-child(2) {
+  animation-delay: -1.75s;
+}
+
+.pl__tick:nth-child(3) {
+  animation-delay: -1.5s;
+}
+
+.pl__tick:nth-child(4) {
+  animation-delay: -1.25s;
+}
+
+.pl__tick:nth-child(5) {
+  animation-delay: -1s;
+}
+
+.pl__tick:nth-child(6) {
+  animation-delay: -0.75s;
+}
+
+.pl__tick:nth-child(7) {
+  animation-delay: -0.5s;
+}
+
+.pl__tick:nth-child(8) {
+  animation-delay: -0.25s;
+}
+
+/* Animations */
+@keyframes arrows42 {
+  from {
+    transform: rotate(45deg);
+  }
+
+  to {
+    transform: rotate(405deg);
+  }
+}
+
+@keyframes ringRotate42 {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes ringStroke42 {
+
+  from,
+  to {
+    stroke-dashoffset: 452;
+    transform: rotate(-45deg);
+  }
+
+  50% {
+    stroke-dashoffset: 169.5;
+    transform: rotate(-180deg);
+  }
+}
+
+@keyframes tick42 {
+
+  from,
+  3%,
+  47%,
+  to {
+    stroke-dashoffset: -12;
+  }
+
+  14%,
+  36% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ant-drawer {
+  z-index: 1001;
+  outline: none !important;
 }

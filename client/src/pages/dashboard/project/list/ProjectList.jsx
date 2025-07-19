@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ButtonPrimary } from "@/components/Button";
 import Container from "@/components/Container";
 import { HeaderAction } from "@/components/HeaderSection";
@@ -12,43 +12,79 @@ import { apiGet } from '@/utils/axios';
 import { ProjectStatus } from '@/enums/enum';
 import useSpinner from '@/hooks/useSpinner';
 import useMessage from '@/hooks/useMessage';
+import useTable from '@/hooks/useTable';
+import { delayApi } from '@/utils/commonUtil';
 
 const ProjectDataTableMemo = React.memo(ProjectDataTable);
 
 export default function ProjectList() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // modal
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [key, setKey] = useState(0);
   const [pagination, setPagination] = useState({});
-  const [message, setMessage] = useState('');
   const { onOpen, onClose } = useSpinner();
-  const { onSuccess } = useMessage();
-  const previousKey = useRef(key);
+  const { onError } = useMessage();
 
-  const handleChangePage = useCallback((action) => {
+  const [search, setSearch] = useState('');
+  const [selectedStatusItems, setSelectedStatusItems] = useState([ProjectStatus.DOING]);
+  const [selectedTypeItems, setSelectedTypeItems] = useState([]);
+  const [selectedCostItems, setSelectedCostItems] = useState([]);
+  const [selectedOtherItems, setSelectedOtherItems] = useState([]);
 
-    if (action === 'prev') {
-      setPage((prev) => prev - 1);
+  const {
+    onSelectRow,
+    selected,
+    setSelected,
+    onSelectAllRows,
+    page,
+    onChangePage,
+  } = useTable({});
+
+  const fetchApi = async (dataTrigger = false, onTrigger = () => { }) => {
+    const params = {
+      selectedCostItems,
+      selectedTypeItems,
+      selectedOtherItems,
+      selectedStatusItems,
+      page,
+      search,
     }
-    if (action === 'next') {
-      setPage((prev) => prev + 1);
-    }
 
-    if (action === 'prevs') {
-      setPage(1);
-    }
-    if (action === 'nexts') {
-      console.log(pagination)
-      setPage(pagination?.totalPages);
-    }
+    try {
+      onOpen();
+      const response = await apiGet("/projects", params);
 
-  }, [pagination])
+      if (dataTrigger) {
+        setData(response.data.data.data || []);
+        setPagination(response.data.data.pagination || {});
+        onTrigger();
+      }
+      else {
+        delayApi(() => {
+          setData(response.data.data.data || []);
+          setPagination(response.data.data.pagination || {});
+          onClose();
+        })
+      }
 
-  const handleUpdateData = useCallback((isEdit, projectNew, message = '') => {
+    } catch (error) {
+      console.error(error);
+      onError(error.message);
+      onClose();
+    }
+  }
+
+  const handleSelectAllRows = React.useCallback((checked) => {
+    const selecteds = data.map((row) => row.id);
+    onSelectAllRows(checked, selecteds);
+  }, [data])
+
+  const handleSelectRow = React.useCallback((id) => {
+    onSelectRow(id);
+  }, [selected])
+
+  const handleUpdateData = useCallback((isEdit, projectNew, onTrigger = () => { }) => {
     if (!isEdit) {
-      setKey((key) => (key + 1))
-      setMessage(message);
+      fetchApi(true, onTrigger)
     }
     else {
       setData((prevData) =>
@@ -57,12 +93,15 @@ export default function ProjectList() {
         )
       );
     }
-  }, []);
+  }, [selectedStatusItems, selectedOtherItems, selectedTypeItems, selectedCostItems, search, page]);
 
-  const handleDeleteData = useCallback((message = '') => {
-    setKey((key) => (key + 1))
-    setMessage(message);
-  }, []);
+  const handleDeleteData = useCallback((id, onTrigger = () => { }) => {
+    fetchApi(true, () => {
+      const newSelected = selected.filter(selected => selected !== id);
+      setSelected(newSelected);
+      onTrigger();
+    })
+  }, [selectedStatusItems, selectedOtherItems, selectedTypeItems, selectedCostItems, search, page, selected]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -72,15 +111,13 @@ export default function ProjectList() {
     setOpen(false);
   };
 
-  const [selectedStatusItems, setSelectedStatusItems] = useState([ProjectStatus.DOING]);
-  const [selectedTypeItems, setSelectedTypeItems] = useState([]);
-  const [selectedCostItems, setSelectedCostItems] = useState([]);
-  const [search, setSearch] = useState('');
-  const [selectedOtherItems, setSelectedOtherItems] = useState([]);
+  const handleChangePage = useCallback((newPage) => {
+    onChangePage(newPage)
+  }, [])
 
   const handleChangeSearch = (value) => {
     setSearch(value);
-    setPage(1);
+    onChangePage(1);
   }
 
   const handleChangeSelectedStatusItems = (label, isChecked) => {
@@ -91,7 +128,7 @@ export default function ProjectList() {
         return prev.filter((item) => item !== label);
       }
     });
-    setPage(1);
+    onChangePage(1);
   };
 
   const handleChangeSelectedTypeItems = (label, isChecked) => {
@@ -102,7 +139,7 @@ export default function ProjectList() {
         return prev.filter((item) => item !== label);
       }
     });
-    setPage(1);
+    onChangePage(1);
   };
 
   const handleChangeSelectedCostItems = (label, isChecked) => {
@@ -113,7 +150,7 @@ export default function ProjectList() {
         return prev.filter((item) => item !== label);
       }
     });
-    setPage(1);
+    onChangePage(1);
   };
 
   const handleChangeSelectedOtherItems = (label, isChecked) => {
@@ -124,7 +161,7 @@ export default function ProjectList() {
         return prev.filter((item) => item !== label);
       }
     });
-    setPage(1);
+    onChangePage(1);
   };
 
   const handleClearAllSelectedItems = () => {
@@ -133,54 +170,12 @@ export default function ProjectList() {
     setSelectedCostItems([]);
     setSelectedOtherItems([]);
     setSearch('');
-    setPage(1);
+    onChangePage(1);
   }
 
   useEffect(() => {
-    const fetch = async () => {
-
-      const params = {
-        selectedCostItems,
-        selectedTypeItems,
-        selectedOtherItems,
-        selectedStatusItems,
-        page,
-        search,
-      }
-
-      try {
-        if (previousKey.current !== key) {
-          previousKey.current = key;
-        }
-        else {
-          onOpen();
-        }
-        const response = await apiGet("/projects", params);
-
-        if (message) {
-          onSuccess(message);
-          setData(response.data.data.data || []);
-          setPagination(response.data.data.pagination || {});
-          onClose();
-          setMessage('');
-        }
-        else {
-          setTimeout(() => {
-            setData(response.data.data.data || []);
-            setPagination(response.data.data.pagination || {});
-            onClose();
-          }, 200)
-        }
-
-      } catch (error) {
-        console.error(error);
-        onClose();
-      } finally {
-      }
-    }
-
-    fetch();
-  }, [selectedStatusItems, selectedOtherItems, selectedTypeItems, selectedCostItems, search, page, key])
+    fetchApi();
+  }, [selectedStatusItems, selectedOtherItems, selectedTypeItems, selectedCostItems, search, page])
 
   return (
     <Page title='Quản lý dự án - AirdropHub'>
@@ -222,9 +217,14 @@ export default function ProjectList() {
         <ProjectDataTableMemo
           pagination={pagination}
           onChangePage={handleChangePage}
+
           data={data}
           onUpdateData={handleUpdateData}
           onDeleteData={handleDeleteData}
+
+          selected={selected}
+          onSelectAllRows={handleSelectAllRows}
+          onSelectRow={handleSelectRow}
         />
 
         <Modal

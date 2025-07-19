@@ -38,7 +38,7 @@ export default function ProfileWalletFilterSearch({
         <Input
           placeholder='Tìm kiếm địa chỉ ví ...'
           style={{ width: '200px' }}
-          className='color-white font-inter h-40 fs-13'
+          className='custom-input'
           value={filterSearch}
           onChange={(event) => setFilterSearch(event.target.value)}
         />
