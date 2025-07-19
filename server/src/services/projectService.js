@@ -3,7 +3,7 @@ const NotFoundException = require('../exceptions/NotFoundException');
 const ValidationException = require('../exceptions/ValidationException');
 const Joi = require('joi');
 const RestApiException = require('../exceptions/RestApiException');
-const { ProjectType, ProjectStatus, ProjectCost, DailyTaskRefresh } = require('../enums');
+const { ProjectType, ProjectStatus, ProjectCost, DailyTaskRefresh, Pagination } = require('../enums');
 const { Op, Sequelize } = require('sequelize');
 const sequelize = require('../configs/dbConnection');
 const { convertBitToBoolean } = require('../utils/convertUtil');
@@ -92,7 +92,7 @@ const projectSchema = Joi.object({
   daily_tasks_refresh: Joi.string()
     .valid(DailyTaskRefresh.UNKNOWN, DailyTaskRefresh.COUNT_DOWN_TIME_IT_UP, DailyTaskRefresh.NEW_TASK, DailyTaskRefresh.UTC0)
     .messages({
-      'any.only': 'Thời điểm làm không hợp lệ!'
+      'any.only': 'Thời điểm làm mới task không hợp lệ!'
     }),
   status: Joi
     .valid(ProjectStatus.DOING, ProjectStatus.END_PENDING_UPDATE, ProjectStatus.TGE, ProjectStatus.SNAPSHOT, ProjectStatus.END_AIRDROP)
@@ -115,8 +115,7 @@ const getAllProjects = async (req) => {
   const { selectedCostItems, selectedTypeItems, selectedStatusItems, selectedOtherItems, page, search } = req.query;
 
   const currentPage = Number(page) || 1;
-  const limit = 12;
-  const offset = (currentPage - 1) * limit;
+  const offset = (currentPage - 1) * Pagination.limit;
 
   let whereClause = 'WHERE p.deletedAt IS NULL';
   const conditions = [];
@@ -173,19 +172,6 @@ const getAllProjects = async (req) => {
 
   const query = `
     SELECT 
-    ROW_NUMBER() OVER (
-        ORDER BY 
-            p.is_star DESC,
-            CASE 
-                WHEN p.type = 'retroactive' THEN 1
-                WHEN p.type = 'web' THEN 2
-                WHEN p.type = 'testnet' THEN 3
-                WHEN p.type = 'depin' THEN 4
-                WHEN p.type = 'galxe' THEN 5
-                ELSE 6
-            END,
-            p.createdAt DESC
-    ) AS stt,
       p.id, 
       p.name, 
       p.url, 
@@ -200,10 +186,8 @@ const getAllProjects = async (req) => {
       p.end_date, 
       p.is_cheat, 
       p.is_cheating, 
-      p.is_star, 
       p.daily_tasks, 
       p.url_daily_tasks, 
-      p.deletedAt, 
       p.note, 
       p.daily_tasks_refresh,
       dtc.max_id AS daily_tasks_completed
@@ -217,45 +201,35 @@ const getAllProjects = async (req) => {
    ) dtc ON dtc.project_id = p.id
     ${whereClause} 
     ORDER BY
-    p.is_star DESC,
-    CASE 
-        WHEN p.type = 'retroactive' THEN 1
-        WHEN p.type = 'web' THEN 2
-        WHEN p.type = 'testnet' THEN 3
-        WHEN p.type = 'depin' THEN 4
-        WHEN p.type = 'galxe' THEN 5
-        ELSE 6
-    END,
     p.createdAt DESC
-    LIMIT ${limit} OFFSET ${offset};`;
+    LIMIT ${Pagination.limit} OFFSET ${offset};`;
 
   const data = await sequelize.query(query, {
     replacements: replacements,
   });
 
   const countQuery = `
-SELECT COUNT(*) AS total 
-FROM projects p
-LEFT JOIN (
+  SELECT COUNT(*) AS total 
+  FROM projects p
+  LEFT JOIN (
     SELECT dtc.project_id, MAX(dtc.createdAt) AS last_completed_at, MAX(dtc.id) AS max_id  
     FROM daily_tasks_completed dtc
     WHERE DATE(dtc.createdAt) = CURDATE()
     GROUP BY dtc.project_id
-) dtc ON dtc.project_id = p.id
-${whereClause};`;
+  ) dtc ON dtc.project_id = p.id
+  ${whereClause};`;
 
   const countResult = await sequelize.query(countQuery, {
     replacements: replacements,
   });
 
   const total = countResult[0][0]?.total;
-  const totalPages = Math.ceil(total / limit);
+  const totalPages = Math.ceil(total / Pagination.limit);
 
   const convertedData = data[0].map((item) => {
     return {
       ...item,
       is_cheat: convertBitToBoolean(item.is_cheat),
-      is_star: convertBitToBoolean(item.is_star),
       is_cheating: convertBitToBoolean(item.is_cheating),
       daily_tasks_completed: item.daily_tasks_completed === null ? false : true,
     }
@@ -309,19 +283,19 @@ const getProjectById = async (id) => {
   return project;
 }
 
-const createDailyTasksCompleted = async (body) => {
+const completeDailyTasks = async (body) => {
 
-  const { project_id, stt } = body;
+  const { project_id } = body;
 
-  const createdDailyTaskCompleted = await DailyTaskCompleted.create({
+  const dailyTaskCompleted = await DailyTaskCompleted.create({
     project_id,
   });
 
   const result = await sequelize.query(queryAfterSave, {
-    replacements: { id: createdDailyTaskCompleted.project_id },
+    replacements: { id: dailyTaskCompleted.project_id },
   });
 
-  const item = { ...result[0][0], stt };
+  const item = { ...result[0][0] };
   const convertedData = convertItem(item);
 
   return convertedData;
@@ -331,9 +305,8 @@ const convertItem = (item) => {
   return {
     ...item,
     is_cheat: convertBitToBoolean(item?.is_cheat),
-    is_star: convertBitToBoolean(item.is_star),
     is_cheating: convertBitToBoolean(item?.is_cheating),
-    daily_tasks_completed: item?.daily_tasks_completed === null ? false : true,
+    daily_tasks_completed: item.daily_tasks_completed === null ? false : true,
   }
 }
 
@@ -349,18 +322,11 @@ const createProject = async (body) => {
     ...data,
   });
 
-  const result = await sequelize.query(queryAfterSave, {
-    replacements: { id: createdProject.id },
-  });
-
-  const item = result[0][0];
-  const convertedData = convertItem(item);
-
-  return convertedData;
+  return createdProject;
 }
 
 const updateProject = async (body) => {
-  const { id, stt } = body;
+  const { id } = body;
   const data = validateProject(body);
 
   const existingProject = await Project.findOne({
@@ -390,14 +356,14 @@ const updateProject = async (body) => {
     replacements: { id },
   });
 
-  const item = { ...result[0][0], stt };
+  const item = { ...result[0][0] };
   const convertedData = convertItem(item);
 
   return convertedData;
 }
 
 const updateProjectStatus = async (body) => {
-  const { id, status, stt } = body;
+  const { id, status } = body;
   validateProjectStatus(body);
 
   const [updatedCount] = await Project.update({
@@ -417,7 +383,7 @@ const updateProjectStatus = async (body) => {
     replacements: { id },
   });
 
-  const item = { ...result[0][0], stt };
+  const item = { ...result[0][0] };
   const convertedData = convertItem(item);
 
   return convertedData;
@@ -449,6 +415,7 @@ const updateProjectStar = async (body) => {
 }
 
 const deleteProject = async (id) => {
+
   const [deletedCount] = await Project.update({
     deletedAt: Sequelize.fn('NOW'),
   }, {
@@ -502,9 +469,7 @@ const queryAfterSave = `
       p.is_cheating, 
       p.daily_tasks, 
       p.url_daily_tasks, 
-      p.deletedAt, 
       p.note, 
-      p.is_star, 
       p.daily_tasks_refresh,
       dtc.max_id AS daily_tasks_completed
     FROM 
@@ -518,7 +483,7 @@ const queryAfterSave = `
     WHERE p.id = :id
     `;
 
-module.exports = { getAllProjects, getProjectById, createProject, updateProject, updateProjectStatus, countProject, deleteProject, createDailyTasksCompleted, getDailyTasks, updateProjectStar };
+module.exports = { getAllProjects, getProjectById, createProject, updateProject, updateProjectStatus, countProject, deleteProject, completeDailyTasks, getDailyTasks, updateProjectStar };
 
 
 

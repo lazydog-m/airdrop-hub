@@ -1,16 +1,22 @@
 require('dotenv').config();
 
 const express = require('express');
+const http = require('http');
+const { initSocket } = require('./src/configs/socket');
+
 const projectRoutes = require('./src/controllers/projectController');
 const profileRoutes = require('./src/controllers/profileController');
 const walletRoutes = require('./src/controllers/walletController');
 const taskRoutes = require('./src/controllers/taskController');
 const profileWalletRoutes = require('./src/controllers/profileWalletController');
+
 const databaseSync = require('./src/utils/dbMigration');
 const errorHandler = require('./src/middleware/errorHandler');
+
 const cors = require('cors');
 
 const app = express();
+const server = http.createServer(app);
 
 const PORT = process.env.PORT || 3000;
 const DB_ACTION = process.env.DB_ACTION || 'none';
@@ -34,12 +40,13 @@ registerRoutes('/wallets', walletRoutes);
 registerRoutes('/profile-wallets', profileWalletRoutes);
 registerRoutes('/tasks', taskRoutes);
 
+initSocket(server);
 // app.use('/hello', projectRoutes);
 
 // error handler middleware
 app.use(errorHandler);
 
-app.listen(PORT, async () => {
+server.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}.`);
   await databaseSync(DB_ACTION);
 });

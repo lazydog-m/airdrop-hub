@@ -3,7 +3,7 @@ const ValidationException = require('../exceptions/ValidationException');
 const Joi = require('joi');
 const { Op, Sequelize } = require('sequelize');
 const Wallet = require('../models/wallet');
-const { WalletStatus, TRASH_DATA_TYPE } = require('../enums');
+const { WalletStatus, TRASH_DATA_TYPE, Pagination } = require('../enums');
 const RestApiException = require('../exceptions/RestApiException');
 const ProfileWallet = require('../models/profile_wallet');
 const sequelize = require('../configs/dbConnection');
@@ -51,8 +51,7 @@ const getAllWallets = async (req) => {
   const { selectedStatusItems, dataType, page, search } = req.query;
 
   const currentPage = Number(page) || 1;
-  const limit = 12;
-  const offset = (currentPage - 1) * limit;
+  const offset = (currentPage - 1) * Pagination.limit;
 
   let whereClause = 'WHERE w.deletedAt IS NULL';
   const conditions = [];
@@ -87,10 +86,6 @@ const getAllWallets = async (req) => {
 
   const query = `
     SELECT
-    ROW_NUMBER() OVER (
-        ORDER BY 
-            w.createdAt DESC
-    ) AS stt,
     w.id, w.createdAt, pw_min.wallet_id, 
        w.name, w.password, w.status
     FROM wallets w
@@ -101,7 +96,7 @@ const getAllWallets = async (req) => {
     ) pw_min ON pw_min.wallet_id = w.id
     ${whereClause} 
     ORDER BY w.createdAt DESC
-    LIMIT ${limit} OFFSET ${offset}
+    LIMIT ${Pagination.limit} OFFSET ${offset}
   `;
   const data = await sequelize.query(query, {
     replacements: replacements,
@@ -123,7 +118,7 @@ SELECT COUNT(*) AS total
   });
 
   const total = countResult[0][0]?.total;
-  const totalPages = Math.ceil(total / limit);
+  const totalPages = Math.ceil(total / Pagination.limit);
 
   return {
     data: data[0],
@@ -179,7 +174,7 @@ const createWallet = async (body) => {
 }
 
 const updateWallet = async (body) => {
-  const { id, stt } = body;
+  const { id } = body;
   const data = validateWallet(body);
 
   const existingWallet = await Wallet.findOne({
@@ -220,11 +215,11 @@ const updateWallet = async (body) => {
     replacements: { id: id },
   });
 
-  return { ...result[0][0], stt };
+  return { ...result[0][0] };
 }
 
 const updateWalletStatus = async (body) => {
-  const { id, status, stt } = body;
+  const { id, status } = body;
   validateWalletStatus(body);
 
   const [updatedCount] = await Wallet.update({
@@ -254,7 +249,7 @@ const updateWalletStatus = async (body) => {
     replacements: { id: id },
   });
 
-  return { ...result[0][0], stt };
+  return { ...result[0][0] };
 }
 
 const deleteWallet = async (id) => {

@@ -56,11 +56,8 @@ const getAllTasks = async (req) => {
       t.id, 
       t.task_name, 
       t.status, 
-      t.description, 
       t.due_date, 
-      t.deletedAt,
-      t.order,
-      t.createdAt 
+      t.order
     FROM 
       tasks t
     WHERE t.deletedAt IS NULL

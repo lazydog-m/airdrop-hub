@@ -1,0 +1,4 @@
+2025/07/19-19:42:51.703 370d Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/sxmb1983@gmail.com/Default/shared_proto_db/MANIFEST-000001
+2025/07/19-19:42:51.704 370d Recovering log #26
+2025/07/19-19:42:51.706 370d (ignoring error) /home/hatq75/dev/airdrop-hub/server/profiles/sxmb1983@gmail.com/Default/shared_proto_db/000026.log: dropping 365 bytes; Corruption: missing start of fragmented record(2)
+2025/07/19-19:42:51.706 370d Reusing old log /home/hatq75/dev/airdrop-hub/server/profiles/sxmb1983@gmail.com/Default/shared_proto_db/000026.log 

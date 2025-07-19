@@ -2,7 +2,7 @@ const express = require('express');
 const { HttpStatus } = require('../enums');
 const RestApiException = require('../exceptions/RestApiException');
 const api = express.Router();
-const { getAllProjects, getProjectById, createProject, updateProject, updateProjectStatus, deleteProject, createDailyTasksCompleted, getDailyTasks, updateProjectStar } = require('../services/projectService');
+const { getAllProjects, getProjectById, createProject, updateProject, updateProjectStatus, deleteProject, completeDailyTasks, getDailyTasks, updateProjectStar } = require('../services/projectService');
 const apiRes = require('../utils/apiResponse');
 const sequelize = require('../configs/dbConnection');
 
@@ -48,10 +48,10 @@ api.post('/', async (req, res, next) => {
 });
 
 // Create daily tasks completed for project
-api.post('/daily-tasks-completed', async (req, res, next) => {
+api.post('/complete-daily-tasks', async (req, res, next) => {
   const { body } = req;
   try {
-    const createdDailyTasksCompleted = await createDailyTasksCompleted(body);
+    const createdDailyTasksCompleted = await completeDailyTasks(body);
 
     return apiRes.toJson(res, createdDailyTasksCompleted);
   } catch (error) {

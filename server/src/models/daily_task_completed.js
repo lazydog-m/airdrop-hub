@@ -9,10 +9,6 @@ const DailyTaskCompleted = db.define('daily_tasks_completed', {
   },
   project_id: {
     type: DataTypes.UUID,
-    references: {
-      model: 'projects',
-      key: 'id'
-    },
     allowNull: false,
   },
 },

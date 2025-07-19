@@ -88,6 +88,10 @@ const TaskRank = {
 const TRASH_DATA_TYPE = 'TRASH_DATA_TYPE';
 const CURRENT_DATA_TYPE = 'CURRENT_DATA_TYPE';
 
+const Pagination = {
+  limit: 12,
+}
+
 module.exports = {
   HttpStatus,
   Message,
@@ -103,4 +107,5 @@ module.exports = {
   TaskType,
   TRASH_DATA_TYPE,
   CURRENT_DATA_TYPE,
+  Pagination,
 };

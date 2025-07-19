@@ -14,4 +14,13 @@ const convertBitToBoolean = (bit) => {
 
 }
 
-module.exports = { convertToArray, convertBitToBoolean }
+const convertEmailToEmailUsername = (email) => {
+  const username = email?.split('@')[0] || null;
+  return username;
+}
+
+module.exports = {
+  convertToArray,
+  convertBitToBoolean,
+  convertEmailToEmailUsername
+}

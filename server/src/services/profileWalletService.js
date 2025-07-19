@@ -6,7 +6,7 @@ const { Sequelize } = require('sequelize');
 const ProfileWallet = require('../models/profile_wallet');
 const Wallet = require('../models/wallet');
 const sequelize = require('../configs/dbConnection');
-const { WalletStatus } = require('../enums');
+const { WalletStatus, Pagination } = require('../enums');
 
 const profileWalletSchema = Joi.object({
   wallet_address: Joi.string().required().max(1000).messages({
@@ -38,15 +38,10 @@ const getAllProfileWalletsByIdProfile = async (req) => {
   const { page, search, id } = req.query;
 
   const currentPage = Number(page) || 1;
-  const limit = 12;
-  const offset = (currentPage - 1) * limit;
+  const offset = (currentPage - 1) * Pagination.limit;
 
   const query = `
     SELECT 
-    ROW_NUMBER() OVER (
-        ORDER BY 
-            pw.createdAt DESC
-    ) AS stt,
     pw.id, pw.createdAt, pw.profile_id, pw.wallet_id, pw.wallet_address, pw.secret_phrase, 
            w.name, w.password 
     FROM profile_wallets pw
@@ -56,7 +51,7 @@ const getAllProfileWalletsByIdProfile = async (req) => {
       AND w.status = :status 
       AND w.name LIKE :searchQuery 
     ORDER BY pw.createdAt DESC
-    LIMIT ${limit} OFFSET ${offset}
+    LIMIT ${Pagination.limit} OFFSET ${offset}
   `;
   const data = await sequelize.query(query, {
     replacements: {
@@ -85,7 +80,7 @@ SELECT COUNT(*) AS total
   });
 
   const total = countResult[0][0]?.total;
-  const totalPages = Math.ceil(total / limit);
+  const totalPages = Math.ceil(total / Pagination.limit);
 
   return {
     data: data[0],
@@ -133,7 +128,7 @@ const createProfileWallet = async (body) => {
 }
 
 const updateProfileWallet = async (body) => {
-  const { id, profile_id, wallet_name, wallet_id, need_check_wallet_id, stt } = body;
+  const { id, profile_id, wallet_name, wallet_id, need_check_wallet_id } = body;
   const data = validateProfileWallet(body);
 
   if (need_check_wallet_id) {
@@ -163,7 +158,7 @@ const updateProfileWallet = async (body) => {
     replacements: { id: id },
   });
 
-  return { ...result[0][0], stt };
+  return { ...result[0][0] };
 }
 
 const deleteProfileWallet = async (id) => {

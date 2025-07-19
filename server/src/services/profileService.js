@@ -5,6 +5,8 @@ const RestApiException = require('../exceptions/RestApiException');
 const { Sequelize, Op } = require('sequelize');
 const Profile = require('../models/profile');
 const sequelize = require('../configs/dbConnection');
+const { Pagination } = require('../enums');
+const { openProfile, browsers, currentProfiles, findProfileIndexById, closingByApiIds, delay, createGridLayout, setIsSortAll } = require('../utils/playwrightUtil');
 
 const profileSchema = Joi.object({
   email: Joi.string().required().max(255).messages({
@@ -56,15 +58,10 @@ const getAllProfiles = async (req) => {
   const { page, search } = req.query;
 
   const currentPage = Number(page) || 1;
-  const limit = 12;
-  const offset = (currentPage - 1) * limit;
+  const offset = (currentPage - 1) * Pagination.limit;
 
   const query = `
     SELECT 
-    ROW_NUMBER() OVER (
-        ORDER BY 
-            p.createdAt DESC
-    ) AS stt,
       p.id, 
       p.email, 
       p.x_username, 
@@ -83,8 +80,8 @@ const getAllProfiles = async (req) => {
         OR p.telegram_phone LIKE :searchQuery
       )
     ORDER BY p.createdAt DESC
-    LIMIT ${limit} OFFSET ${offset}
-`;
+    LIMIT ${Pagination.limit} OFFSET ${offset}
+  `;
 
   const data = await sequelize.query(query, {
     replacements: {
@@ -93,7 +90,7 @@ const getAllProfiles = async (req) => {
   });
 
   const countQuery = `
-SELECT COUNT(*) AS total 
+  SELECT COUNT(*) AS total 
     FROM 
       profiles p
     WHERE p.deletedAt IS NULL
@@ -103,7 +100,7 @@ SELECT COUNT(*) AS total
         OR p.x_username LIKE :searchQuery
         OR p.telegram_phone LIKE :searchQuery
       )
-`;
+   `;
 
   const countResult = await sequelize.query(countQuery, {
     replacements: {
@@ -112,9 +109,10 @@ SELECT COUNT(*) AS total
   });
 
   const total = countResult[0][0]?.total;
-  const totalPages = Math.ceil(total / limit);
+  const totalPages = Math.ceil(total / Pagination.limit);
 
   return {
+    browsers: currentProfiles(),
     data: data[0],
     pagination: {
       page: parseInt(currentPage, 10),
@@ -177,7 +175,7 @@ const createProfile = async (body) => {
 }
 
 const updateProfile = async (body) => {
-  const { id, stt } = body;
+  const { id } = body;
   const data = validateProfile(body);
 
   const existingProfile = await Profile.findOne({
@@ -225,8 +223,7 @@ const updateProfile = async (body) => {
   const updatedProfile = await Profile.findByPk(id);
 
   return {
-    ...updatedProfile,
-    stt,
+    ...updatedProfile
   };
 }
 
@@ -256,7 +253,146 @@ const validateProfile = (data) => {
   return value;
 };
 
-module.exports = { getAllProfiles, getProfileById, createProfile, updateProfile, deleteProfile };
+const openProfileById = async (id) => {
+
+  const profileData = await getProfileById(id);
+
+  const profile = {
+    id: profileData.id,
+    name: profileData.email,
+  };
+
+  const { context, page } = await openProfile(profile);
+
+  browsers.push({
+    context,
+    page,
+    profile
+  });
+
+  return profile.id;
+};
+
+// Hàng đợi rỗng
+let closeQueue = Promise.resolve();
+
+// Hàng đợi nối tiếp then(fn1).then(fn2). Gán closeQueue = closeQueue.then(fn) là gán nối chuỗi then()
+function enqueueClose(fn) {
+  closeQueue = closeQueue.then(fn).catch(err => {
+    console.error('Lỗi khi đóng profile:', err);
+  });
+  return closeQueue;
+}
+
+const closeProfileById = async (id) => {
+
+  return enqueueClose(async () => {
+    const profileIndex = findProfileIndexById(id);
+
+    closingByApiIds.add(id);
+
+    const profile = browsers[profileIndex];
+    await profile?.context?.close();
+    browsers.splice(profileIndex, 1);
+
+    return id;
+  });
+};
+
+const sortProfileLayouts = async () => {
+  setIsSortAll(true);
+
+  await Promise.all(browsers.map(br => br?.context?.close()));
+
+  const profileIds = currentProfiles();
+  browsers.length = 0;
+  console.log(profileIds)
+
+  const layouts = createGridLayout(profileIds.length);
+  await openProfilesByIds(profileIds, layouts);
+
+  setIsSortAll(false);
+}
+
+const openProfilesByIds = async (ids = [], layouts = []) => {
+  //1 2 3 4     // 1 2 dang mo ko lay => lay 3,4 chua dc mo
+  // console.log(currentProfiles())
+  // console.log(ids)
+  const filteredIds = ids?.filter((id) => !currentProfiles().includes(id));
+
+  if (filteredIds?.length > 0) {
+    const promisesProfile = filteredIds.map(id => getProfileById(id));
+    const profilesData = await Promise.all(promisesProfile);
+
+    const profiles = profilesData.map((profile) => {
+      return {
+        id: profile.id,
+        name: profile.email,
+      }
+    })
+
+    const promises = [];
+
+    for (let i = 0; i < profiles.length; i++) {
+      const profile = profiles[i];
+
+      const promise = new Promise(resolve => {
+        openProfile(profile, layouts[i]).then(async ({ context, page }) => {
+          browsers.push({ context, page, profile });
+          resolve(); // ✅ done promise
+        });
+      });
+      promises.push(promise);
+    }
+
+    await Promise.all(promises);
+
+    return filteredIds;
+  }
+
+  return [];
+};
+
+const closeProfilesByIds = async (req) => {
+  const { ids } = req.query;
+  //1 2 3 4      // 1 2 dang mo => lay 1,2 de dong => 3,4 chua mo ko lay
+
+  const filteredIds = ids?.filter((id) => currentProfiles().includes(id));
+
+  if (filteredIds?.length > 0) {
+    const closePromisesProfile = filteredIds.map(async (id) => {
+      const index = findProfileIndexById(id);
+
+      closingByApiIds.add(id);
+
+      const profile = browsers[index];
+      await profile?.context?.close();
+    });
+
+    await Promise.all(closePromisesProfile);
+
+    const browsersAfterClose = browsers.filter((br) => !filteredIds?.includes(br.profile.id));
+    browsers.length = 0;
+    browsers.push(...browsersAfterClose);
+
+    return filteredIds;
+  }
+
+  return [];
+};
+
+module.exports = {
+  getAllProfiles,
+  getProfileById,
+  createProfile,
+  updateProfile,
+  deleteProfile,
+  openProfileById,
+  closeProfileById,
+  openProfilesByIds,
+  closeProfilesByIds,
+  sortProfileLayouts,
+};
 
 
 
