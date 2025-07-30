@@ -1,6 +1,27 @@
-2025/07/19-19:42:15.627 38d0 Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/simbasimba7503@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
-2025/07/19-19:42:15.627 38d0 Recovering log #4
-2025/07/19-19:42:15.638 38d0 Reusing old log /home/hatq75/dev/airdrop-hub/server/profiles/simbasimba7503@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/000004.log 
-2025/07/19-19:42:18.603 38d1 Level-0 table #8: started
-2025/07/19-19:42:18.643 38d1 Level-0 table #8: 2092105 bytes OK
-2025/07/19-19:42:18.649 38d1 Delete type=0 #4
+2025/07/20-12:01:58.851 a639 Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/simbasimba7503@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
+2025/07/20-12:01:58.851 a639 Recovering log #160
+2025/07/20-12:01:58.868 a639 Reusing old log /home/hatq75/dev/airdrop-hub/server/profiles/simbasimba7503@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/000160.log 
+2025/07/20-12:02:03.572 a63a Level-0 table #165: started
+2025/07/20-12:02:03.605 a63a Level-0 table #165: 2095214 bytes OK
+2025/07/20-12:02:03.610 a63a Delete type=0 #160
+2025/07/20-12:02:21.125 a63a Level-0 table #167: started
+2025/07/20-12:02:21.164 a63a Level-0 table #167: 2095483 bytes OK
+2025/07/20-12:02:21.171 a63a Delete type=0 #164
+2025/07/20-12:02:51.134 a63a Level-0 table #169: started
+2025/07/20-12:02:51.171 a63a Level-0 table #169: 2095155 bytes OK
+2025/07/20-12:02:51.181 a63a Delete type=0 #166
+2025/07/20-12:03:06.103 a63a Level-0 table #171: started
+2025/07/20-12:03:06.141 a63a Level-0 table #171: 2093575 bytes OK
+2025/07/20-12:03:06.147 a63a Delete type=0 #168
+2025/07/20-12:03:06.148 a63a Compacting 4@0 + 1@1 files
+2025/07/20-12:03:06.205 a63a Generated table #172@0: 1 keys, 1046808 bytes
+2025/07/20-12:03:06.205 a63a Compacted 4@0 + 1@1 files => 1046808 bytes
+2025/07/20-12:03:06.209 a63a compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/20-12:03:06.210 a63a Delete type=2 #162
+2025/07/20-12:03:06.210 a63a Delete type=2 #165
+2025/07/20-12:03:06.210 a63a Delete type=2 #167
+2025/07/20-12:03:06.210 a63a Delete type=2 #169
+2025/07/20-12:03:06.210 a63a Delete type=2 #171
+2025/07/20-12:03:36.107 a63a Level-0 table #174: started
+2025/07/20-12:03:36.152 a63a Level-0 table #174: 2095321 bytes OK
+2025/07/20-12:03:36.157 a63a Delete type=0 #170

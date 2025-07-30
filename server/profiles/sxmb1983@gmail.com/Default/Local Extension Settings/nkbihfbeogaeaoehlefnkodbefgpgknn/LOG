@@ -1,3 +1,20 @@
-2025/07/19-19:42:15.716 38c3 Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/sxmb1983@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
-2025/07/19-19:42:15.717 38c3 Recovering log #6
-2025/07/19-19:42:15.728 38c3 Reusing old log /home/hatq75/dev/airdrop-hub/server/profiles/sxmb1983@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/000006.log 
+2025/07/20-12:08:04.735 aba9 Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/sxmb1983@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
+2025/07/20-12:08:04.736 aba9 Recovering log #167
+2025/07/20-12:08:04.752 aba9 Level-0 table #170: started
+2025/07/20-12:08:04.783 aba9 Level-0 table #170: 2093487 bytes OK
+2025/07/20-12:08:04.795 aba9 Delete type=0 #167
+2025/07/20-12:08:04.799 abaa Compacting 4@0 + 1@1 files
+2025/07/20-12:07:07.376 abaa Generated table #172@0: 1 keys, 1046776 bytes
+2025/07/20-12:07:07.376 abaa Compacted 4@0 + 1@1 files => 1046776 bytes
+2025/07/20-12:07:07.379 abaa compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/20-12:07:07.379 abaa Delete type=2 #162
+2025/07/20-12:07:07.380 abaa Delete type=2 #166
+2025/07/20-12:07:07.380 abaa Delete type=2 #170
+2025/07/20-12:07:07.380 abaa Delete type=2 #168
+2025/07/20-12:07:07.380 abaa Delete type=2 #164
+2025/07/20-12:07:12.497 abaa Level-0 table #174: started
+2025/07/20-12:07:12.546 abaa Level-0 table #174: 2093307 bytes OK
+2025/07/20-12:07:12.552 abaa Delete type=0 #171
+2025/07/20-12:07:36.157 abaa Level-0 table #176: started
+2025/07/20-12:07:36.197 abaa Level-0 table #176: 2110173 bytes OK
+2025/07/20-12:07:36.205 abaa Delete type=0 #173

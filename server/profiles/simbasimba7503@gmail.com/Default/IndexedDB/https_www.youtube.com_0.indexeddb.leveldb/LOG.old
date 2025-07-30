@@ -1,0 +1,12 @@
+2025/07/22-14:47:31.068 282c Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/simbasimba7503@gmail.com/Default/IndexedDB/https_www.youtube.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/22-14:47:31.068 282c Recovering log #7
+2025/07/22-14:47:31.085 282c Reusing old log /home/hatq75/dev/airdrop-hub/server/profiles/simbasimba7503@gmail.com/Default/IndexedDB/https_www.youtube.com_0.indexeddb.leveldb/000007.log 
+2025/07/22-14:47:31.281 282c Level-0 table #12: started
+2025/07/22-14:47:31.302 282c Level-0 table #12: 1595776 bytes OK
+2025/07/22-14:47:31.309 282c Delete type=0 #7
+2025/07/22-14:47:35.508 282c Compacting 1@1 + 1@2 files
+2025/07/22-14:47:35.517 282c Generated table #13@1: 359 keys, 47876 bytes
+2025/07/22-14:47:35.517 282c Compacted 1@1 + 1@2 files => 47876 bytes
+2025/07/22-14:47:35.521 282c compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/07/22-14:47:35.522 282c Delete type=2 #9
+2025/07/22-14:47:35.522 282c Delete type=2 #12

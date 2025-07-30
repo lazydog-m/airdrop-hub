@@ -87,7 +87,6 @@ function closeProfileListener(context, profileId) {
     }
 
     if (!isSortAll) {
-      console.log('listenClose')
       const profileIndex = findProfileIndexById(profileId);
       browsers.splice(profileIndex, 1);
       const socket = getSocket();
@@ -125,27 +124,10 @@ async function openProfile(profile, layout) {
   const page = context.pages().length > 0 ? context.pages()[0] : await context.newPage()
   await page.setViewportSize({ width: profileLayout.width, height: profileLayout.height - 86 })
 
-  closePageExtension(context, profileLayout)
+  // closePageExtension(context, profileLayout)
   closeProfileListener(context, profile.id)
 
   return { context, page };
-}
-
-function openProfiles(profiles = []) {
-  for (let i = 0; i < profiles.length; i++) {
-    const profileName = profiles[i];
-
-    const promise = new Promise(resolve => {
-      openProfile(profileName, layouts[i]).then(async ({ context, page }) => {
-        // contexts.push(context);
-        // browsers.push({ context, page });
-        browsers.push({ context, page, profileName })
-        resolve(); // ✅ done promise
-      });
-    });
-
-    profileOpenPromises.push(promise);
-  }
 }
 
 // async function openProfileForScript(profilePath, index) {
@@ -173,9 +155,6 @@ function openProfiles(profiles = []) {
 //     })
 
 // return { context, page };
-// trong react dùng context để lưu các page được mở, close all khi reload trang
-
-// }
 
 module.exports = {
   openProfile,

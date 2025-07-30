@@ -16,6 +16,12 @@ function initSocket(server) {
     socketIo.on('connection', (socket) => {
       console.log('⚡️ Client connected:', socket.id);
 
+      // Lắng nghe sự kiện từ Master
+      socket.on('user-action', (action) => {
+        // Phát lại cho tất cả client khác, trừ chính người gửi
+        socket.broadcast.emit('user-action', action);
+      });
+
       socket.on('disconnect', () => {
         console.log('💨 Client disconnected:', socket.id);
       });

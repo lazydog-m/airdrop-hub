@@ -1,8 +1,29 @@
-2025/07/19-19:41:59.285 370d Creating DB /home/hatq75/dev/airdrop-hub/server/profiles/sxmb1983@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn since it was missing.
-2025/07/19-19:41:59.295 370d Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/sxmb1983@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
-2025/07/19-19:42:04.484 370f Level-0 table #5: started
-2025/07/19-19:42:04.519 370f Level-0 table #5: 2092575 bytes OK
-2025/07/19-19:42:04.524 370f Delete type=0 #3
-2025/07/19-19:42:09.460 370f Level-0 table #7: started
-2025/07/19-19:42:09.501 370f Level-0 table #7: 2092107 bytes OK
-2025/07/19-19:42:09.507 370f Delete type=0 #4
+2025/07/20-12:01:58.746 a642 Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/sxmb1983@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
+2025/07/20-12:01:58.747 a642 Recovering log #153
+2025/07/20-12:01:58.763 a642 Level-0 table #156: started
+2025/07/20-12:01:58.795 a642 Level-0 table #156: 2093766 bytes OK
+2025/07/20-12:01:58.800 a642 Delete type=0 #153
+2025/07/20-12:02:21.125 a643 Level-0 table #159: started
+2025/07/20-12:02:21.160 a643 Level-0 table #159: 2093430 bytes OK
+2025/07/20-12:02:21.170 a643 Delete type=0 #157
+2025/07/20-12:02:51.148 a643 Level-0 table #161: started
+2025/07/20-12:02:51.181 a643 Level-0 table #161: 2093428 bytes OK
+2025/07/20-12:02:51.188 a643 Delete type=0 #158
+2025/07/20-12:02:51.190 a643 Compacting 4@0 + 1@1 files
+2025/07/20-12:02:51.245 a643 Generated table #162@0: 1 keys, 1046747 bytes
+2025/07/20-12:02:51.245 a643 Compacted 4@0 + 1@1 files => 1046747 bytes
+2025/07/20-12:02:51.253 a643 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/20-12:02:51.253 a643 Delete type=2 #159
+2025/07/20-12:02:51.253 a643 Delete type=2 #156
+2025/07/20-12:02:51.253 a643 Delete type=2 #161
+2025/07/20-12:02:51.253 a643 Delete type=2 #154
+2025/07/20-12:02:51.253 a643 Delete type=2 #152
+2025/07/20-12:03:06.115 a643 Level-0 table #164: started
+2025/07/20-12:03:06.158 a643 Level-0 table #164: 2093526 bytes OK
+2025/07/20-12:03:06.164 a643 Delete type=0 #160
+2025/07/20-12:03:24.081 a643 Level-0 table #166: started
+2025/07/20-12:03:24.127 a643 Level-0 table #166: 2093578 bytes OK
+2025/07/20-12:03:24.133 a643 Delete type=0 #163
+2025/07/20-12:03:39.006 a643 Level-0 table #168: started
+2025/07/20-12:03:39.050 a643 Level-0 table #168: 2093703 bytes OK
+2025/07/20-12:03:39.056 a643 Delete type=0 #165

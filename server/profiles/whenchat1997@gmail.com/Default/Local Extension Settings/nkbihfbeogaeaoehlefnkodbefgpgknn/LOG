@@ -1,0 +1,27 @@
+2025/07/20-11:05:25.210 6051 Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/whenchat1997@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
+2025/07/20-11:05:25.211 6051 Recovering log #16
+2025/07/20-11:05:25.260 6051 Reusing old log /home/hatq75/dev/airdrop-hub/server/profiles/whenchat1997@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/000016.log 
+2025/07/20-11:05:29.116 6051 Level-0 table #21: started
+2025/07/20-11:05:29.154 6051 Level-0 table #21: 2092185 bytes OK
+2025/07/20-11:05:29.160 6051 Delete type=0 #16
+2025/07/20-11:05:51.111 6051 Level-0 table #23: started
+2025/07/20-11:05:51.153 6051 Level-0 table #23: 2091589 bytes OK
+2025/07/20-11:05:51.160 6051 Delete type=0 #20
+2025/07/20-11:06:06.116 6051 Level-0 table #25: started
+2025/07/20-11:06:06.162 6051 Level-0 table #25: 2091567 bytes OK
+2025/07/20-11:06:06.168 6051 Delete type=0 #22
+2025/07/20-11:07:29.472 6051 Level-0 table #27: started
+2025/07/20-11:07:29.506 6051 Level-0 table #27: 2091475 bytes OK
+2025/07/20-11:07:29.512 6051 Delete type=0 #24
+2025/07/20-11:07:29.514 6051 Compacting 4@0 + 1@1 files
+2025/07/20-11:07:29.575 6051 Generated table #28@0: 1 keys, 1045749 bytes
+2025/07/20-11:07:29.575 6051 Compacted 4@0 + 1@1 files => 1045749 bytes
+2025/07/20-11:07:29.578 6051 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/20-11:07:29.578 6051 Delete type=2 #27
+2025/07/20-11:07:29.578 6051 Delete type=2 #25
+2025/07/20-11:07:29.578 6051 Delete type=2 #21
+2025/07/20-11:07:29.578 6051 Delete type=2 #23
+2025/07/20-11:07:29.578 6051 Delete type=2 #18
+2025/07/20-11:06:51.109 6051 Level-0 table #30: started
+2025/07/20-11:06:51.140 6051 Level-0 table #30: 2091673 bytes OK
+2025/07/20-11:06:51.146 6051 Delete type=0 #26

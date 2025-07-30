@@ -1,0 +1,22 @@
+2025/07/24-09:34:57.832 1933 Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/test9@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
+2025/07/24-09:34:57.832 1933 Recovering log #410
+2025/07/24-09:34:57.846 1933 Level-0 table #413: started
+2025/07/24-09:34:57.881 1933 Level-0 table #413: 2114709 bytes OK
+2025/07/24-09:34:57.885 1933 Delete type=0 #410
+2025/07/24-09:35:04.944 1934 Level-0 table #416: started
+2025/07/24-09:35:04.976 1934 Level-0 table #416: 2118012 bytes OK
+2025/07/24-09:35:04.980 1934 Delete type=0 #414
+2025/07/24-09:35:12.216 1934 Level-0 table #418: started
+2025/07/24-09:35:12.392 1934 Level-0 table #418: 12163114 bytes OK
+2025/07/24-09:35:12.397 1934 Delete type=0 #415
+2025/07/24-09:35:12.402 1934 Compacting 4@0 + 1@1 files
+2025/07/24-09:35:12.566 1934 Generated table #419@0: 1 keys, 11107106 bytes
+2025/07/24-09:35:12.590 1934 Generated table #420@0: 1 keys, 133 bytes
+2025/07/24-09:35:12.590 1934 Compacted 4@0 + 1@1 files => 11107239 bytes
+2025/07/24-09:35:12.593 1934 compacted to: files[ 0 2 0 0 0 0 0 ]
+2025/07/24-09:35:12.594 1934 Delete type=2 #418
+2025/07/24-09:35:12.594 1934 Delete type=2 #413
+2025/07/24-09:35:12.594 1934 Delete type=2 #409
+2025/07/24-09:35:12.594 1934 Delete type=2 #411
+2025/07/24-09:35:12.594 1934 Delete type=2 #416
+2025/07/24-09:35:12.603 1934 Moved #419 to level-2 11107106 bytes OK: files[ 0 1 1 0 0 0 0 ]

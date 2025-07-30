@@ -1,0 +1,23 @@
+2025/07/20-11:05:25.208 604b Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/airdrophub.dev@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
+2025/07/20-11:05:25.211 604b Recovering log #14
+2025/07/20-11:05:25.276 604b Level-0 table #17: started
+2025/07/20-11:05:25.322 604b Level-0 table #17: 2091844 bytes OK
+2025/07/20-11:05:25.329 604b Delete type=0 #14
+2025/07/20-11:05:25.330 604f Compacting 4@0 + 1@1 files
+2025/07/20-11:05:25.548 604f Generated table #19@0: 1 keys, 1045960 bytes
+2025/07/20-11:05:25.549 604f Compacted 4@0 + 1@1 files => 1045960 bytes
+2025/07/20-11:05:25.561 604f compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/20-11:05:25.562 604f Delete type=2 #7
+2025/07/20-11:05:25.562 604f Delete type=2 #11
+2025/07/20-11:05:25.563 604f Delete type=2 #15
+2025/07/20-11:05:25.563 604f Delete type=2 #9
+2025/07/20-11:05:25.563 604f Delete type=2 #17
+2025/07/20-11:05:36.119 604f Level-0 table #21: started
+2025/07/20-11:05:36.170 604f Level-0 table #21: 2091435 bytes OK
+2025/07/20-11:05:36.175 604f Delete type=0 #18
+2025/07/20-11:06:01.169 604f Level-0 table #23: started
+2025/07/20-11:06:01.206 604f Level-0 table #23: 2091491 bytes OK
+2025/07/20-11:06:01.210 604f Delete type=0 #20
+2025/07/20-11:06:21.123 604f Level-0 table #25: started
+2025/07/20-11:06:21.158 604f Level-0 table #25: 2091611 bytes OK
+2025/07/20-11:06:21.163 604f Delete type=0 #22

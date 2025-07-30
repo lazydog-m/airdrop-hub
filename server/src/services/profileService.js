@@ -270,6 +270,21 @@ const openProfileById = async (id) => {
     profile
   });
 
+  // await page.goto('https://www.youtube.com/');
+  // await page.getByRole('button', { name: 'Guide' }).click();
+  // await page.waitForTimeout(3000);
+  // await page.locator('#scrim').click();
+  // await page.waitForTimeout(3000);
+  // await page.getByText('Shorts Shorts').click();
+  // await page.waitForTimeout(3000);
+  // await page.getByRole('button', { name: 'Guide' }).click();
+  // await page.waitForTimeout(3000);
+  // await page.locator('#scrim').click();
+  // await page.waitForTimeout(3000);
+  // await page.getByRole('link', { name: 'History' }).click();
+  // await page.waitForTimeout(3000);
+  // await page.getByRole('link', { name: 'YouTube Home' }).click();
+
   return profile.id;
 };
 
@@ -306,26 +321,47 @@ const sortProfileLayouts = async () => {
 
   const profileIds = currentProfiles();
   browsers.length = 0;
-  console.log(profileIds)
 
   const layouts = createGridLayout(profileIds.length);
   await openProfilesByIds(profileIds, layouts);
 
   setIsSortAll(false);
+
+  const automationPromises = browsers.map(({ page }, i) =>
+    delay(i * 3000).then(async () => {
+
+      await page.goto('https://www.youtube.com/');
+      await page.getByRole('button', { name: 'Guide' }).click();
+      await page.waitForTimeout(3000);
+      await page.locator('#scrim').click();
+      await page.waitForTimeout(3000);
+      await page.getByText('Shorts Shorts').click();
+      await page.waitForTimeout(3000);
+      await page.getByRole('button', { name: 'Guide' }).click();
+      await page.waitForTimeout(3000);
+      await page.locator('#scrim').click();
+      await page.waitForTimeout(3000);
+      await page.getByRole('link', { name: 'History' }).click();
+      await page.waitForTimeout(3000);
+      await page.getByRole('link', { name: 'YouTube Home' }).click();
+    })
+  )
+
+  await Promise.all(automationPromises);
+
 }
 
 const openProfilesByIds = async (ids = [], layouts = []) => {
   //1 2 3 4     // 1 2 dang mo ko lay => lay 3,4 chua dc mo
-  // console.log(currentProfiles())
-  // console.log(ids)
   const filteredIds = ids?.filter((id) => !currentProfiles().includes(id));
 
   if (filteredIds?.length > 0) {
     const promisesProfile = filteredIds.map(id => getProfileById(id));
     const profilesData = await Promise.all(promisesProfile);
 
-    const profiles = profilesData.map((profile) => {
+    const profiles = profilesData.map((profile, index) => {
       return {
+        main: index === 0,
         id: profile.id,
         name: profile.email,
       }

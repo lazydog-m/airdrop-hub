@@ -1,0 +1,15 @@
+2025/07/20-10:49:58.084 52ca Reusing MANIFEST /home/hatq75/dev/airdrop-hub/server/profiles/whenchat1997@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/MANIFEST-000001
+2025/07/20-10:49:58.084 52ca Recovering log #13
+2025/07/20-10:49:58.112 52ca Reusing old log /home/hatq75/dev/airdrop-hub/server/profiles/whenchat1997@gmail.com/Default/Local Extension Settings/nkbihfbeogaeaoehlefnkodbefgpgknn/000013.log 
+2025/07/20-10:50:06.122 52cd Level-0 table #17: started
+2025/07/20-10:50:06.156 52cd Level-0 table #17: 2091858 bytes OK
+2025/07/20-10:50:06.163 52cd Delete type=0 #13
+2025/07/20-10:50:06.165 52cd Compacting 4@0 + 1@1 files
+2025/07/20-10:50:06.210 52cd Generated table #18@0: 1 keys, 1045992 bytes
+2025/07/20-10:50:06.210 52cd Compacted 4@0 + 1@1 files => 1045992 bytes
+2025/07/20-10:50:06.217 52cd compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/20-10:50:06.218 52cd Delete type=2 #7
+2025/07/20-10:50:06.218 52cd Delete type=2 #11
+2025/07/20-10:50:06.218 52cd Delete type=2 #14
+2025/07/20-10:50:06.218 52cd Delete type=2 #9
+2025/07/20-10:50:06.218 52cd Delete type=2 #17

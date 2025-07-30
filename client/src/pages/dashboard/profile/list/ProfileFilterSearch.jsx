@@ -152,8 +152,8 @@ export default function ProfileFilterSearch({
         {openningIds.size > 0 &&
           <ButtonOutline
             style={{
-              opacity: openningIds.size > 0 ? '1' : '0.5',
-              pointerEvents: openningIds.size > 0 ? '' : 'none',
+              opacity: loadingIds.size > 0 ? '0.5' : '1',
+              pointerEvents: loadingIds.size > 0 ? 'none' : '',
             }}
             onClick={handleSortProfileLayout}
             icon={<Grip />}
