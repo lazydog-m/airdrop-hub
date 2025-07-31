@@ -1,0 +1,225 @@
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/d0f87ae4-4dfe-402e-b3e8-4b90a1990fca
+[33645:33740:0730/200906.747753:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[33645:33740:0730/200906.748416:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[33645:33740:0730/200906.748909:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/4b5721b1-7e33-4813-8052-5ca7f01572c7
+[33793:33879:0730/200911.297690:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[33793:33879:0730/200911.298057:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[33793:33879:0730/200911.298421:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/27a01d37-3f40-44c1-baf7-f8da6cc7fd90
+[33917:34007:0730/200915.179422:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[33917:34007:0730/200915.180061:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[33917:34007:0730/200915.180502:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/3c5f110d-e474-4ab5-a731-79b221b41f75
+[34040:34132:0730/200918.451071:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34040:34132:0730/200918.451754:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34040:34132:0730/200918.452333:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/71ac04ad-2149-450e-9271-0580e7efb7fb
+[34164:34254:0730/200921.943105:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34164:34254:0730/200921.943632:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34164:34254:0730/200921.944145:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/dfbf5ed5-d6a1-4a5b-b73a-edf3201849b6
+[34297:34388:0730/200924.995256:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34297:34388:0730/200924.995987:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34297:34388:0730/200924.996572:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/9f50f2d2-b754-4c00-b80d-727610d6662d
+[34419:34509:0730/200928.037496:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34419:34509:0730/200928.038210:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34419:34509:0730/200928.038721:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/06b0992c-efa3-4e83-a1dc-18657b1ea2ec
+[34543:34633:0730/200930.896027:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34543:34633:0730/200930.896635:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34543:34633:0730/200930.897243:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/22396861-b0b0-4063-97cd-25c491b1e6ae
+[34669:34763:0730/200934.104844:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34669:34763:0730/200934.105625:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34669:34763:0730/200934.106382:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/61a1eede-5d83-446b-b34d-3c0ae567f99f
+[34799:34887:0730/200936.680095:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34799:34887:0730/200936.680660:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34799:34887:0730/200936.681177:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/0eedccd5-a7f5-445e-8b00-4e8ae83443dd
+[34917:35005:0730/201044.745926:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34917:35005:0730/201044.746603:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[34917:35005:0730/201044.747113:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/1b022d41-5b39-4b29-bb2f-dbb92292a3e1
+[35039:35131:0730/200941.524594:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35039:35131:0730/200941.525109:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35039:35131:0730/200941.525600:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/2757b07f-489d-4aa4-8f59-5325e9898efc
+[35160:35251:0730/200943.888605:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35160:35251:0730/200943.888997:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35160:35251:0730/200943.889410:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/57b1c77a-9b46-4142-a02d-7496ed655614
+[35284:35371:0730/200946.180663:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35284:35371:0730/200946.181255:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35284:35371:0730/200946.181779:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/f215cb09-e782-4230-9184-5fa1cba6bf89
+[35402:35497:0730/200948.525658:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35402:35497:0730/200948.526140:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35402:35497:0730/200948.526712:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/233017c3-5339-49f9-9d91-929d0510d00a
+[35525:35612:0730/200950.655958:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35525:35612:0730/200950.656346:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35525:35612:0730/200950.656780:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/76691ebc-a829-44a2-b024-bac4b4736219
+[35648:35738:0730/200952.859659:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35648:35738:0730/200952.860591:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35648:35738:0730/200952.861116:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/1e05393a-f8d0-4746-9f6c-e20f844dc591
+[35774:35862:0730/200955.058600:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35774:35862:0730/200955.059213:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35774:35862:0730/200955.059984:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/902c32fb-8921-4e9d-8023-e6e55066e821
+[35892:35984:0730/200957.306944:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35892:35984:0730/200957.307390:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[35892:35984:0730/200957.307920:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/68164736-9b5c-4285-bbad-b00184a2a28e
+[36019:36112:0730/200959.421887:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36019:36112:0730/200959.422458:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36019:36112:0730/200959.422904:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/febf8eb5-7ed8-4950-bf97-7ccfe521fa44
+[36142:36238:0730/201001.505541:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36142:36238:0730/201001.505892:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36142:36238:0730/201001.506330:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/fae1b161-b868-4d94-89fb-865806f0b35c
+[36269:36358:0730/201109.714603:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36269:36358:0730/201109.715046:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36269:36358:0730/201109.715378:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/ee8197c0-ba94-4ef4-ba5f-014fe42ed7ac
+[36390:36482:0730/201005.919635:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36390:36482:0730/201005.920197:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36390:36482:0730/201005.920699:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/056fc72b-873f-4d31-b88b-af26d47ec4e5
+[36516:36606:0730/201008.125892:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36516:36606:0730/201008.126475:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36516:36606:0730/201008.127029:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/301cf20e-5855-4b27-a9ac-a5953ac8f25f
+[36635:36729:0730/201010.256276:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36635:36729:0730/201010.256762:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36635:36729:0730/201010.257166:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/ae00abf0-d1e2-44e2-9afc-dc345090cd0d
+[36761:36851:0730/201012.583453:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36761:36851:0730/201012.583968:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36761:36851:0730/201012.584446:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/0ab76787-7ff8-4bbf-9470-ed89905eb8a8
+[36885:36974:0730/201014.786679:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36885:36974:0730/201014.787445:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[36885:36974:0730/201014.788086:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/d3ac695c-514d-4372-adad-3849c461beef
+[37005:37093:0730/201017.060051:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37005:37093:0730/201017.060502:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37005:37093:0730/201017.061029:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/8c99bf5a-f951-49b6-b5ce-edcb6ae19441
+[37121:37214:0730/201019.435897:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37121:37214:0730/201019.436275:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37121:37214:0730/201019.436621:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/321aaadb-d2b7-453a-9536-208f6b340ed1
+[37246:37333:0730/201021.863168:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37246:37333:0730/201021.863484:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37246:37333:0730/201021.863784:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/04d87650-fe10-4cb4-8776-248ca051a744
+[37361:37457:0730/201024.318640:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37361:37457:0730/201024.319174:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37361:37457:0730/201024.319605:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/27fb63eb-ea69-4a62-866f-02333e3a3550
+[37488:37578:0730/201026.535048:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37488:37578:0730/201026.535593:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37488:37578:0730/201026.536167:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/74b6e6c5-66eb-46a4-939b-b22e50244e1e
+[37607:37703:0730/201134.773074:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37607:37703:0730/201134.773448:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37607:37703:0730/201134.773824:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/0c8898ba-58b3-443d-89ba-bde3cbff11c1
+[37737:37827:0730/201030.896769:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37737:37827:0730/201030.897112:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37737:37827:0730/201030.897512:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/3d7f1112-b404-427d-8299-9d8d0885b78b
+[37857:37947:0730/201033.115901:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37857:37947:0730/201033.116286:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37857:37947:0730/201033.116809:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/707ef24c-5636-4025-82c1-23c32adbf84a
+[37976:38067:0730/201035.665110:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37976:38067:0730/201035.665530:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[37976:38067:0730/201035.665899:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/920573b2-b5ae-4ad8-bffa-99dfdb79df66
+[38305:38401:0730/201145.461516:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38305:38401:0730/201145.462230:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38305:38401:0730/201145.462790:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/9a679cf8-a276-4d24-96f5-e02561d153c6
+[38444:38535:0730/201150.249268:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38444:38535:0730/201150.249638:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38444:38535:0730/201150.250158:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/5150750a-fb4a-4e6b-807e-480c4d0c7a2e
+[38573:38665:0730/201154.925590:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38573:38665:0730/201154.926173:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38573:38665:0730/201154.926739:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/5529bfe2-db94-4a4f-bd75-353ad92f2c06
+[38694:38787:0730/201157.769201:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38694:38787:0730/201157.769951:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38694:38787:0730/201157.770694:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/b7b8eb53-a72f-455d-bec4-624bc02336f0
+[38823:38914:0730/201200.907666:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38823:38914:0730/201200.908268:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38823:38914:0730/201200.908877:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/4e09305d-7700-4ebe-b908-74a8a45b7dc7
+[38944:39037:0730/201203.636905:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38944:39037:0730/201203.637284:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[38944:39037:0730/201203.637613:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/006b156f-c840-4015-9d0c-caf53f7dca67
+[39070:39157:0730/201206.667776:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[39070:39157:0730/201206.668179:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[39070:39157:0730/201206.668583:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/e770199b-639a-481f-a0a6-dc3d0530d892
+[39189:39283:0730/201209.587848:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[39189:39283:0730/201209.588285:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[39189:39283:0730/201209.588721:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d60dfcb-39ba-4680-9588-d718f606bcf0
+[39309:39401:0730/201212.560811:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.DBus.Properties.Get: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[39309:39401:0730/201212.561343:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.GetDisplayDevice: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+[39309:39401:0730/201212.561741:ERROR:dbus/object_proxy.cc:590] Failed to call method: org.freedesktop.UPower.EnumerateDevices: object_path= /org/freedesktop/UPower: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files

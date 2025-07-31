@@ -4,7 +4,7 @@ const RestApiException = require('../exceptions/RestApiException');
 const api = express.Router();
 const apiRes = require('../utils/apiResponse');
 const { getAllProfiles, getProfileById, createProfile, updateProfile, deleteProfile, closeProfileById, openProfileById, openProfilesByIds, closeProfilesByIds, sortProfileLayouts } = require('../services/profileService');
-const { browsers } = require('../utils/playwrightUtil');
+const { browsers, openProfile } = require('../utils/playwrightUtil');
 
 // Get all profiles
 api.get('/', async (req, res, next) => {
@@ -153,6 +153,17 @@ api.get('/close-multiple', async (req, res, next) => {
 api.get('/sort-layout', async (req, res, next) => {
   try {
     await sortProfileLayouts()
+    return apiRes.toJson(res, null);
+  } catch (error) {
+    next(error);
+  }
+});
+
+api.get('/test', async (req, res, next) => {
+  try {
+    await openProfile({
+      profile: { name: 'abc44' }, port: 9222
+    })
     return apiRes.toJson(res, null);
   } catch (error) {
     next(error);

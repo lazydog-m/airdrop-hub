@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs');
 const { getSocket } = require('../configs/socket');
 const RestApiException = require('../exceptions/RestApiException');
+const { spawn } = require('child_process');
 
 const browsers = [];
 
@@ -95,40 +96,118 @@ function closeProfileListener(context, profileId) {
   });
 }
 
-async function openProfile(profile, layout) {
+function getOS() {
+  const platform = process.platform;
+
+  if (platform === 'win32') return 'windows';
+  if (platform === 'darwin') return 'mac';
+  if (platform === 'linux') return 'linux';
+
+  return 'unknown';
+}
+
+function getChromePath() {
+  const os = getOS();
+
+  switch (os) {
+    case 'windows':
+      return 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+    case 'linux':
+      return '/usr/bin/google-chrome';
+    default:
+      throw new Error('Không hỗ trợ hệ điều hành này');
+  }
+}
+
+const waitForCDPReady = async (port, timeout = 10000) => {
+  const url = `http://127.0.0.1:${port}/json/version`;
+  const start = Date.now();
+
+  while (Date.now() - start < timeout) { // call lại api trong 10s nếu chưa done
+    try {
+      const res = await fetch(url);
+      if (res.ok) return;
+    } catch (error) {
+      console.log(error)
+    }
+    await new Promise(res => setTimeout(res, 300));
+  }
+
+  throw new Error(`CDP cổng ${port} chưa được mở sau ${timeout}ms`); // ??
+};
+
+async function openProfile({ profile, port, layout }) {
 
   const profilePath = path.join(config.PROFILE_DIR, profile.name);
-
-  // Map path folder ./extensions với các folder con bên trong 
-  const extensionPaths = fs.readdirSync(config.EXTENSION_DIR)
-    .map(ext => path.join(config.EXTENSION_DIR, ext))
-    .filter(extPath => fs.statSync(extPath).isDirectory());
+  const chromePath = process.platform === 'win32'
+    ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+    : '/usr/bin/google-chrome';
 
   const profileLayout = getLayout(layout);
 
-  const context = await chromium.launchPersistentContext(profilePath, {
-    headless: false,
-    chromiumSandbox: false,
-    ignoreDefaultArgs: ["--enable-automation", "--no-sandbox", '--disable-blink-features=AutomationControlled'],
-    args: [
+  const chromeLauncher = await import('chrome-launcher');
+
+  const chrome = await chromeLauncher.launch({
+    port,
+    chromePath,
+    userDataDir: profilePath,
+    chromeFlags: [
       `--window-position=${profileLayout.x},${profileLayout.y}`,
       `--window-size=${profileLayout.width},${profileLayout.height}`,
-      '--no-sandbox',
-      '--disable-blink-features=AutomationControlled',
-      `--disable-extensions-except=${extensionPaths.join(',')}`,
-      `--load-extension=${extensionPaths.join(',')}`,
-    ],
-    // userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15A372 Safari/604.1',
-  })
+      '--no-default-browser-check',
+      '--hide-crash-restore-bubble',
+      '--no-first-run',
+    ]
+  });
 
-  const page = context.pages().length > 0 ? context.pages()[0] : await context.newPage()
-  await page.setViewportSize({ width: profileLayout.width, height: profileLayout.height - 86 })
+  const browser = await chromium.connectOverCDP(`http://127.0.0.1:${chrome.port}`);
+  browser.on('disconnected', () => {
+    console.log(`Profile ${profile.name} đã bị đóng`);
+  });
+
+  const context = browser.contexts()[0];
+  const page = context.pages()[0] || await context.newPage();
 
   // closePageExtension(context, profileLayout)
-  closeProfileListener(context, profile.id)
+  // closeProfileListener(context, profile.id)
 
-  return { context, page };
+  return { context, page, chrome };
 }
+
+// async function openProfile(profile, layout) {
+//
+//   const profilePath = path.join(config.PROFILE_DIR, profile.name);
+//
+//   // Map path folder ./extensions với các folder con bên trong 
+//   const extensionPaths = fs.readdirSync(config.EXTENSION_DIR)
+//     .map(ext => path.join(config.EXTENSION_DIR, ext))
+//     .filter(extPath => fs.statSync(extPath).isDirectory());
+//
+//   const profileLayout = getLayout(layout);
+//
+//   const context = await chromium.launchPersistentContext(profilePath, {
+//     headless: false,
+//     chromiumSandbox: false,
+//     ignoreDefaultArgs: ["--enable-automation", "--no-sandbox", '--disable-blink-features=AutomationControlled'],
+//     args: [
+//       `--window-position=${profileLayout.x},${profileLayout.y}`,
+//       `--window-size=${profileLayout.width},${profileLayout.height}`,
+//       '--no-sandbox',
+//       '--disable-blink-features=AutomationControlled',
+//       `--disable-extensions-except=${extensionPaths.join(',')}`,
+//       `--load-extension=${extensionPaths.join(',')}`,
+//     ],
+//     // userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15A372 Safari/604.1',
+//   })
+//
+//   const page = context.pages().length > 0 ? context.pages()[0] : await context.newPage()
+//   await page.setViewportSize({ width: profileLayout.width, height: profileLayout.height - 86 })
+//
+//   // closePageExtension(context, profileLayout)
+//   // closeProfileListener(context, profile.id)
+//
+//   return { context, page };
+// }
 
 // async function openProfileForScript(profilePath, index) {
 
@@ -155,6 +234,7 @@ async function openProfile(profile, layout) {
 //     })
 
 // return { context, page };
+
 
 module.exports = {
   openProfile,
